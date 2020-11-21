@@ -6,7 +6,9 @@ namespace Projet_EasySave_v1._0
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Model model = new Model(1);
+            View view = new View(2, model);
+            Controller ctrl = new Controller(model, view);
         }
     }
 }
