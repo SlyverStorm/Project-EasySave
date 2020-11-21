@@ -7,7 +7,7 @@ namespace Projet_EasySave_v1._0
     class View
     {
 
-        public View(int x, Model model)
+        public View(Model model)
         {
             Model = model;
         }
