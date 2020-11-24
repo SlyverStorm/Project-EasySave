@@ -37,23 +37,23 @@ namespace Projet_EasySave_v1._0
                 "4. Delete a save procedure.\n" +
                 "9. Close application.\n"); // TEMPORAIRE // Ajouter une confirmation
 
-            // User menu selection
+            // User menu selection TEMPORAIRE
             switch (Console.ReadLine())
             {
                 case "1":
-                    SelectSaveProcedure(null); // TEMPORAIRE // enlever le null & replace par l'object correspondant
+                    SelectSaveProcedure(null);
                     break;
 
                 case "2":
-                    CreateSaveMenu();
+                    CreateSaveProcedure();
                     break;
 
                 case "3":
-                    ModifySaveMenu(null); // TEMPORAIRE // enlever le null & replace par l'object correspondant
+                    ModifySaveProcedure(null);
                     break;
 
                 case "4":
-                    SelectSaveProcedure(null); // TEMPORAIRE // enlever le null & replace par l'object correspondant
+                    SelectSaveProcedure(null);
                     break;
 
                 default:
@@ -63,54 +63,71 @@ namespace Projet_EasySave_v1._0
             return null;
         }
 
-        public string[] CreateSaveMenu()
+        public string[] CreateSaveProcedure()
         {
             string[] choice = new string[4];
 
             for (int i = 0; i < 4; i++)
             {
-                // Ask for name
+                // Ask for name.
                 Console.WriteLine("\nChoose a name for your save procedure:");
-                choice[i] = Console.ReadLine();
+                string enteredName = Console.ReadLine();
+                while (!Regex.IsMatch(enteredName, @"^[a-zA-Z0-9 _]+$"))  //Regex only allowing alphanumeric chars, spaces or underscores.
+                {
+                    Console.WriteLine("\nPlease only make use of alphanumeric characters, spaces or underscores.\n");
+                    enteredName = Console.ReadLine();
+                }
+                choice[i] = enteredName;
                 i++;
 
-                // Ask for source path
+                // Ask for source path.
                 Console.WriteLine("\nChoose a source path to save :");
-                choice[i] = Console.ReadLine();
+                string enteredSource = Console.ReadLine();
+                while (!Regex.IsMatch(enteredSource, @"^[a-zA-Z]:(?:[\\\/]+[a-zA-Z0-9 _]+)*[\\\/]*$"))  //Regex for valid windows folder path.
+                {
+                    Console.WriteLine("\nPlease enter a valid absolute path.\n");
+                    enteredSource = Console.ReadLine();
+                }
+                choice[i] = enteredSource;
                 i++;
 
-                // Ask for destination path
+                // Ask for destination path.
+                string enteredDestination = Console.ReadLine();
+                while (!Regex.IsMatch(enteredDestination, @"^[a-zA-Z]:(?:[\\\/]+[a-zA-Z0-9 _]+)*[\\\/]*$"))  //Regex for valid windows folder path.
+                {
+                    Console.WriteLine("\nPlease enter a valid absolute path.\n");
+                    enteredDestination = Console.ReadLine();
+                }
                 Console.WriteLine("\nChoose a destination path to export the save :");
-                choice[i] = Console.ReadLine();
+                choice[i] = enteredDestination;
                 i++;
 
 
-                // Ask for backup type
+                // Ask for backup type.
                 Console.WriteLine("\nChoose a save type :\n" +
                     "1. Complete save\n" +
                     "2. Differential save");
 
                 string saveTypeChoice = Console.ReadLine();
 
-                // Check if input is correct
+                // Check if input is correct.
                 while (saveTypeChoice != "1" && saveTypeChoice != "2")
                 {
                     Console.WriteLine("\nPlease enter a correct value to proceed.");
                     saveTypeChoice = Console.ReadLine();
                 }
                 choice[i] = saveTypeChoice;
-                i++;
             }
             Console.WriteLine("\nSuccess ! Save procedure has been created.");
             return choice; // TEMPORAIRE //  retour au menu depuis le controller
         }
 
-        public SaveWork ModifySaveMenu(SaveWork _save)
+        public SaveWork ModifySaveProcedure(SaveWork _save)
         {
             SaveWork modifiedSave = _save;
             string choice = "";
 
-            while (choice != "5" && choice != "9")
+            while (choice != "5" && choice != "9") //While loop to allow the user to modify multiple values.
             {
                 Console.WriteLine("\n\nPlease select a parameter to modify :\n" +
                     "1. Name : " + modifiedSave.Name +
@@ -125,9 +142,9 @@ namespace Projet_EasySave_v1._0
                 switch (choice)
                 {
                     case "1":
-                        Console.WriteLine("\nPlease enter a new name\n"); 
+                        Console.WriteLine("\nPlease enter a new name\n");
                         string enteredName = Console.ReadLine();
-                        while (!Regex.IsMatch(enteredName, @"^[a-zA-Z0-9 _]+$"))  //regex only alphanumeric chars, spaces or underscore
+                        while (!Regex.IsMatch(enteredName, @"^[a-zA-Z0-9 _]+$"))  //Regex only allowing alphanumeric chars, spaces or underscores.
                         {
                             Console.WriteLine("\nPlease only make use of alphanumeric characters, spaces or underscores.\n");
                             enteredName = Console.ReadLine();
@@ -136,9 +153,9 @@ namespace Projet_EasySave_v1._0
                         break;
 
                     case "2":
-                        Console.WriteLine("Please enter a new source path to save (absolute) :\n"); //"^[a-zA-Z]:(?:[\\\/]+[a-zA-Z0-9 _]+)*[\\\/]*$"
+                        Console.WriteLine("Please enter a new source path to save (absolute) :\n");
                         string enteredSource = Console.ReadLine();
-                        while (!Regex.IsMatch(enteredSource, @"^[a-zA-Z]:(?:[\\\/]+[a-zA-Z0-9 _]+)*[\\\/]*$"))  //regex for valid windows folder path
+                        while (!Regex.IsMatch(enteredSource, @"^[a-zA-Z]:(?:[\\\/]+[a-zA-Z0-9 _]+)*[\\\/]*$"))  //Regex for valid windows folder path.
                         {
                             Console.WriteLine("\nPlease enter a valid absolute path.\n");
                             enteredSource = Console.ReadLine();
@@ -149,7 +166,7 @@ namespace Projet_EasySave_v1._0
                     case "3":
                         Console.WriteLine("Please enter a new destination path to export the save (absolute) :\n");
                         string enteredDestination = Console.ReadLine();
-                        while (!Regex.IsMatch(enteredDestination, @"^[a-zA-Z]:(?:[\\\/]+[a-zA-Z0-9 _]+)*[\\\/]*$"))  //regex for valid windows folder path
+                        while (!Regex.IsMatch(enteredDestination, @"^[a-zA-Z]:(?:[\\\/]+[a-zA-Z0-9 _]+)*[\\\/]*$"))  //Regex for valid windows folder path.
                         {
                             Console.WriteLine("\nPlease enter a valid absolute path.\n");
                             enteredDestination = Console.ReadLine();
@@ -163,21 +180,14 @@ namespace Projet_EasySave_v1._0
                             "2. Differencial\n");
 
                         string enteredValue = Console.ReadLine();
-                        
-                        while (enteredValue != "1" && enteredValue != "2")
+
+                        while (enteredValue != "1" && enteredValue != "2")  //Check for valid value entered by the user (1 or 2).
                         {
                             Console.WriteLine("\nPlease enter a correct value to proceed.\n");
                             enteredValue = Console.ReadLine();
                         }
 
-                        if(enteredValue == "1")
-                        {
-                            modifiedSave.Type = SaveWorkType.complete;
-                        }
-                        else
-                        {
-                            modifiedSave.Type = SaveWorkType.differencial;
-                        }
+                        modifiedSave.Type = enteredValue == "1" ? SaveWorkType.complete : SaveWorkType.differencial;
                         break;
 
                     case "5":
@@ -191,18 +201,11 @@ namespace Projet_EasySave_v1._0
                 }
 
             }
-            if (choice == "5")
-            {
-                return modifiedSave;
-            }
-            else
-            {
-                return null;
-            }
+            return choice == "5" ? modifiedSave : null;
         }
 
         //Shows a different message depending on selection.
-        public void terminalMessage(string _type)
+        public void TerminalMessage(string _type)
         {
             switch (_type)
             {
@@ -215,24 +218,26 @@ namespace Projet_EasySave_v1._0
                 case "Delete":
                     Console.WriteLine("\nSelect a save procedure to delete or return to the main menu :\n");
                     break;
+                default:
+                    break;
             }
         }
 
         //Shows the menu from which you can select a save procedure to delete. It receives all the procedures as a parameter.
         public int SelectSaveProcedure(SaveWork[] _saveList)
         {
-            if (_saveList == null) 
-            { 
+            if (_saveList == null)
+            {
                 Console.WriteLine("\nNo save procedures created yet.");
                 return 9;
             }
-            
+
             int increment = 0; //Helps to count foreach interations and show index in terminal.
             string regexNumbers = "9"; //Later, we'll check if the value entered by the user is in this regex string, meaning it corresponds to a save procedure or the cancel option. Can be considered as a char list.
 
 
             //Write the name of every save procedure in the terminal as a list and add the procedure index in the string regexNumbers.
-            foreach(SaveWork saveWork in _saveList)
+            foreach (SaveWork saveWork in _saveList)
             {
                 increment++;
                 regexNumbers += increment;
@@ -252,14 +257,7 @@ namespace Projet_EasySave_v1._0
             }
 
             //Will return the index of the save procedure or 9 if "9" is the value entered.
-            if (enteredValue != "9")
-            {
-                return int.Parse(enteredValue) - 1;
-            }
-            else
-            {
-                return 9;
-            }
+            return enteredValue != "9" ? int.Parse(enteredValue) - 1 : 9;
         }
 
         // Confirms critical user interaction (Save procedure suppression, modifications, exiting app...)
@@ -275,10 +273,12 @@ namespace Projet_EasySave_v1._0
                 choice = Console.ReadLine();
             }
 
-            if(choice == "y")
+            if (choice == "y")
             {
                 return true;
-            } else {
+            }
+            else
+            {
                 return false; // TEMPORAIRE // controller fait revenir au menu principal
             }
         }
