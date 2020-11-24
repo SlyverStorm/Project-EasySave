@@ -171,22 +171,19 @@ namespace Projet_EasySave_v1._0
         {
             // The line to record in the log
             string jsonLogLine;
-            // Save parameters
-            SaveWork save = new SaveWork("Log1", "file1", "File2", SaveWorkType.complete);
 
-            // Create the log line in a Json format
-            jsonLogLine = JsonConvert.SerializeObject(save, Formatting.Indented);
-            //jsonLogLine = DateTime.Now + " >>> " + jsonLogLine; 
+            // new LogLine object with Time and content
+            LogLine newLogLine = new LogLine("POUP");
 
-            Console.WriteLine(jsonLogLine + "test2");
+            // Transform LogLine object in Json string
+            jsonLogLine = JsonConvert.SerializeObject(newLogLine, Formatting.Indented);
 
+            object test = JsonConvert.DeserializeObject(File.ReadAllText("log.json"));
 
-            dynamic test = JsonConvert.DeserializeObject(jsonLogLine);
-
-            Console.WriteLine(test + "test");
+            Console.WriteLine(test);
 
             // call a fonction to write the line in a file
-            //addLogLine(jsonLogLine);
+            addLogLine(jsonLogLine);
         }
 
 
@@ -200,6 +197,9 @@ namespace Projet_EasySave_v1._0
                 Console.WriteLine("Record log OK");
             }
            }
+
+
+
 
 
 
