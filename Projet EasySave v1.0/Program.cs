@@ -20,6 +20,8 @@ namespace Projet_EasySave_v1._0
             Console.WriteLine(model.WorkList[1].Type);
 
             model.DoSave(1);*/
+
+            //model.createLogLine(); 
         }
     }
 }

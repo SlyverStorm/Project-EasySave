@@ -123,11 +123,12 @@ namespace Projet_EasySave_v1._0
             SaveWork save = new SaveWork("Test1", "file1", "File2", SaveWorkType.complete);
 
             // Translate the log line in a Json format
-            jsonLogLine = JsonConvert.SerializeObject(save);
+            jsonLogLine = JsonConvert.SerializeObject(save, Formatting.None);
+            jsonLogLine = DateTime.Now + " >>> " + jsonLogLine; 
             Console.WriteLine(jsonLogLine);
 
             // call a fonction to write the line in a file
-            addLogLine();
+            //addLogLine();
         }
 
 
