@@ -30,6 +30,11 @@ namespace Projet_EasySave_v1._0
             return Console.ReadLine();
         }
 
+        public string showMainMenu()
+        {
+            return "ALLO";
+        }
+
 
     }
 }
