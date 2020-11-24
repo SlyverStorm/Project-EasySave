@@ -20,13 +20,6 @@ namespace Projet_EasySave_v1._0
             set { workList = value; }
         }
 
-        private SaveHistoryLog saveHistoryLog;
-
-        public SaveHistoryLog SaveHistoryLog
-        {
-            get { return saveHistoryLog; }
-            set { saveHistoryLog = value; }
-        }
 
         public void CreateWork(int nb, string name, string sourcePath, string destinationPath, string type)
         {

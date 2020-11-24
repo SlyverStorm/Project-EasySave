@@ -7,9 +7,12 @@ namespace Projet_EasySave_v1._0
     class SaveWork
     {
 
-        public SaveWork()
+        public SaveWork(string name, string sourcePath, string destinationPath, SaveWorkType type)
         {
-
+            Name = name;
+            SourcePath = sourcePath;
+            DestinationPath = destinationPath;
+            Type = type;
         }
 
         private string name;
@@ -36,28 +39,20 @@ namespace Projet_EasySave_v1._0
             set { destinationPath = value; }
         }
 
-        private string type;
+        private SaveWorkType type;
 
-        public string Type
+        public SaveWorkType Type
         {
             get { return type; }
             set { type = value; }
         }
 
-        private SaveStateLog stateLog;
 
-        public SaveStateLog StateLog
-        {
-            get { return stateLog; }
-            set { stateLog = value; }
-        }
+    }
 
-        public void Save()
-        {
-
-        }
-
-
-
+    public enum SaveWorkType
+    {
+        complete,
+        differencial
     }
 }
