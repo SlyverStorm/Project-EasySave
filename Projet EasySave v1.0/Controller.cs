@@ -43,7 +43,7 @@ namespace Projet_EasySave_v1._0
             int saveProcedureIndex = View.SelectSaveProcedure(/*To Implement*/);
             if (View.Confirm())
             {
-                //To Implement
+                //To Implement (sauvegarde en cours blablabla)
             }
             else
             {
@@ -94,6 +94,19 @@ namespace Projet_EasySave_v1._0
 
         }
 
+        private void LaunchAllSavesSequentially()
+        {
+            if (View.Confirm())
+            {
+                //To Implement (sauvegarde en cours blablabla)
+            }
+            else
+            {
+                ShowMenu();
+                return;
+            }
+        }
+
         private void ShowMenu()
         {
             switch (View.ShowMainMenu())
@@ -109,6 +122,9 @@ namespace Projet_EasySave_v1._0
                     break;
                 case 4:
                     DeleteSave();
+                    break;
+                case 5:
+                    LaunchAllSavesSequentially();
                     break;
                 default:
                     break;

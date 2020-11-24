@@ -35,38 +35,16 @@ namespace Projet_EasySave_v1._0
                 "2. Create a save procedure.\n" +
                 "3. Modify a save procedure.\n" +
                 "4. Delete a save procedure.\n" +
+                "5. Launch all save procedures sequentially.\n" +
                 "9. Close application.\n"); // TEMPORAIRE // Ajouter une confirmation
 
-            // User menu selection TEMPORAIRE
-            switch (Console.ReadLine())
-            {
-                case "1":
-                    SelectSaveProcedure(null);
-                    break;
-
-                case "2":
-                    CreateSaveProcedure();
-                    break;
-
-                case "3":
-                    ModifySaveProcedure(null);
-                    break;
-
-                case "4":
-                    SelectSaveProcedure(null);
-                    break;
-
-                default:
-                    break;
-            }
-
-            return null;
+            return Console.ReadLine();
         }
 
         public string[] CreateSaveProcedure()
         {
             string[] choice = new string[4];
-
+            
             for (int i = 0; i < 4; i++)
             {
                 // Ask for name.
