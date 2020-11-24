@@ -116,20 +116,27 @@ namespace Projet_EasySave_v1._0
 
 
 
+        // Create the line to record in the log file
         public void createLogLine()
         {
             // The line to record in the log
             string jsonLogLine;
             // Save parameters
-            SaveWork save = new SaveWork("Test2", "file1", "File2", SaveWorkType.complete);
+            SaveWork save = new SaveWork("Log1", "file1", "File2", SaveWorkType.complete);
 
             // Create the log line in a Json format
-            jsonLogLine = JsonConvert.SerializeObject(save, Formatting.None);
-            jsonLogLine = DateTime.Now + " >>> " + jsonLogLine; 
-            Console.WriteLine(jsonLogLine);
+            jsonLogLine = JsonConvert.SerializeObject(save, Formatting.Indented);
+            //jsonLogLine = DateTime.Now + " >>> " + jsonLogLine; 
+
+            Console.WriteLine(jsonLogLine + "test2");
+
+
+            dynamic test = JsonConvert.DeserializeObject(jsonLogLine);
+
+            Console.WriteLine(test + "test");
 
             // call a fonction to write the line in a file
-            addLogLine(jsonLogLine);
+            //addLogLine(jsonLogLine);
         }
 
 
@@ -142,7 +149,48 @@ namespace Projet_EasySave_v1._0
                 logWriter.WriteLine(jsonLogLine);
                 Console.WriteLine("Record log OK");
             }
-            //}
+           }
+
+
+
+
+        public void createStateLogLine()
+        {
+            // The line to record in the log
+            string jsonStateLogLine;
+            // Save parameters
+            SaveWork save = new SaveWork("StateLog1", "file1", "File2", SaveWorkType.complete);
+
+            // Create the log line in a Json format
+            jsonStateLogLine = JsonConvert.SerializeObject(save, Formatting.None);
+            
+            jsonStateLogLine = DateTime.Now + " >>> " + save.Name;
+
+
+            // if save state is active
+            /*if ()
+            {
+                jsonStateLogLine = jsonStateLogLine + Etat;
+            }
+            */
+
+
+            Console.WriteLine(jsonStateLogLine);
+
+            // call a fonction to write the line in a file
+            addStateLogLine(jsonStateLogLine);
+        }
+
+
+        public void addStateLogLine(string jsonStateLogLine)
+        {
+            // the log file is "data.json"       
+            using (StreamWriter logWriter = File.AppendText("StateLog.json"))
+            {
+                // Write the log line
+                logWriter.WriteLine(jsonStateLogLine);
+                Console.WriteLine("Record log OK");
+            }
         }
 
     }
