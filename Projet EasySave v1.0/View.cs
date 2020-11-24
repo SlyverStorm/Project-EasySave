@@ -20,6 +20,16 @@ namespace Projet_EasySave_v1._0
             set { model = value; }
         }
 
+        public void write(string x)
+        {
+            Console.WriteLine(x);
+        }
+
+        public string read()
+        {
+            return Console.ReadLine();
+        }
+
 
     }
 }

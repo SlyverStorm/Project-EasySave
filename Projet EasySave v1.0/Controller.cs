@@ -31,6 +31,12 @@ namespace Projet_EasySave_v1._0
             set { view = value; }
         }
 
+        public void start()
+        {
+            string a = view.read();
+            view.write("ALLO :"+a);
+        }
+
 
 
 
