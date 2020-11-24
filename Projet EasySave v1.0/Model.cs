@@ -51,8 +51,11 @@ namespace Projet_EasySave_v1._0
 
         public void createLogLine()
         {
+
+            SaveWork save = new SaveWork("Test1", "file1", "File2", SaveWorkType.complete);
+
             // Translate the log line in a Json format
-            jsonLogLine = JsonConvert.SerializeObject("test");
+            jsonLogLine = JsonConvert.SerializeObject(save);
             Console.WriteLine(jsonLogLine);
 
             // call a fonction to write the line in a file
@@ -65,12 +68,14 @@ namespace Projet_EasySave_v1._0
            JsonSerializer serializer = new JsonSerializer();
 
 
-            // Write the log line in the log file
-            using (var streamWriter = new StreamWriter("data.json"))
+            // the log file is "data.json"       
+            using (var logFile = new StreamWriter(("log.json")))
             {
-                using (var jsonWriter = new JsonTextWriter(streamWriter))
+                using (var jsonWriter = new JsonTextWriter(logFile))
                 {
+                    // just a single line
                     jsonWriter.Formatting = Formatting.None;
+                    // Write the log line
                     serializer.Serialize(jsonWriter, JsonConvert.DeserializeObject(jsonLogLine));
                     Console.WriteLine("Record log OK");
                 }
