@@ -9,8 +9,7 @@ namespace Projet_EasySave_v1._0
 {
     class Model
     {
-        private string jsonLogLine;
-
+        
         //Model Class constructor, initiate Save Work in an array
         //TODO: get save works value from the save work state json file
         public Model()
@@ -119,36 +118,31 @@ namespace Projet_EasySave_v1._0
 
         public void createLogLine()
         {
+            // The line to record in the log
+            string jsonLogLine;
+            // Save parameters
+            SaveWork save = new SaveWork("Test2", "file1", "File2", SaveWorkType.complete);
 
-            SaveWork save = new SaveWork("Test1", "file1", "File2", SaveWorkType.complete);
-
-            // Translate the log line in a Json format
+            // Create the log line in a Json format
             jsonLogLine = JsonConvert.SerializeObject(save, Formatting.None);
             jsonLogLine = DateTime.Now + " >>> " + jsonLogLine; 
             Console.WriteLine(jsonLogLine);
 
             // call a fonction to write the line in a file
-            //addLogLine();
+            addLogLine(jsonLogLine);
         }
 
 
-        public void addLogLine()
+        public void addLogLine(string jsonLogLine)
         {
-            JsonSerializer serializer = new JsonSerializer();
-
-
             // the log file is "data.json"       
-            using (var logFile = new StreamWriter(("log.json")))
+            using (StreamWriter logWriter = File.AppendText("log.json"))
             {
-                using (var jsonWriter = new JsonTextWriter(logFile))
-                {
-                    // just a single line
-                    jsonWriter.Formatting = Formatting.None;
-                    // Write the log line
-                    serializer.Serialize(jsonWriter, JsonConvert.DeserializeObject(jsonLogLine));
-                    Console.WriteLine("Record log OK");
-                }
+                // Write the log line
+                logWriter.WriteLine(jsonLogLine);
+                Console.WriteLine("Record log OK");
             }
+            //}
         }
 
     }

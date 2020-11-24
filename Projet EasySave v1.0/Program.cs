@@ -21,7 +21,7 @@ namespace Projet_EasySave_v1._0
 
             model.DoSave(1);*/
 
-            //model.createLogLine(); 
+            model.createLogLine(); 
         }
     }
 }
