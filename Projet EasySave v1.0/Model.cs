@@ -15,28 +15,31 @@ namespace Projet_EasySave_v1._0
             
         }
 
-        private List<SaveWork> workList;
+        private SaveWork[] workList;
 
-        public List<SaveWork> WorkList
+        public SaveWork[] WorkList
         {
             get { return workList; }
             set { workList = value; }
         }
 
 
-        public void CreateWork(int nb, string name, string sourcePath, string destinationPath, string type)
+        public void CreateWork(int nb, string name, string sourcePath, string destinationPath, SaveWorkType type)
         {
-
+            workList[nb] = new SaveWork(name, sourcePath, destinationPath, type);
         }
 
-        public void ChangeWork(int nb, string name, string sourcePath, string destinationPath, string type)
+        public void ChangeWork(int nb, string name, string sourcePath, string destinationPath, SaveWorkType type)
         {
-
+            workList[nb].Name = name;
+            workList[nb].SourcePath = sourcePath;
+            workList[nb].DestinationPath = destinationPath;
+            workList[nb].Type = type;
         }
 
         public void DeleteWork(int nb)
         {
-
+            workList[nb] = null;
         }
 
         public void DoSave(int nb)
