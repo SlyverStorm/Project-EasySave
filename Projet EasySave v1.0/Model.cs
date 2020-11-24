@@ -8,6 +8,8 @@ namespace Projet_EasySave_v1._0
     class Model
     {
 
+        //Model Class constructor, initiate Save Work in an array
+        //TODO: get save works value from the save work state json file
         public Model()
         {
             WorkList = new SaveWork[5];
@@ -17,6 +19,7 @@ namespace Projet_EasySave_v1._0
             }
         }
 
+        //Store all 5 (max) save works
         private SaveWork[] workList;
 
         public SaveWork[] WorkList
@@ -25,67 +28,86 @@ namespace Projet_EasySave_v1._0
             set { workList = value; }
         }
 
-
-        public void CreateWork(int nb, string name, string sourcePath, string destinationPath, SaveWorkType type)
+        //Can create a save work from simple parameters
+        public void CreateWork(int _nb, string _name, string _sourcePath, string _destinationPath, SaveWorkType _type)
         {
-            SaveWork tempSave = new SaveWork(name, sourcePath, destinationPath, type);
-            WorkList[nb - 1] = tempSave;
+            SaveWork tempSave = new SaveWork(_name, _sourcePath, _destinationPath, _type);
+            WorkList[_nb - 1] = tempSave;
         }
 
-        public void ChangeWork(int nb, string name, string sourcePath, string destinationPath, SaveWorkType type)
+        //Modify value of save works objects stored in workList, if there is any null parameters the value attached isn't changed
+        public void ChangeWork(int _nb, string _name, string _sourcePath, string _destinationPath, SaveWorkType _type)
         {
-            workList[nb - 1].Name = name;
-            workList[nb - 1].SourcePath = sourcePath;
-            workList[nb - 1].DestinationPath = destinationPath;
-            workList[nb - 1].Type = type;
+            workList[_nb - 1].Name = _name;
+            workList[_nb - 1].SourcePath = _sourcePath;
+            workList[_nb - 1].DestinationPath = _destinationPath;
+            workList[_nb - 1].Type = _type;
         }
 
-        public void DeleteWork(int nb)
+        //Can delete a save work (set to null)
+        public void DeleteWork(int _nb)
         {
-            workList[nb - 1] = null;
+            workList[_nb - 1] = null;
         }
 
-        public void DoSave(int nb)
+        //Can initiate a type of save from the numbers of the save work in workList.
+        public void DoSave(int _nb)
         {
-            CompleteSave(WorkList[nb - 1]);
+            CompleteSave(WorkList[_nb - 1]);
         }
 
-        private void CompleteSave(SaveWork saveWork)
+        //Launch a complete save from a SaveWork type parameter
+        private void CompleteSave(SaveWork _saveWork)
         {
-            CompleteCopy(saveWork.SourcePath, saveWork.DestinationPath);
+            CompleteCopy(_saveWork.SourcePath, _saveWork.DestinationPath);
         }
 
-        private  static void CompleteCopy(string sourceDirectory, string targetDirectory)
+        //Do a complete copy from a folder to another
+        private  static void CompleteCopy(string _sourceDirectory, string _targetDirectory)
         {
-            var diSource = new DirectoryInfo(sourceDirectory);
-            var diTarget = new DirectoryInfo(targetDirectory);
+            var diSource = new DirectoryInfo(_sourceDirectory);
+            var diTarget = new DirectoryInfo(_targetDirectory);
 
             CompleteCopyAll(diSource, diTarget);
         }
 
-        private static void CompleteCopyAll(DirectoryInfo source, DirectoryInfo target)
+        //Copy each file from a directory, and do the same for each subdirectory using recursion
+        private static void CompleteCopyAll(DirectoryInfo _source, DirectoryInfo _target)
         {
-            Directory.CreateDirectory(target.FullName);
+            Directory.CreateDirectory(_target.FullName);
 
             // Copy each file into the new directory.
-            foreach (FileInfo fi in source.GetFiles())
+            foreach (FileInfo fi in _source.GetFiles())
             {
-                Console.WriteLine(@"Copying {0}\{1}", target.FullName, fi.Name);
-                fi.CopyTo(Path.Combine(target.FullName, fi.Name), true);
+                Console.WriteLine(@"Copying {0}\{1}", _target.FullName, fi.Name);
+                fi.CopyTo(Path.Combine(_target.FullName, fi.Name), true);
             }
 
             // Copy each subdirectory using recursion.
-            foreach (DirectoryInfo diSourceSubDir in source.GetDirectories())
+            foreach (DirectoryInfo diSourceSubDir in _source.GetDirectories())
             {
                 DirectoryInfo nextTargetSubDir =
-                    target.CreateSubdirectory(diSourceSubDir.Name);
+                    _target.CreateSubdirectory(diSourceSubDir.Name);
                 CompleteCopyAll(diSourceSubDir, nextTargetSubDir);
             }
         }
 
+        //Launch a diffrencial save from a SaveWork parameter
+        private void DifferencialSave(SaveWork _saveWork)
+        {
+            DifferencialCopy(_saveWork.SourcePath, _saveWork.DestinationPath);
+        }
 
+        //Do a différential copy from a folder to another
+        private void DifferencialCopy(string _sourceDirectory, string _targetDirectory)
+        {
 
+        }
 
+        //Copy each files (that has been modified since the last save) from a directory, and do the same for each subdirectory using recursion
+        private void DifferencialCopyAll(DirectoryInfo _source, DirectoryInfo _target)
+        {
 
+        }
     }
 }
