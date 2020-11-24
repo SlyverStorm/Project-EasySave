@@ -2,7 +2,6 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 
 namespace Projet_EasySave_v1._0
@@ -55,7 +54,17 @@ namespace Projet_EasySave_v1._0
         //Can initiate a type of save from the numbers of the save work in workList.
         public void DoSave(int _nb)
         {
-            CompleteSave(WorkList[_nb - 1]);
+            SaveWork work = WorkList[_nb - 1];
+
+            if (work.Type == SaveWorkType.complete)
+            {
+                Console.WriteLine("Launching complete save !");
+                CompleteSave(work);
+            }
+            else if (work.Type == SaveWorkType.differencial) {
+                Console.WriteLine("Launching differencial save !");
+                DifferencialSave(work);
+            }
         }
 
         //Launch a complete save from a SaveWork type parameter
@@ -100,16 +109,57 @@ namespace Projet_EasySave_v1._0
             DifferencialCopy(_saveWork.SourcePath, _saveWork.DestinationPath);
         }
 
+
+
+
+
         //Do a différential copy from a folder to another
         private void DifferencialCopy(string _sourceDirectory, string _targetDirectory)
         {
+            var diSource = new DirectoryInfo(_sourceDirectory);
+            var diTarget = new DirectoryInfo(_targetDirectory);
 
+            DifferencialCopyAll(diSource, diTarget);
         }
 
         //Copy each files (that has been modified since the last save) from a directory, and do the same for each subdirectory using recursion
         private void DifferencialCopyAll(DirectoryInfo _source, DirectoryInfo _target)
         {
+            
+            Directory.CreateDirectory(_target.FullName);
 
+            // Copy each file into the new directory.
+            foreach (FileInfo fi in _source.GetFiles())
+            {
+                
+                string targetPath = Path.Combine(_target.FullName, fi.Name);
+
+                if (!File.Exists(targetPath) || fi.LastWriteTime != File.GetLastWriteTime(targetPath))
+                {
+                    Console.WriteLine(@"Copying {0}\{1}", _target.FullName, fi.Name);
+                    fi.CopyTo(targetPath, true);
+                }
+                
+                
+            }
+
+            // Copy each subdirectory using recursion.
+            foreach (DirectoryInfo diSourceSubDir in _source.GetDirectories())
+            {
+                string targetDirectoryPath = Path.Combine(_target.FullName, diSourceSubDir.Name);
+
+                if (!Directory.Exists(targetDirectoryPath))
+                {
+                    DirectoryInfo nextTargetSubDir = _target.CreateSubdirectory(diSourceSubDir.Name);
+                    DifferencialCopyAll(diSourceSubDir, nextTargetSubDir);
+                }
+                else
+                {
+                    DirectoryInfo nextTargetSubDir = new DirectoryInfo(targetDirectoryPath);
+                    DifferencialCopyAll(diSourceSubDir, nextTargetSubDir);
+                }
+                
+            }
         }
 
 
