@@ -53,6 +53,7 @@ namespace Projet_EasySave_v1._0
     public enum SaveWorkType
     {
         complete,
-        differencial
+        differencial,
+        unset
     }
 }
