@@ -37,9 +37,11 @@ Developpers :
 # Installation
 Windows OS :
 <div class="highlight highlight-source-shell">
-  <pre>- Download EasySave 1.0.zip</pre>
-  <pre>- Unzip file</pre>
-  <pre>- Launch Projet Easy Save v1.0.exe</pre>
+  <pre>
+    <li>- Download EasySave 1.0.zip</li>
+    <li>- Unzip file</li>
+    <li>- Launch Projet Easy Save v1.0.exe</li>
+  </pre>
 </div>
 
 # Authors
