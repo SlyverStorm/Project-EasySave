@@ -27,11 +27,14 @@ namespace Projet_EasySave_v1._0
 
             //model.CreateLogLine("ALLO");
             //model.UpdateSaveFile();
+
+
             Model model = new Model();
             View view = new View(model);
-            Controller ctrl = new Controller(model, view);
-            view.Start();                                       //temporary
-            view.ShowMainMenu();                                //temporary
+
+            //Controller ctrl = new Controller(model, view);
+            //view.Start();                                       //temporary
+            //view.ShowMainMenu();                                //temporary
         }
     }
 }
