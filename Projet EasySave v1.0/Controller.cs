@@ -111,19 +111,19 @@ namespace Projet_EasySave_v1._0
         {
             switch (View.ShowMainMenu())
             {
-                case 1:
+                case "1":
                     LaunchSave();
                     break;
-                case 2:
+                case "2":
                     CreateSave();
                     break;
-                case 3:
+                case "3":
                     ModifySave();
                     break;
-                case 4:
+                case "4":
                     DeleteSave();
                     break;
-                case 5:
+                case "5":
                     LaunchAllSavesSequentially();
                     break;
                 default:
