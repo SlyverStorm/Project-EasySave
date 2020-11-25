@@ -38,9 +38,9 @@ Developpers :
 Windows OS :
 <div class="highlight highlight-source-shell">
   <pre>
-    <li>- Download EasySave 1.0.zip</li>
-    <li>- Unzip file</li>
-    <li>- Launch Projet Easy Save v1.0.exe</li>
+    <li>Download <a href="https://github.com/SlyverStorm/Projet-EasySave/releases/tag/1.0">EasySave 1.0.zip</a></li>
+    <li>Unzip file</li>
+    <li>Launch Projet Easy Save v1.0.exe</li>
   </pre>
 </div>
 
