@@ -40,7 +40,7 @@ namespace Projet_EasySave_v1._0
         private void LaunchSave()
         {
             View.TerminalMessage("launch");
-            //int saveProcedureIndex = View.SelectSaveProcedure(/*To Implement*/);
+            //int saveProcedureIndex = View.SelectSaveProcedure(Model.);
             if (View.Confirm())
             {
                 //To Implement (sauvegarde en cours blablabla)
