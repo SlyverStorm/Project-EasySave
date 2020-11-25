@@ -112,85 +112,93 @@ namespace Projet_EasySave_v1._0
         //Allows the user to modifiy an existing save procedure name, source path, destination path and/or type.
         public SaveWork ModifySaveProcedure(SaveWork _save)
         {
-            SaveWork modifiedSave = _save;
-            string choice = "";
-
-            while (choice != "5" && choice != "9") //While loop to allow the user to modify multiple values.
+            if (_save.Type != SaveWorkType.unset)
             {
-                Console.WriteLine("\n\nPlease select a parameter to modify :\n" +
-                    "1. Name : " + modifiedSave.Name +
-                    "\n2. Source Path : " + modifiedSave.SourcePath +
-                    "\n3. Destination Path : " + modifiedSave.DestinationPath +
-                    "\n4. Save Type : " + modifiedSave.Type +
-                    "\n5. Confirm" +
-                    "\n9. Cancel.\n");
+                SaveWork modifiedSave = _save;
+                string choice = "";
 
-                choice = Console.ReadLine();
-
-                switch (choice)
+                while (choice != "5" && choice != "9") //While loop to allow the user to modify multiple values.
                 {
-                    case "1":
-                        Console.WriteLine("\nPlease enter a new name\n");
-                        string enteredName = Console.ReadLine();
-                        while (!Regex.IsMatch(enteredName, @"^[a-zA-Z0-9 _]+$"))  //Regex only allowing alphanumeric chars, spaces or underscores.
-                        {
-                            Console.WriteLine("\nPlease only make use of alphanumeric characters, spaces or underscores.\n");
-                            enteredName = Console.ReadLine();
-                        }
-                        modifiedSave.Name = enteredName;
-                        break;
+                    Console.WriteLine("\n\nPlease select a parameter to modify :\n" +
+                        "1. Name : " + modifiedSave.Name +
+                        "\n2. Source Path : " + modifiedSave.SourcePath +
+                        "\n3. Destination Path : " + modifiedSave.DestinationPath +
+                        "\n4. Save Type : " + modifiedSave.Type +
+                        "\n5. Confirm" +
+                        "\n9. Cancel.\n");
 
-                    case "2":
-                        Console.WriteLine("Please enter a new source path to save (absolute) :\n");
-                        string enteredSource = Console.ReadLine();
-                        while (!Regex.IsMatch(enteredSource, @"^[a-zA-Z]:(?:\/[a-zA-Z0-9 _]+)*$"))  //Regex for valid windows folder path.
-                        {
-                            Console.WriteLine("\nPlease enter a valid absolute path.\n");
-                            enteredSource = Console.ReadLine();
-                        }
-                        modifiedSave.SourcePath = enteredSource;
-                        break;
+                    choice = Console.ReadLine();
 
-                    case "3":
-                        Console.WriteLine("Please enter a new destination path to export the save (absolute) :\n");
-                        string enteredDestination = Console.ReadLine();
-                        while (!Regex.IsMatch(enteredDestination, @"^[a-zA-Z]:(?:\/[a-zA-Z0-9 _]+)*$"))  //Regex for valid windows folder path.
-                        {
-                            Console.WriteLine("\nPlease enter a valid absolute path.\n");
-                            enteredDestination = Console.ReadLine();
-                        }
-                        modifiedSave.SourcePath = enteredDestination;
-                        break;
+                    switch (choice)
+                    {
+                        case "1":
+                            Console.WriteLine("\nPlease enter a new name\n");
+                            string enteredName = Console.ReadLine();
+                            while (!Regex.IsMatch(enteredName, @"^[a-zA-Z0-9 _]+$"))  //Regex only allowing alphanumeric chars, spaces or underscores.
+                            {
+                                Console.WriteLine("\nPlease only make use of alphanumeric characters, spaces or underscores.\n");
+                                enteredName = Console.ReadLine();
+                            }
+                            modifiedSave.Name = enteredName;
+                            break;
 
-                    case "4":
-                        Console.WriteLine("Please choose a new save type :\n" +
-                            "1. Complete\n" +
-                            "2. Differencial\n");
+                        case "2":
+                            Console.WriteLine("Please enter a new source path to save (absolute) :\n");
+                            string enteredSource = Console.ReadLine();
+                            while (!Regex.IsMatch(enteredSource, @"^[a-zA-Z]:(?:\/[a-zA-Z0-9 _]+)*$"))  //Regex for valid windows folder path.
+                            {
+                                Console.WriteLine("\nPlease enter a valid absolute path.\n");
+                                enteredSource = Console.ReadLine();
+                            }
+                            modifiedSave.SourcePath = enteredSource;
+                            break;
 
-                        string enteredValue = Console.ReadLine();
+                        case "3":
+                            Console.WriteLine("Please enter a new destination path to export the save (absolute) :\n");
+                            string enteredDestination = Console.ReadLine();
+                            while (!Regex.IsMatch(enteredDestination, @"^[a-zA-Z]:(?:\/[a-zA-Z0-9 _]+)*$"))  //Regex for valid windows folder path.
+                            {
+                                Console.WriteLine("\nPlease enter a valid absolute path.\n");
+                                enteredDestination = Console.ReadLine();
+                            }
+                            modifiedSave.SourcePath = enteredDestination;
+                            break;
 
-                        //Check for valid value entered by the user (1 or 2).
-                        while (enteredValue != "1" && enteredValue != "2")
-                        {
+                        case "4":
+                            Console.WriteLine("Please choose a new save type :\n" +
+                                "1. Complete\n" +
+                                "2. Differencial\n");
+
+                            string enteredValue = Console.ReadLine();
+
+                            //Check for valid value entered by the user (1 or 2).
+                            while (enteredValue != "1" && enteredValue != "2")
+                            {
+                                Console.WriteLine("\nPlease enter a correct value to proceed.\n");
+                                enteredValue = Console.ReadLine();
+                            }
+
+                            modifiedSave.Type = enteredValue == "1" ? SaveWorkType.complete : SaveWorkType.differencial;
+                            break;
+
+                        case "5":
+                            break;
+
+                        case "9":
+                            break;
+                        default:
                             Console.WriteLine("\nPlease enter a correct value to proceed.\n");
-                            enteredValue = Console.ReadLine();
-                        }
+                            break;
+                    }
 
-                        modifiedSave.Type = enteredValue == "1" ? SaveWorkType.complete : SaveWorkType.differencial;
-                        break;
-
-                    case "5":
-                        break;
-
-                    case "9":
-                        break;
-                    default:
-                        Console.WriteLine("\nPlease enter a correct value to proceed.\n");
-                        break;
                 }
-
+                return choice == "5" ? modifiedSave : null;
             }
-            return choice == "5" ? modifiedSave : null;
+            else
+            {
+                Console.WriteLine("The Specified save work is currently empty, cannot modify it");
+                return null;
+            }
         }
         
         //Shows the menu from which you can select a save procedure to delete. It receives all the procedures as a parameter.
@@ -205,13 +213,16 @@ namespace Projet_EasySave_v1._0
             int increment = 0;
             string regexNumbers = "9"; //Later, we'll check if the value entered by the user is in this regex string, meaning it corresponds to a save procedure or the cancel option. Can be considered as an int list.
 
-
+            
             //Write the name of every save procedure in the terminal as a list and add the procedure index in the string regexNumbers.
             foreach (SaveWork saveWork in _saveList)
             {
                 increment++;
-                regexNumbers += increment;
-                Console.WriteLine(increment + ". " + saveWork.Name + "\n");
+                if (saveWork.Type !=SaveWorkType.unset)
+                {
+                    regexNumbers += increment;
+                    Console.WriteLine(increment + ". " + saveWork.Name + "\n");
+                }
             }
             Console.WriteLine("9. Cancel\n");
 
@@ -276,8 +287,12 @@ namespace Projet_EasySave_v1._0
             }
         }
 
+        public void OperationDoneMessage()
+        {
+            Console.WriteLine("\nDone.");
+        }
 
-        public void SaveIsDoneMessage(SaveWork _save)
+        public void SaveIsDoneMessage(SaveWork _save) //Done method is different for the launch option as we don't want to show unset save procedures.
         {
             if (_save.Type != SaveWorkType.unset)
             {

@@ -41,6 +41,7 @@ namespace Projet_EasySave_v1._0
         {
             View.TerminalMessage("launch");
             int saveProcedureIndex = View.SelectSaveProcedure(Model.WorkList);
+
             if (saveProcedureIndex != 9)
             {
                 if (View.Confirm())
@@ -71,7 +72,6 @@ namespace Projet_EasySave_v1._0
         {
             string[] saveProcedure = View.CreateSaveProcedure();
 
-            //To Implement
             SaveWorkType type = SaveWorkType.unset;
             if (saveProcedure[3] == "1")
             {
@@ -91,33 +91,43 @@ namespace Projet_EasySave_v1._0
         private void ModifySave()
         {
             View.TerminalMessage("modify");
-            //SaveWork saveProcedure = View.ModifySaveProcedure(/*To Implement*/);
-            if (View.Confirm())
+            int saveProcedureIndex = View.SelectSaveProcedure(Model.WorkList);
+            if (saveProcedureIndex != 9)
             {
-                //To Implement
+                SaveWork saveProcedure = View.ModifySaveProcedure(Model.WorkList[saveProcedureIndex - 1]);
+                if (saveProcedure != null)
+                {
+                    Model.ChangeWork(saveProcedureIndex, saveProcedure.Name, saveProcedure.SourcePath, saveProcedure.DestinationPath, saveProcedure.Type);
+                    View.OperationDoneMessage();
+                }
             }
-            else
-            {
-                ShowMenu();
-                return;
-            }
-
+            ShowMenu();
+            return;
         }
 
         private void DeleteSave()
         {
             View.TerminalMessage("delete");
-            //int saveProcedureIndex = View.SelectSaveProcedure(/*To Implement*/);
-            if (View.Confirm())
+            int saveProcedureIndex = View.SelectSaveProcedure(Model.WorkList);
+            if (saveProcedureIndex != 9)
             {
-                //To Implement
+                if (View.Confirm())
+                {
+                    Model.DeleteWork(saveProcedureIndex);
+                    //TODO: Afficher done delete
+                    View.OperationDoneMessage();
+                    ShowMenu();
+                    return;
+                }
+                else
+                {
+                    ShowMenu();
+                    return;
+                }
             }
-            else
-            {
-                ShowMenu();
-                return;
-            }
-
+            ShowMenu();
+            return;
+            
         }
 
         private void LaunchAllSavesSequentially()
