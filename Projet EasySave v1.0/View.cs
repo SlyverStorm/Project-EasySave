@@ -22,11 +22,6 @@ namespace Projet_EasySave_v1._0
         }
 
 
-        public void Start()
-        {
-            Console.WriteLine("Welcome to EasySave !\nEasySave v.1.0");
-        }
-
         //Returns the user choice as an string to the controller.
         public string ShowMainMenu()
         {
@@ -44,7 +39,7 @@ namespace Projet_EasySave_v1._0
         //Allows the user to create a new save procedure by giving it's name, source path, destination path and type.
         public string[] CreateSaveProcedure()
         {
-            string[] choice = new string[4];
+            string[] choice = new string[5];
             
             for (int i = 0; i < 4; i++)
             {
@@ -62,7 +57,7 @@ namespace Projet_EasySave_v1._0
                 // Ask for source path.
                 Console.WriteLine("\nChoose a source path to save :");
                 string enteredSource = Console.ReadLine();
-                while (!Regex.IsMatch(enteredSource, @"^[a-zA-Z]:(?:[\\\/]+[a-zA-Z0-9 _]+)*[\\\/]*$"))  //Regex for valid windows folder path.
+                while (!Regex.IsMatch(enteredSource, @"^[a-zA-Z]:(?:\/[a-zA-Z0-9 _]+)*$"))  //Regex for valid windows folder path.
                 {
                     Console.WriteLine("\nPlease enter a valid absolute path.\n");
                     enteredSource = Console.ReadLine();
@@ -71,13 +66,13 @@ namespace Projet_EasySave_v1._0
                 i++;
 
                 // Ask for destination path.
+                Console.WriteLine("\nChoose a destination path to export the save :");
                 string enteredDestination = Console.ReadLine();
-                while (!Regex.IsMatch(enteredDestination, @"^[a-zA-Z]:(?:[\\\/]+[a-zA-Z0-9 _]+)*[\\\/]*$"))  //Regex for valid windows folder path.
+                while (!Regex.IsMatch(enteredDestination, @"^[a-zA-Z]:(?:\/[a-zA-Z0-9 _]+)*$"))  //Regex for valid windows folder path.
                 {
                     Console.WriteLine("\nPlease enter a valid absolute path.\n");
                     enteredDestination = Console.ReadLine();
                 }
-                Console.WriteLine("\nChoose a destination path to export the save :");
                 choice[i] = enteredDestination;
                 i++;
 
@@ -96,6 +91,20 @@ namespace Projet_EasySave_v1._0
                     saveTypeChoice = Console.ReadLine();
                 }
                 choice[i] = saveTypeChoice;
+                i++;
+
+
+                //Ask for save location in array.
+                Console.WriteLine("\nChoose the save procedure position number. (from 1 to 5)\n");
+                string savePos = Console.ReadLine();
+
+                // Check if input is correct.
+                while (!Regex.IsMatch(savePos, @"^[12345]$"))
+                {
+                    Console.WriteLine("\nPlease enter a correct value to proceed.");
+                    savePos = Console.ReadLine();
+                }
+                choice[i] = savePos;
             }
             return choice;
         }
@@ -134,7 +143,7 @@ namespace Projet_EasySave_v1._0
                     case "2":
                         Console.WriteLine("Please enter a new source path to save (absolute) :\n");
                         string enteredSource = Console.ReadLine();
-                        while (!Regex.IsMatch(enteredSource, @"^[a-zA-Z]:(?:[\\\/]+[a-zA-Z0-9 _]+)*[\\\/]*$"))  //Regex for valid windows folder path.
+                        while (!Regex.IsMatch(enteredSource, @"^[a-zA-Z]:(?:\/[a-zA-Z0-9 _]+)*$"))  //Regex for valid windows folder path.
                         {
                             Console.WriteLine("\nPlease enter a valid absolute path.\n");
                             enteredSource = Console.ReadLine();
@@ -145,7 +154,7 @@ namespace Projet_EasySave_v1._0
                     case "3":
                         Console.WriteLine("Please enter a new destination path to export the save (absolute) :\n");
                         string enteredDestination = Console.ReadLine();
-                        while (!Regex.IsMatch(enteredDestination, @"^[a-zA-Z]:(?:[\\\/]+[a-zA-Z0-9 _]+)*[\\\/]*$"))  //Regex for valid windows folder path.
+                        while (!Regex.IsMatch(enteredDestination, @"^[a-zA-Z]:(?:\/[a-zA-Z0-9 _]+)*$"))  //Regex for valid windows folder path.
                         {
                             Console.WriteLine("\nPlease enter a valid absolute path.\n");
                             enteredDestination = Console.ReadLine();
@@ -161,7 +170,7 @@ namespace Projet_EasySave_v1._0
                         string enteredValue = Console.ReadLine();
 
                         //Check for valid value entered by the user (1 or 2).
-                        while (enteredValue != "1" && enteredValue != "2")  
+                        while (enteredValue != "1" && enteredValue != "2")
                         {
                             Console.WriteLine("\nPlease enter a correct value to proceed.\n");
                             enteredValue = Console.ReadLine();
@@ -183,13 +192,7 @@ namespace Projet_EasySave_v1._0
             }
             return choice == "5" ? modifiedSave : null;
         }
-
-        //Shows a different message depending on selection.
-        public void TerminalMessage(string _type)
-        {
-            Console.WriteLine("\nSelect a save procedure to " + _type + " or return to the main menu :\n");
-        }
-
+        
         //Shows the menu from which you can select a save procedure to delete. It receives all the procedures as a parameter.
         public int SelectSaveProcedure(SaveWork[] _saveList)
         {
@@ -224,13 +227,13 @@ namespace Projet_EasySave_v1._0
             }
 
             //Will return the index of the save procedure or 9 if "9" is the value entered.
-            return enteredValue != "9" ? int.Parse(enteredValue) - 1 : 9;
+            return enteredValue != "9" ? int.Parse(enteredValue) : 9;
         }
 
         //The user has to confirm critical interactions.
         public bool Confirm()
         {
-            Console.WriteLine("Are you sure you want to do this ? y/n");
+            Console.WriteLine("\nAre you sure you want to do this ? y/n");
 
             string choice = Console.ReadLine();
 
@@ -249,5 +252,44 @@ namespace Projet_EasySave_v1._0
                 return false;
             }
         }
+
+
+
+        /* Simple Void Console Write methods */
+
+
+        public void Start()
+        {
+            Console.WriteLine("Welcome to EasySave !\nEasySave v.1.0");
+        }
+
+        //Shows a different message depending on save type.
+        public void SaveInProgressMessage(SaveWork _save)
+        {
+            if (_save.Type == SaveWorkType.differencial)
+            {
+                Console.WriteLine("\nDifferential save " + _save.Name + " in progress...");
+            }
+            else if (_save.Type == SaveWorkType.complete)
+            {
+                Console.WriteLine("\nComplete save " + _save.Name + " in progress...");
+            }
+        }
+
+
+        public void SaveIsDoneMessage(SaveWork _save)
+        {
+            if (_save.Type != SaveWorkType.unset)
+            {
+                Console.WriteLine("\nDone.");
+            }
+        }
+
+        //Shows a different message depending on selection.
+        public void TerminalMessage(string _type)
+        {
+            Console.WriteLine("\nSelect a save procedure to " + _type + " or return to the main menu :\n");
+        }
+         
     }
 }

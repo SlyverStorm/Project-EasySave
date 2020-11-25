@@ -40,10 +40,25 @@ namespace Projet_EasySave_v1._0
         private void LaunchSave()
         {
             View.TerminalMessage("launch");
-            //int saveProcedureIndex = View.SelectSaveProcedure(Model.);
-            if (View.Confirm())
+            int saveProcedureIndex = View.SelectSaveProcedure(Model.WorkList);
+            if (saveProcedureIndex != 9)
             {
-                //To Implement (sauvegarde en cours blablabla)
+                if (View.Confirm())
+                {
+                    //To Implement (sauvegarde en cours blablabla)
+
+                    View.SaveInProgressMessage(Model.WorkList[saveProcedureIndex - 1]);
+                    Model.DoSave(saveProcedureIndex);
+                    View.SaveIsDoneMessage(Model.WorkList[saveProcedureIndex - 1]);
+                    //fonction vue pour retour user
+                    ShowMenu();
+                    return;
+                }
+                else
+                {
+                    ShowMenu();
+                    return;
+                }
             }
             else
             {
@@ -57,6 +72,17 @@ namespace Projet_EasySave_v1._0
             string[] saveProcedure = View.CreateSaveProcedure();
 
             //To Implement
+            SaveWorkType type = SaveWorkType.unset;
+            if (saveProcedure[3] == "1")
+            {
+                type = SaveWorkType.complete;
+            }
+            else if (saveProcedure[3] == "2")
+            {
+                type = SaveWorkType.differencial;
+            }
+            Model.CreateWork(int.Parse(saveProcedure[4]), saveProcedure[0], saveProcedure[1], saveProcedure[2], type);
+
 
             ShowMenu();
             return;
@@ -98,7 +124,14 @@ namespace Projet_EasySave_v1._0
         {
             if (View.Confirm())
             {
-                //To Implement (sauvegarde en cours blablabla)
+                for (int i = 1; i < Model.WorkList.Length + 1; i++)
+                {
+                    View.SaveInProgressMessage(Model.WorkList[i - 1]);
+                    Model.DoSave(i);
+                    View.SaveIsDoneMessage(Model.WorkList[i - 1]);
+                }
+                ShowMenu();
+                return;
             }
             else
             {

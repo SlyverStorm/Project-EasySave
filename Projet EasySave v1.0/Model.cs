@@ -46,6 +46,7 @@ namespace Projet_EasySave_v1._0
         {
             SaveWork tempSave = new SaveWork(_name, _sourcePath, _destinationPath, _type);
             WorkList[_nb - 1] = tempSave;
+            UpdateSaveFile(_nb);
             CreateLogLine("Creation of a new save work in position " + _nb + ", name : " + tempSave.Name + ", source path : " + tempSave.SourcePath + ", destination path : "+tempSave.DestinationPath+", type : "+tempSave.Type);
         }
 
@@ -57,13 +58,15 @@ namespace Projet_EasySave_v1._0
             if (_destinationPath != "") { WorkList[_nb - 1].DestinationPath = _destinationPath; }
             if (_type != SaveWorkType.unset) { WorkList[_nb - 1].Type = _type; }
 
+            UpdateSaveFile(_nb);
             CreateLogLine("Modification of a existing save work in position " + _nb + ", current parameters : name : " + WorkList[_nb - 1].Name + ", source path : " + WorkList[_nb - 1].SourcePath + ", destination path : " + WorkList[_nb - 1].DestinationPath + ", type : " + WorkList[_nb - 1].Type);
         }
 
         //Can delete a save work (set to null)
         public void DeleteWork(int _nb)
         {
-            workList[_nb - 1] = null;
+            workList[_nb - 1] = new SaveWork("","","",SaveWorkType.unset);
+            UpdateSaveFile(_nb);
             CreateLogLine("Supression of save work in position"+_nb);
         }
 
@@ -72,14 +75,16 @@ namespace Projet_EasySave_v1._0
         {
             SaveWork work = WorkList[_nb - 1];
 
-            if (work.Type == SaveWorkType.complete)
+            if (Directory.Exists(WorkList[_nb - 1].SourcePath))
             {
-                Console.WriteLine("Launching complete save !");
-                CompleteSave(_nb);
-            }
-            else if (work.Type == SaveWorkType.differencial) {
-                Console.WriteLine("Launching differencial save !");
-                DifferencialSave(_nb);
+                if (work.Type == SaveWorkType.complete)
+                {
+                    CompleteSave(_nb);
+                }
+                else if (work.Type == SaveWorkType.differencial)
+                {
+                    DifferencialSave(_nb);
+                }
             }
         }
 
