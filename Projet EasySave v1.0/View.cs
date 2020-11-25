@@ -160,7 +160,8 @@ namespace Projet_EasySave_v1._0
 
                         string enteredValue = Console.ReadLine();
 
-                        while (enteredValue != "1" && enteredValue != "2")  //Check for valid value entered by the user (1 or 2).
+                        //Check for valid value entered by the user (1 or 2).
+                        while (enteredValue != "1" && enteredValue != "2")  
                         {
                             Console.WriteLine("\nPlease enter a correct value to proceed.\n");
                             enteredValue = Console.ReadLine();
@@ -198,8 +199,8 @@ namespace Projet_EasySave_v1._0
                 return 9;
             }
 
-            int increment = 0; //Helps to count foreach interations and show index in terminal.
-            string regexNumbers = "9"; //Later, we'll check if the value entered by the user is in this regex string, meaning it corresponds to a save procedure or the cancel option. Can be considered as a char list.
+            int increment = 0;
+            string regexNumbers = "9"; //Later, we'll check if the value entered by the user is in this regex string, meaning it corresponds to a save procedure or the cancel option. Can be considered as an int list.
 
 
             //Write the name of every save procedure in the terminal as a list and add the procedure index in the string regexNumbers.
@@ -212,10 +213,10 @@ namespace Projet_EasySave_v1._0
             Console.WriteLine("9. Cancel\n");
 
 
-            string enteredValue = Console.ReadLine(); //The user has to choose from the list above.
+            string enteredValue = Console.ReadLine();
 
 
-            //If the value entered by the user doesn't correspond to a single index of a save procedure, will ask to enter a correct value.
+            //Check for valid value entered by the user.
             while (!Regex.IsMatch(enteredValue, @"^[" + regexNumbers + "]$"))
             {
                 Console.WriteLine("\nPlease enter a correct value to proceed.\n");
@@ -226,7 +227,7 @@ namespace Projet_EasySave_v1._0
             return enteredValue != "9" ? int.Parse(enteredValue) - 1 : 9;
         }
 
-        // Confirms critical user interaction (Save procedure suppression, modifications, exiting app...)
+        //The user has to confirm critical interactions.
         public bool Confirm()
         {
             Console.WriteLine("Are you sure you want to do this ? y/n");
@@ -245,7 +246,7 @@ namespace Projet_EasySave_v1._0
             }
             else
             {
-                return false; // TEMPORAIRE // controller fait revenir au menu principal
+                return false;
             }
         }
     }
