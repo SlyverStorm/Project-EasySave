@@ -30,7 +30,8 @@ namespace Projet_EasySave_v1._0
             Model model = new Model();
             View view = new View(model);
             Controller ctrl = new Controller(model, view);
-            ctrl.start();
+            view.Start();                                       //temporary
+            view.ShowMainMenu();                                //temporary
         }
     }
 }

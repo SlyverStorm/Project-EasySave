@@ -62,7 +62,7 @@ namespace Projet_EasySave_v1._0
         {
             get { return creationTime; }
             set { creationTime = value; }
-        }
+    }
 
         //Tell if a saving protocol is active or not to the current SaveWork object
         private bool isActive;
