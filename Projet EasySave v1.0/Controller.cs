@@ -39,7 +39,7 @@ namespace Projet_EasySave_v1._0
 
         private void LaunchSave()
         {
-            View.TerminalMessage("Launch");
+            View.TerminalMessage("launch");
             int saveProcedureIndex = View.SelectSaveProcedure(/*To Implement*/);
             if (View.Confirm())
             {
@@ -64,7 +64,7 @@ namespace Projet_EasySave_v1._0
 
         private void ModifySave()
         {
-            View.TerminalMessage("Modify");
+            View.TerminalMessage("modify");
             SaveWork saveProcedure = View.ModifySaveProcedure(/*To Implement*/);
             if (View.Confirm())
             {
@@ -80,7 +80,7 @@ namespace Projet_EasySave_v1._0
 
         private void DeleteSave()
         {
-            View.TerminalMessage("Delete");
+            View.TerminalMessage("delete");
             int saveProcedureIndex = View.SelectSaveProcedure(/*To Implement*/);
             if (View.Confirm())
             {

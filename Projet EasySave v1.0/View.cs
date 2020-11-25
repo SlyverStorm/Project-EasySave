@@ -25,9 +25,9 @@ namespace Projet_EasySave_v1._0
         public void Start()
         {
             Console.WriteLine("Welcome to EasySave !\nEasySave v.1.0");
-            ShowMainMenu(); // TEMPORAIRE // A enlever, role du controller
         }
 
+        //Returns the user choice as an string to the controller.
         public string ShowMainMenu()
         {
             Console.WriteLine("\n\nPlease select an option :\n" +
@@ -36,11 +36,12 @@ namespace Projet_EasySave_v1._0
                 "3. Modify a save procedure.\n" +
                 "4. Delete a save procedure.\n" +
                 "5. Launch all save procedures sequentially.\n" +
-                "9. Close application.\n"); // TEMPORAIRE // Ajouter une confirmation
+                "9. Close application.\n");
 
             return Console.ReadLine();
         }
 
+        //Allows the user to create a new save procedure by giving it's name, source path, destination path and type.
         public string[] CreateSaveProcedure()
         {
             string[] choice = new string[4];
@@ -96,10 +97,10 @@ namespace Projet_EasySave_v1._0
                 }
                 choice[i] = saveTypeChoice;
             }
-            Console.WriteLine("\nSuccess ! Save procedure has been created.");
-            return choice; // TEMPORAIRE //  retour au menu depuis le controller
+            return choice;
         }
 
+        //Allows the user to modifiy an existing save procedure name, source path, destination path and/or type.
         public SaveWork ModifySaveProcedure(SaveWork _save)
         {
             SaveWork modifiedSave = _save;
@@ -185,20 +186,7 @@ namespace Projet_EasySave_v1._0
         //Shows a different message depending on selection.
         public void TerminalMessage(string _type)
         {
-            switch (_type)
-            {
-                case "Launch":
-                    Console.WriteLine("\nSelect a save procedure to launch or return to the main menu :\n");
-                    break;
-                case "Modify":
-                    Console.WriteLine("\nSelect a save procedure to modify or return to the main menu :\n");
-                    break;
-                case "Delete":
-                    Console.WriteLine("\nSelect a save procedure to delete or return to the main menu :\n");
-                    break;
-                default:
-                    break;
-            }
+            Console.WriteLine("\nSelect a save procedure to " + _type + " or return to the main menu :\n");
         }
 
         //Shows the menu from which you can select a save procedure to delete. It receives all the procedures as a parameter.
