@@ -36,7 +36,13 @@ Developpers :
 
 # Installation
 Windows OS :
-<div class="highlight highlight-source-shell"><pre>fill in</pre></div>
+<div class="highlight highlight-source-shell">
+  <pre>
+    <li>Download the <a href="https://github.com/SlyverStorm/Projet-EasySave/releases/tag/1.0">latest release</a> up to date</li>
+    <li>Unzip file</li>
+    <li>Launch Projet Easy Save v1.0.exe</li>
+  </pre>
+</div>
 
 # Authors
 <ul>
