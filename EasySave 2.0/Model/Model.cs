@@ -7,11 +7,14 @@ using System.Text;
 
 namespace EasySave_2._0
 {
+    /// <summary>
+    /// Program data model class
+    /// </summary>
     class Model
     {
-        
-        //Model Class constructor, initiate Save Work in an array
-        //TODO: get save works value from the save work state json file
+        /// <summary>
+        /// Model Class constructor, initiate Save Work in a list (no parameters)
+        /// </summary>
         public Model()
         {
             //If the state file has not been initialized then create 5 SaveWork object from nothing
@@ -35,14 +38,23 @@ namespace EasySave_2._0
         //Store all 5 (max) save works
         private List<SaveWork> workList;
 
+        /// <summary>
+        /// The work list in model
+        /// </summary>
         public List<SaveWork> WorkList
         {
             get { return workList; }
             set { workList = value; }
         }
 
-        //Can create a save work from simple parameters
-        public void CreateWork(string _name, string _sourcePath, string _destinationPath, SaveWorkType _type)
+        /// <summary>
+        /// Can create a save work from simple parameters (private method)
+        /// </summary>
+        /// <param name="_name">Name of the work (must be different from existing ones)</param>
+        /// <param name="_sourcePath">The Source path to save</param>
+        /// <param name="_destinationPath">The Target destination to save files in</param>
+        /// <param name="_type">Save work type (complete or differential)</param>
+        private void CreateWork(string _name, string _sourcePath, string _destinationPath, SaveWorkType _type)
         {
             SaveWork tempSave = new SaveWork(_name, _sourcePath, _destinationPath, _type);
             WorkList.Add(tempSave);
@@ -50,7 +62,37 @@ namespace EasySave_2._0
             CreateLogLine("Creation of a new save work, name : " + tempSave.Name + ", source path : " + tempSave.SourcePath + ", destination path : "+tempSave.DestinationPath+", type : "+tempSave.Type);
         }
 
-        //Modify value of save works objects stored in workList, if there is any null parameters the value attached isn't changed
+        /// <summary>
+        /// Create a save work (with a complete save algorithm)
+        /// </summary>
+        /// <param name="_name">Name of the work (must be different from existing ones)</param>
+        /// <param name="_source">The Source path to save</param>
+        /// <param name="_destination">The Target destination to save files in</param>
+        public void CreateCompleteWork(string _name, string _source, string _destination)
+        {
+            CreateWork(_name, _source, _destination, SaveWorkType.complete);
+        }
+
+        /// <summary>
+        /// Create a save work (with a differential save algorithm)
+        /// </summary>
+        /// <param name="_name">Name of the work (must be different from existing ones)</param>
+        /// <param name="_source">The Source path to save</param>
+        /// <param name="_destination">The Target destination to save files in</param>
+        public void CreateDifferencialWork(string _name, string _source, string _destination)
+        {
+            CreateWork(_name, _source, _destination, SaveWorkType.differencial);
+        }
+
+
+        /// <summary>
+        /// Modify value of save works objects stored in workList, if there is any null parameters the value attached isn't changed
+        /// </summary>
+        /// <param name="_nb">Index of the work you want to change in the list</param>
+        /// <param name="_name">New name to apply to the work</param>
+        /// <param name="_sourcePath">New source path to apply to the work</param>
+        /// <param name="_destinationPath">New target destination path to apply to the work</param>
+        /// <param name="_type">New type of save work to apply to the work</param>
         public void ChangeWork(int _nb, string _name, string _sourcePath, string _destinationPath, SaveWorkType _type)
         {
             if (_name != "") { WorkList[_nb - 1].Name = _name; }
@@ -62,7 +104,10 @@ namespace EasySave_2._0
             CreateLogLine("Modification of a existing save work in position " + _nb + ", current parameters : name : " + WorkList[_nb - 1].Name + ", source path : " + WorkList[_nb - 1].SourcePath + ", destination path : " + WorkList[_nb - 1].DestinationPath + ", type : " + WorkList[_nb - 1].Type);
         }
 
-        //Can delete a save work (set to null)
+        /// <summary>
+        /// Can delete a save work (set to null)
+        /// </summary>
+        /// <param name="_nb">Index of the work in the list to delete</param>
         public void DeleteWork(int _nb)
         {
             workList[_nb - 1] = new SaveWork("","","",SaveWorkType.unset);
@@ -104,7 +149,10 @@ namespace EasySave_2._0
             return 0;
         }
 
-        //Can initiate a type of save from the numbers of the save work in workList.
+        /// <summary>
+        /// Can initiate a type of save from the numbers of the save work in workList.
+        /// </summary>
+        /// <param name="_nb">Index of the work in the list to execute the save process</param>
         public void DoSave(int _nb)
         {
             SaveWork work = WorkList[_nb - 1];
@@ -113,24 +161,32 @@ namespace EasySave_2._0
             {
                 if (work.Type == SaveWorkType.complete)
                 {
-                    CompleteSave(_nb);
+                    CompleteSave(work);
                 }
                 else if (work.Type == SaveWorkType.differencial)
                 {
-                    DifferencialSave(_nb);
+                    DifferencialSave(work);
                 }
             }
         }
 
-        //Launch a complete save from a SaveWork type parameter
-        private void CompleteSave(int _nb)
+        /// <summary>
+        /// Launch a complete save from a SaveWork type parameter
+        /// </summary>
+        /// <param name="work"></param>
+        private void CompleteSave(SaveWork work)
         {
-            CreateLogLine("Launching save work from position " + _nb + ", type : complete save");
-            CompleteCopy(_nb, WorkList[_nb - 1].SourcePath, WorkList[_nb - 1].DestinationPath);
-            CreateLogLine(WorkList[_nb - 1].Name + " save in position " + _nb + " DONE !");
+            CreateLogLine("Launching save work from work : " + work.Name + ", type : complete save");
+            CompleteCopy(WorkList.IndexOf(work) + 1, work.SourcePath, work.DestinationPath);
+            CreateLogLine(work.Name + " save DONE !");
         }
 
-        //Do a complete copy from a folder to another
+        /// <summary>
+        /// Do a complete copy from a folder to another
+        /// </summary>
+        /// <param name="_nb">Index of the save work</param>
+        /// <param name="_sourceDirectory">source directory path</param>
+        /// <param name="_targetDirectory">target destination directory path</param>
         private void CompleteCopy(int _nb, string _sourceDirectory, string _targetDirectory)
         {
             //Search directory info from source and target path
@@ -157,7 +213,12 @@ namespace EasySave_2._0
             CreateLogLine("Closing complete save work program ...");
         }
 
-        //Copy each file from a directory, and do the same for each subdirectory using recursion
+        /// <summary>
+        /// Copy each file from a directory, and do the same for each subdirectory using recursion
+        /// </summary>
+        /// <param name="_nb">Index of the save work</param>
+        /// <param name="_source">source directory path</param>
+        /// <param name="_target">target destination directory path</param>
         private void CompleteCopyAll(int _nb, DirectoryInfo _source, DirectoryInfo _target)
         {
 
@@ -198,15 +259,23 @@ namespace EasySave_2._0
             }
         }
 
-        //Launch a diffrencial save from a SaveWork parameter
-        private void DifferencialSave(int _nb)
+        /// <summary>
+        /// Launch a differencial save from a SaveWork parameter
+        /// </summary>
+        /// <param name="work"></param>
+        private void DifferencialSave(SaveWork work)
         {
-            CreateLogLine("Launching save work from position " + _nb + ", type : differencial save");
-            DifferencialCopy(_nb, WorkList[_nb - 1].SourcePath, WorkList[_nb - 1].DestinationPath);
-            CreateLogLine(WorkList[_nb - 1].Name + " save in position " + _nb + " DONE !");
+            CreateLogLine("Launching save work from work : " + work.Name + ", type : differencial save");
+            DifferencialCopy(WorkList.IndexOf(work) + 1, work.SourcePath, work.DestinationPath);
+            CreateLogLine(work.Name + " save DONE !");
         }
 
-        //Do a différential copy from a folder to another
+        /// <summary>
+        /// Do a differencial copy from a folder to another
+        /// </summary>
+        /// <param name="_nb">Index of the save work</param>
+        /// <param name="_sourceDirectory">source directory path</param>
+        /// <param name="_targetDirectory">target destination directory path</param>
         private void DifferencialCopy(int _nb, string _sourceDirectory, string _targetDirectory)
         {
             //Search directory info from source and target path
@@ -244,7 +313,12 @@ namespace EasySave_2._0
             CreateLogLine("Closing differencial save work program ...");
         }
 
-        //Copy each files (that has been modified since the last save) from a directory, and do the same for each subdirectory using recursion
+        /// <summary>
+        /// Copy each files (that has been modified since the last save) from a directory, and do the same for each subdirectory using recursion
+        /// </summary>
+        /// <param name="_nb">Index of the save work</param>
+        /// <param name="_source">source directory path</param>
+        /// <param name="_target">target destination directory path</param>
         private void DifferencialCopyAll(int _nb, DirectoryInfo _source, DirectoryInfo _target)
         {
             CreateLogLine("Creating target directory ...");
@@ -302,9 +376,10 @@ namespace EasySave_2._0
             }
         }
 
-
-
-        // Create the line to record in the log file
+        /// <summary>
+        /// Create the line to record in the log file
+        /// </summary>
+        /// <param name="_content">Content to write in the log</param>
         public void CreateLogLine(string _content)
         {
             //Check if file log.json doesn't exists, if so then create it and initialize it
@@ -332,7 +407,10 @@ namespace EasySave_2._0
 
         }
 
-        //Update the state file with the work list value
+        /// <summary>
+        /// Update the state file with the work list value
+        /// </summary>
+        /// <param name="_nb">Index of the save work process to update</param>
         public void UpdateSaveFile(int _nb)
         {
             if (_nb != 0)

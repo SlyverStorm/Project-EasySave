@@ -11,7 +11,6 @@ namespace Projet_EasySave_v1._0
     {
         
         //Model Class constructor, initiate Save Work in an array
-        //TODO: get save works value from the save work state json file
         public Model()
         {
             //If the state file has not been initialized then create 5 SaveWork object from nothing
