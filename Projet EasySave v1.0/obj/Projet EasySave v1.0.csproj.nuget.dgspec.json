@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Bureau\\Monarchy of Duty\\Année 3\\Bloc 2 - Programmation Système\\Projet\\CodeGit\\Projet EasySave v1.0\\Projet EasySave v1.0.csproj": {}
+    "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\Projet EasySave v1.0\\Projet EasySave v1.0.csproj": {}
   },
   "projects": {
-    "D:\\Bureau\\Monarchy of Duty\\Année 3\\Bloc 2 - Programmation Système\\Projet\\CodeGit\\Projet EasySave v1.0\\Projet EasySave v1.0.csproj": {
+    "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\Projet EasySave v1.0\\Projet EasySave v1.0.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Bureau\\Monarchy of Duty\\Année 3\\Bloc 2 - Programmation Système\\Projet\\CodeGit\\Projet EasySave v1.0\\Projet EasySave v1.0.csproj",
+        "projectUniqueName": "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\Projet EasySave v1.0\\Projet EasySave v1.0.csproj",
         "projectName": "Projet EasySave v1.0",
-        "projectPath": "D:\\Bureau\\Monarchy of Duty\\Année 3\\Bloc 2 - Programmation Système\\Projet\\CodeGit\\Projet EasySave v1.0\\Projet EasySave v1.0.csproj",
-        "packagesPath": "C:\\Users\\omen\\.nuget\\packages\\",
-        "outputPath": "D:\\Bureau\\Monarchy of Duty\\Année 3\\Bloc 2 - Programmation Système\\Projet\\CodeGit\\Projet EasySave v1.0\\obj\\",
+        "projectPath": "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\Projet EasySave v1.0\\Projet EasySave v1.0.csproj",
+        "packagesPath": "C:\\Users\\ricar\\.nuget\\packages\\",
+        "outputPath": "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\Projet EasySave v1.0\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\omen\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ricar\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
