@@ -42,12 +42,12 @@ namespace EasySave_2._0
         }
 
         //Can create a save work from simple parameters
-        public void CreateWork(int _nb, string _name, string _sourcePath, string _destinationPath, SaveWorkType _type)
+        public void CreateWork(string _name, string _sourcePath, string _destinationPath, SaveWorkType _type)
         {
             SaveWork tempSave = new SaveWork(_name, _sourcePath, _destinationPath, _type);
-            WorkList[_nb - 1] = tempSave;
-            UpdateSaveFile(_nb);
-            CreateLogLine("Creation of a new save work in position " + _nb + ", name : " + tempSave.Name + ", source path : " + tempSave.SourcePath + ", destination path : "+tempSave.DestinationPath+", type : "+tempSave.Type);
+            WorkList.Add(tempSave);
+            UpdateSaveFile(WorkList.IndexOf(tempSave));
+            CreateLogLine("Creation of a new save work, name : " + tempSave.Name + ", source path : " + tempSave.SourcePath + ", destination path : "+tempSave.DestinationPath+", type : "+tempSave.Type);
         }
 
         //Modify value of save works objects stored in workList, if there is any null parameters the value attached isn't changed
@@ -68,6 +68,40 @@ namespace EasySave_2._0
             workList[_nb - 1] = new SaveWork("","","",SaveWorkType.unset);
             UpdateSaveFile(_nb);
             CreateLogLine("Supression of save work in position"+_nb);
+        }
+
+        /// <summary>
+        /// This method check if a work already exists in the WorkList, matching with their name
+        /// </summary>
+        /// <param name="_name">The name of the work you want to check</param>
+        /// <returns></returns>
+        public bool IfSaveWorkAlreadyExists(string _name)
+        {
+            foreach(SaveWork work in WorkList)
+            {
+                if (work.Name == _name)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Get the index of a specified work in WorkList, matching with their name
+        /// </summary>
+        /// <param name="_name">The name of the work you want the index in the list</param>
+        /// <returns></returns>
+        public int GetWorkIndex(string _name)
+        {
+            foreach(SaveWork work in WorkList)
+            {
+                if(work.Name == _name)
+                {
+                    return WorkList.IndexOf(work);
+                }
+            }
+            return 0;
         }
 
         //Can initiate a type of save from the numbers of the save work in workList.
@@ -273,6 +307,11 @@ namespace EasySave_2._0
         // Create the line to record in the log file
         public void CreateLogLine(string _content)
         {
+            //Check if file log.json doesn't exists, if so then create it and initialize it
+            if (!File.Exists("log.json"))
+            {
+                File.WriteAllText("log.json", "[]");
+            }
             //New LogLine object with Time and content
             LogLine newLogLine = new LogLine(_content);
 
