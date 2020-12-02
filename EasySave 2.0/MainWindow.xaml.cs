@@ -23,6 +23,7 @@ namespace EasySave_2._0
         public MainWindow()
         {
             InitializeComponent();
+            Model model = new Model();
         }
     }
 }
