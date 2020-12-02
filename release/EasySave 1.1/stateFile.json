@@ -1,0 +1,47 @@
+[
+  {
+    "Name": "ALLO",
+    "SourcePath": "D:/save/source",
+    "DestinationPath": "D:/save/destinationALLO",
+    "Type": 0,
+    "CreationTime": "02/12/2020 10:13:47",
+    "IsActive": false,
+    "SaveProgress": null
+  },
+  {
+    "Name": "",
+    "SourcePath": "",
+    "DestinationPath": "",
+    "Type": 2,
+    "CreationTime": "02/12/2020 10:13:07",
+    "IsActive": false,
+    "SaveProgress": null
+  },
+  {
+    "Name": "",
+    "SourcePath": "",
+    "DestinationPath": "",
+    "Type": 2,
+    "CreationTime": "02/12/2020 10:13:07",
+    "IsActive": false,
+    "SaveProgress": null
+  },
+  {
+    "Name": "",
+    "SourcePath": "",
+    "DestinationPath": "",
+    "Type": 2,
+    "CreationTime": "02/12/2020 10:13:07",
+    "IsActive": false,
+    "SaveProgress": null
+  },
+  {
+    "Name": "",
+    "SourcePath": "",
+    "DestinationPath": "",
+    "Type": 2,
+    "CreationTime": "02/12/2020 10:13:07",
+    "IsActive": false,
+    "SaveProgress": null
+  }
+]

@@ -52,19 +52,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ricar\\.nuget\\packages\\": {}
+    "C:\\Users\\omen\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\EasySave 2.0\\EasySave 2.0.csproj",
+      "projectUniqueName": "D:\\Bureau\\Monarchy of Duty\\Année 3\\Bloc 2 - Programmation Système\\Projet\\CodeGit\\EasySave 2.0\\EasySave 2.0.csproj",
       "projectName": "EasySave 2.0",
-      "projectPath": "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\EasySave 2.0\\EasySave 2.0.csproj",
-      "packagesPath": "C:\\Users\\ricar\\.nuget\\packages\\",
-      "outputPath": "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\EasySave 2.0\\obj\\",
+      "projectPath": "D:\\Bureau\\Monarchy of Duty\\Année 3\\Bloc 2 - Programmation Système\\Projet\\CodeGit\\EasySave 2.0\\EasySave 2.0.csproj",
+      "packagesPath": "C:\\Users\\omen\\.nuget\\packages\\",
+      "outputPath": "D:\\Bureau\\Monarchy of Duty\\Année 3\\Bloc 2 - Programmation Système\\Projet\\CodeGit\\EasySave 2.0\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\ricar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\omen\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
