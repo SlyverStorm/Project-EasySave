@@ -5,8 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasySave_2._0"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="500" Width="900">
+    <Grid ShowGridLines="true" Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="190*"/>
+            <ColumnDefinition Width="30*"/>
+            <ColumnDefinition Width="360*"/>
+            <ColumnDefinition Width="30*"/>
+            <ColumnDefinition Width="190*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+        </Grid.RowDefinitions>
 
+        <!-- Header -->
+        <TextBlock Grid.ColumnSpan="3" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="EasySave v.2.0" TextWrapping="Wrap" FontSize="60" FontWeight="Bold"/>
+
+        <!-- Launch Save Procedure -->
+        <Button Name="launchSaveProcedure" Content="Launch save procedure" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1" Margin="15,15,15,15" Background="#FFE7F4FD" FontSize="20" FontWeight="Bold" FontStyle="Normal" Click="launchSaveProcedure_Click"/>
+
+        <!-- Create Save Procedure -->
+        <Button Name="createSaveProcedure" Content="Create save procedure" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2" Margin="15,15,15,15" Background="#FFE7F4FD" FontSize="20" FontWeight="Bold" FontStyle="Normal" Click="createSaveProcedure_Click"/>
+
+        <!-- Modify Save Procedure -->
+        <Button Name="modifySaveProcedure" Content="Modify save procedure" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="3" Margin="15,15,15,15" Background="#FFE7F4FD" FontSize="20" FontWeight="Bold" FontStyle="Normal" Click="modifySaveProcedure_Click"/>
+
+        <!-- Delete Save Procedure -->
+        <Button Name="deleteSaveProcedure" Content="Delete save procedure" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4" Margin="15,15,15,15" Background="#FFE7F4FD" FontSize="20" FontWeight="Bold" FontStyle="Normal" Click="deleteSaveProcedure_Click"/>
     </Grid>
 </Window>
