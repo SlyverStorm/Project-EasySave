@@ -356,13 +356,17 @@ namespace EasySave_2._0
         }
 
 
-        // Check if the Sofware is launched
-        public bool CheckIfSoftwareIsLaunched()
+        /// <summary>
+        /// Check if the Sofware is launched
+        /// </summary>
+        /// <param name="_processName">The name of the process you want to check</param>
+        /// <returns></returns>
+        public bool CheckIfSoftwareIsLaunched(string _processName)
         {
             bool softwareIsLaunched;
 
             // Check if the Sofware (Calculator for testing purpose) is launched
-            if (Process.GetProcessesByName("Calculator").Length == 0)
+            if (Process.GetProcessesByName(_processName).Length == 0)
             {
                 // The software isn't launched
                 softwareIsLaunched = false;
