@@ -316,5 +316,24 @@ namespace EasySave_2._0
             File.WriteAllText("stateFile.json", convertedJson);
         }
 
+
+        // Check if the Sofware is launched
+        public bool CheckIfSoftwareIsLaunched()
+        {
+            bool softwareIsLaunched;
+
+            // Check if the Sofware (Calculator for testing purpose) is launched
+            if (Process.GetProcessesByName("Calculator").Length == 0)
+            {
+                // The software isn't launched
+                softwareIsLaunched = false;
+            } else
+            {
+                // The software is launched
+                softwareIsLaunched = true;
+            }
+            return softwareIsLaunched;
+        }
+
     }
 }
