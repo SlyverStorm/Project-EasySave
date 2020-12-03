@@ -27,42 +27,11 @@ namespace EasySave_2._0
         }
 
         /// <summary>
-        /// On click, launch one or more save procedures.
+        /// On click, save new or modified procedure.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void launchSaveProcedure_Click(object sender, RoutedEventArgs e)
-        {
-            // faire en sorte de charger une nouvelle frame --> fichier create save par exemple
-            MessageBox.Show($"Launch save procedure");
-        }
-
-        /// <summary>
-        /// On click, create a save procedure.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void createSaveProcedure_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        /// <summary>
-        /// On click, modify a save procedure.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void modifySaveProcedure_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        /// <summary>
-        /// On click, delete a save procedure.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void deleteSaveProcedure_Click(object sender, RoutedEventArgs e)
+        private void saveConfirmForm_Click(object sender, RoutedEventArgs e)
         {
 
         }

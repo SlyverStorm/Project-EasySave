@@ -19,22 +19,16 @@
             <RowDefinition Height="40*"/>
             <RowDefinition Height="40*"/>
             <RowDefinition Height="40*"/>
-            <RowDefinition Height="40*"/>
         </Grid.RowDefinitions>
 
         <!-- Header -->
         <TextBlock Grid.ColumnSpan="3" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="EasySave v.2.0" TextWrapping="Wrap" FontSize="60" FontWeight="Bold"/>
 
         <!-- Launch Save Procedure -->
-        <Button Name="launchSaveProcedure" Content="Launch save procedure" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1" Margin="15,15,15,15" Background="#FFE7F4FD" FontSize="20" FontWeight="Bold" FontStyle="Normal" Click="launchSaveProcedure_Click"/>
+        <Button Name="SaveProcedure" Content="Launch save procedure" Grid.Column="2" Grid.Row="1" Margin="40,15,40,15" Background="#FFE7F4FD" FontSize="20" FontWeight="Bold" FontStyle="Normal" Click="launchSaveProcedure_Click"/>
 
         <!-- Create Save Procedure -->
-        <Button Name="createSaveProcedure" Content="Create save procedure" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2" Margin="15,15,15,15" Background="#FFE7F4FD" FontSize="20" FontWeight="Bold" FontStyle="Normal" Click="createSaveProcedure_Click"/>
-
-        <!-- Modify Save Procedure -->
-        <Button Name="modifySaveProcedure" Content="Modify save procedure" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="3" Margin="15,15,15,15" Background="#FFE7F4FD" FontSize="20" FontWeight="Bold" FontStyle="Normal" Click="modifySaveProcedure_Click"/>
-
-        <!-- Delete Save Procedure -->
-        <Button Name="deleteSaveProcedure" Content="Delete save procedure" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4" Margin="15,15,15,15" Background="#FFE7F4FD" FontSize="20" FontWeight="Bold" FontStyle="Normal" Click="deleteSaveProcedure_Click"/>
+        <Button Name="fileEncryption" Content="File Encryption" Grid.Column="2" Grid.Row="2" Margin="40,15,40,15" Background="#FFE7F4FD" FontSize="20" FontWeight="Bold" FontStyle="Normal" Click="createSaveProcedure_Click"/>
+        
     </Grid>
 </Window>
