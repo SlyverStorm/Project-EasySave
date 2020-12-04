@@ -28,7 +28,7 @@
         <!--#endregion-->
 
         <!--#region i18n-->
-        <ComboBox x:Name="language" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontWeight="DemiBold" Width="85" SelectionChanged="language_SelectionChanged">
+        <ComboBox x:Name="language" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontWeight="DemiBold" Width="85">
             <ComboBoxItem IsSelected="True">English</ComboBoxItem>
             <ComboBoxItem>Français</ComboBoxItem>
         </ComboBox>
@@ -53,11 +53,11 @@
         <!--#endregion-->
 
         <!--#region Confirm Form-->
-        <Button x:Name="saveConfirmForm" Content="Confirm" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Margin="10,12,10,12" Height="25" FontSize="14" FontWeight="DemiBold" Click="saveConfirmForm_Click"/>
+        <Button x:Name="saveConfirmForm" Content="Confirm" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Margin="10,10,10,10" Height="25" FontSize="14" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         <!--#endregion-->
 
         <!--#region Delete Save-->
-        <Button x:Name="deleteSave" Content="Delete" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="6" Margin="10,87,10,86" FontSize="14" Height="25" FontWeight="DemiBold"/>
+        <Button x:Name="deleteSave" Content="Delete" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="6" Margin="10,12,10,12" Height="25" FontSize="14" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         <!--#endregion-->
 
         <!--#region Save List-->
