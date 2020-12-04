@@ -6,7 +6,7 @@ using System.Text;
 namespace EasySave_2._0
 {
     //Static class used to calculate the number of files in directory, or the total size of a directory
-    static class SourceDirectoryInfo
+    static class EasySaveInfo
     {
         //Define the number of file in a specific directory
         static long filesSize= 0;

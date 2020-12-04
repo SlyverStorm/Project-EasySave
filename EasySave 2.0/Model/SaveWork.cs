@@ -4,6 +4,9 @@ using System.Text;
 
 namespace EasySave_2._0
 {
+
+    public delegate void SaveWorkUpdateDelegate(int _index);
+
     class SaveWork
     {
 
