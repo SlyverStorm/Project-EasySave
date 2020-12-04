@@ -25,6 +25,12 @@ namespace EasySave_2._0
             InitializeComponent();
         }
 
+        #region Variables
+
+
+
+        #endregion
+
         #region Methodes
 
 
