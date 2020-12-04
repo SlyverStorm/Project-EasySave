@@ -24,45 +24,44 @@
         </Grid.RowDefinitions>
 
         <!--#region Header-->
-        <Label Content="EasySave 2.0" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold"/>
+        <Label x:Name="title" Content="EasySave 2.0" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold"/>
         <!--#endregion-->
 
         <!--#region Save Form-->
-        <Label Content="Name" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-        <TextBox Name="saveNameForm" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" Width="600" Height="25" VerticalContentAlignment="Center"/>
-        <Label Content="Source Path" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-        <TextBox Name="saveSourcePathForm" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" Width="600" Height="25" VerticalContentAlignment="Center"/>
-        <Label Content="Destination Path" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-        <TextBox Name="saveDestinaitonPathForm" Grid.Column="1" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" Width="600" Height="25" VerticalContentAlignment="Center"/>
-        <Label Content="Save Type" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-        <ComboBox Name="saveTypeForm" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="600" Height="25">
+        <Label Name="saveNameLabel" Content="Name" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+        <TextBox x:Name="saveNameForm" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" Width="600" Height="25" VerticalContentAlignment="Center"/>
+        <Label Name="sourcePathLabel" Content="Source Path" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+        <TextBox x:Name="saveSourcePathForm" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" Width="600" Height="25" VerticalContentAlignment="Center"/>
+        <Label Name="destinationPathLabel" Content="Destination Path" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+        <TextBox x:Name="saveDestinaitonPathForm" Grid.Column="1" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" Width="600" Height="25" VerticalContentAlignment="Center"/>
+        <Label Name="saveTypeLabel" Content="Save Type" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+        <ComboBox x:Name="saveTypeForm" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="600" Height="25">
             <ComboBoxItem IsSelected="True">Complete</ComboBoxItem>
             <ComboBoxItem>Differential</ComboBoxItem>
         </ComboBox>
         <Label Content="Encryption" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-        <ComboBox Name="x" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Center" Width="600" Height="25" VerticalContentAlignment="Center">
-            <ComboBoxItem>wait for binding</ComboBoxItem>
-                <!--<TextBlock Text="{Binding fileExtention}"/>
-            </ComboBoxItem>-->
+        <ComboBox x:Name="pickEncryptionForm" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Center" Width="600" Height="25" VerticalContentAlignment="Center">
+            <ComboBoxItem IsSelected="True">wait for binding</ComboBoxItem>
         </ComboBox>
         <!--#endregion-->
 
         <!--#region Confirm Form-->
-        <Button Name="saveConfirmForm" Content="Confirm" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Margin="10" FontSize="14" Height="25" FontWeight="DemiBold" Click="saveConfirmForm_Click"/>
+        <Button x:Name="saveConfirmForm" Content="Confirm" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Margin="10" FontSize="14" Height="25" FontWeight="DemiBold" Click="saveConfirmForm_Click"/>
         <!--#endregion-->
 
         <!--#region Delete Save-->
-        <Button Name="deleteSave" Content="Delete" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="6" Margin="10" FontSize="14" Height="25" FontWeight="DemiBold"/>
+        <Button x:Name="deleteSave" Content="Delete" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="6" Margin="10" FontSize="14" Height="25" FontWeight="DemiBold"/>
         <!--#endregion-->
 
         <!--#region Save List-->
-        <ListView Name="saveGrid" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="10" ItemsSource="{Binding Save}">
+        <ListView x:Name="saveList" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="10" ItemsSource="{Binding Save}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding SaveId}"  Width="140"/>
-                    <GridViewColumn Header="Source Path" DisplayMemberBinding="{Binding SourcePath}"  Width="220" />
-                    <GridViewColumn Header="Destination Path" DisplayMemberBinding="{Binding DestinationPath}" Width="220" />
-                    <GridViewColumn Header="Save Type" DisplayMemberBinding="{Binding SaveType}" Width="150" />
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding SaveId}" Width="140"/>
+                    <GridViewColumn Header="Source Path" DisplayMemberBinding="{Binding SourcePath}" Width="200" />
+                    <GridViewColumn Header="Destination Path" DisplayMemberBinding="{Binding DestinationPath}" Width="200" />
+                    <GridViewColumn Header="Save Type" DisplayMemberBinding="{Binding SaveType}" Width="100" />
+                    <GridViewColumn Header="Encryption" DisplayMemberBinding="{Binding EncryptedFile}" Width="100" />
                 </GridView>
             </ListView.View>
         </ListView>
