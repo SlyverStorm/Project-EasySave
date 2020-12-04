@@ -23,17 +23,13 @@ namespace EasySave_2._0
         public MainWindow()
         {
             InitializeComponent();
-            Model model = new Model();
         }
 
-        /// <summary>
-        /// On click, save new or modified procedure.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void saveConfirmForm_Click(object sender, RoutedEventArgs e)
-        {
+        #region Methodes
 
-        }
+
+
+        #endregion
+
     }
 }

@@ -13,5 +13,14 @@ namespace EasySave_2._0
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            MainWindow app = new MainWindow();
+            MainViewModel context = new MainViewModel();
+            app.DataContext = context;
+            app.Show();
+        }
     }
 }

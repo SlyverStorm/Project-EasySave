@@ -46,7 +46,7 @@
         <!--#endregion-->
 
         <!--#region Confirm Form-->
-        <Button x:Name="saveConfirmForm" Content="Confirm" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Margin="10" FontSize="14" Height="25" FontWeight="DemiBold" Click="saveConfirmForm_Click"/>
+        <Button x:Name="saveConfirmForm" Content="Confirm" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Margin="10" FontSize="14" Height="25" FontWeight="DemiBold"/>
         <!--#endregion-->
 
         <!--#region Delete Save-->
