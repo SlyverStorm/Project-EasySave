@@ -8,10 +8,11 @@
         Title="MainWindow" Height="500" Width="900">
     <Grid ShowGridLines="True" Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="65*"/>
-            <ColumnDefinition Width="250*"/>
-            <ColumnDefinition Width="25*"/>
-            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="160*"/>
+            <ColumnDefinition Width="539*"/>
+            <ColumnDefinition Width="77*"/>
+            <ColumnDefinition Width="60*"/>
+            <ColumnDefinition Width="60*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="40*"/>
@@ -24,37 +25,44 @@
         </Grid.RowDefinitions>
 
         <!--#region Header-->
-        <Label x:Name="title" Content="EasySave 2.0" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold"/>
+        <Label x:Name="title" Content="EasySave 2.0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="244,0,0,0"/>
+        <!--#endregion-->
+
+        <!--#region i18n-->
+        <ComboBox x:Name="language" Grid.Column="3" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left" VerticalContentAlignment="Center" FontSize="14" FontWeight="DemiBold" Width="85" Margin="19,0,0,0" SelectionChanged="language_SelectionChanged">
+            <ComboBoxItem IsSelected="True">English</ComboBoxItem>
+            <ComboBoxItem>Français</ComboBoxItem>
+        </ComboBox>
         <!--#endregion-->
 
         <!--#region Save Form-->
-        <Label Name="saveNameLabel" Content="Name" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-        <TextBox x:Name="saveNameForm" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" Width="600" Height="25" VerticalContentAlignment="Center"/>
-        <Label Name="sourcePathLabel" Content="Source Path" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-        <TextBox x:Name="saveSourcePathForm" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" Width="600" Height="25" VerticalContentAlignment="Center"/>
-        <Label Name="destinationPathLabel" Content="Destination Path" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-        <TextBox x:Name="saveDestinaitonPathForm" Grid.Column="1" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" Width="600" Height="25" VerticalContentAlignment="Center"/>
-        <Label Name="saveTypeLabel" Content="Save Type" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-        <ComboBox x:Name="saveTypeForm" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="600" Height="25">
+        <Label Name="saveNameLabel" Content="Name" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+        <TextBox x:Name="saveNameForm" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Width="600" Height="25" VerticalContentAlignment="Center" Grid.ColumnSpan="2" Margin="8,0,0,0"/>
+        <Label Name="sourcePathLabel" Content="Source Path" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+        <TextBox x:Name="saveSourcePathForm" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Width="600" Height="25" VerticalContentAlignment="Center" Grid.ColumnSpan="2" Margin="8,0,0,0"/>
+        <Label Name="destinationPathLabel" Content="Destination Path" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+        <TextBox x:Name="saveDestinaitonPathForm" Grid.Column="1" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Width="600" Height="25" VerticalContentAlignment="Center" Grid.ColumnSpan="2" Margin="8,0,0,0"/>
+        <Label Name="saveTypeLabel" Content="Save Type" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+        <ComboBox x:Name="saveTypeForm" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="600" Height="25" Grid.ColumnSpan="2" Margin="8,0,0,0">
             <ComboBoxItem IsSelected="True">Complete</ComboBoxItem>
             <ComboBoxItem>Differential</ComboBoxItem>
         </ComboBox>
-        <Label Content="Encryption" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-        <ComboBox x:Name="pickEncryptionForm" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Center" Width="600" Height="25" VerticalContentAlignment="Center">
+        <Label Content="Encryption" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+        <ComboBox x:Name="pickEncryptionForm" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Left" Width="600" Height="25" VerticalContentAlignment="Center" Grid.ColumnSpan="2" Margin="8,0,0,0">
             <ComboBoxItem IsSelected="True">wait for binding</ComboBoxItem>
         </ComboBox>
         <!--#endregion-->
 
         <!--#region Confirm Form-->
-        <Button x:Name="saveConfirmForm" Content="Confirm" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Margin="10" FontSize="14" Height="25" FontWeight="DemiBold" Click="saveConfirmForm_Click"/>
+        <Button x:Name="saveConfirmForm" Content="Confirm" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="1" Margin="10,12,10,12" Height="25" FontSize="14" FontWeight="DemiBold" Click="saveConfirmForm_Click"/>
         <!--#endregion-->
 
         <!--#region Delete Save-->
-        <Button x:Name="deleteSave" Content="Delete" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="6" Margin="10" FontSize="14" Height="25" FontWeight="DemiBold"/>
+        <Button x:Name="deleteSave" Content="Delete" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="6" Margin="10,87,10,86" FontSize="14" Height="25" FontWeight="DemiBold"/>
         <!--#endregion-->
 
         <!--#region Save List-->
-        <ListView x:Name="saveList" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="10" ItemsSource="{Binding Save}">
+        <ListView x:Name="saveList" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" Margin="10,10,10,10" ItemsSource="{Binding Save}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding SaveId}" Width="140"/>
