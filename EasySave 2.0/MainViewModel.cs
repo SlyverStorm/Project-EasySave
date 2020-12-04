@@ -11,6 +11,46 @@ namespace EasySave_2._0
 
         #region Methodes
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public void CreateSaveProcedure()
+        {
+
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        public void ModifySaveProcedure()
+        {
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void DeleteSaveProcedure()
+        {
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void LaunchSaveProcedure()
+        {
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void LaunchAllSaveProcedures()
+        {
+
+        }
+
         #endregion
 
     }
