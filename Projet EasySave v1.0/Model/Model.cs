@@ -272,6 +272,11 @@ namespace Projet_EasySave_v1._0
         // Create the line to record in the log file
         public void CreateLogLine(string _content)
         {
+            if (!File.Exists("log.json"))
+            {
+                File.WriteAllText("log.json", "[]");
+            }
+
             //New LogLine object with Time and content
             LogLine newLogLine = new LogLine(_content);
 
