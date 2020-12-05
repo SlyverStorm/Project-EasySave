@@ -127,6 +127,17 @@ namespace EasySave_2._0
             return filesSize;
         }
 
+        /// <summary>
+        /// Return in a string the extension of a specified file.
+        /// </summary>
+        /// <param name="targetFile">FileInfo of the target file</param>
+        /// <returns></returns>
+        public static string GetFileExtension(FileInfo targetFile)
+        {
+            string fileExtension = targetFile.Extension;
+
+            return fileExtension;
+        }
 
 
         /// <summary>
