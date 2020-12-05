@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics;
 
 namespace EasySave_2._0
 {
@@ -124,6 +125,31 @@ namespace EasySave_2._0
             }
 
             return filesSize;
+        }
+
+
+
+        /// <summary>
+        /// Check if the Sofware is launched.
+        /// </summary>
+        /// <param name="_processName">The name of the process you want to check</param>
+        /// <returns></returns>
+        public static bool CheckIfSoftwareIsLaunched(string _processName)
+        {
+            bool softwareIsLaunched;
+
+            // Check if the Sofware (Calculator for testing purpose) is launched
+            if (Process.GetProcessesByName(_processName).Length == 0)
+            {
+                // The software isn't launched
+                softwareIsLaunched = false;
+            }
+            else
+            {
+                // The software is launched
+                softwareIsLaunched = true;
+            }
+            return softwareIsLaunched;
         }
 
     }

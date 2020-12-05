@@ -11,4 +11,10 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="CryptoSoft">
+      <HintPath>C:\Users\omen\Desktop\CryptoSoft.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
