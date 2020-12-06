@@ -46,13 +46,13 @@ namespace EasySave_2._0
         /// </summary>
         public static void InitSoftwareLogLine()
         {
-            CreateLogLine("Initialisation of the Sofware at: " + DateTime.Now); 
+            CreateLogLine("Initialisation of the Sofware at: " + DateTime.Now);
         }
 
         /// <summary>
         /// Create a Log Line about: the creation of a new save.
         /// </summary>
-        /// <param name="_nb"></param>
+        /// <param name="_nb">ID of the save</param>
         /// <param name="WorkList"></param>
         public static void CreateWorkLogLine(int _nb, List<ISaveWork> WorkList)
         {
@@ -62,7 +62,7 @@ namespace EasySave_2._0
         /// <summary>
         /// Create a Log Line about: the modification of a save.
         /// </summary>
-        /// <param name="_nb"></param>
+        /// <param name="_nb">ID of the save</param>
         /// <param name="WorkList"></param>
         public static void ChangeWorkLogLine(int _nb, List<ISaveWork> WorkList)
         {
@@ -72,7 +72,7 @@ namespace EasySave_2._0
         /// <summary>
         /// Create a Log Line about: The supression of a save.
         /// </summary>
-        /// <param name="_nb"></param>
+        /// <param name="_nb">ID of the save</param>
         public static void DeleteWorkLogLine(int _nb)
         {
             CreateLogLine("Supression of save work in position" + _nb);
@@ -90,11 +90,74 @@ namespace EasySave_2._0
         /// <summary>
         /// Create a Log Line about: The launch of a savework 
         /// </summary>
-        /// <param name="_nb"></param>
+        /// <param name="_nb">ID of the save</param>
         public static void LaunchingSaveLogLine(int _nb)
         {
             CreateLogLine("Launching of the savework " + _nb);
         }
 
+        /// <summary>
+        /// Create a Log Line about: The current save 
+        /// </summary>
+        /// <param name="_nb">ID of the save</param>
+        /// <param name="WorkList"></param>
+        /// <param name="fi"></param>
+        public static void SavingInfoLogLine(int _nb, List<ISaveWork> WorkList, FileInfo fi)
+        {
+            CreateLogLine("Saving " + fi.FullName + " in " + WorkList[_nb - 1].Progress.CurrentDestinationFilePath + ", size : " + fi.Length + " Bytes");
+        }
+
+        /// <summary>
+        /// Create a Log Line about: The start of a saving action
+        /// </summary>
+        /// <param name="_nb"></param>
+        /// <param name="WorkList"></param>
+        public static void StartSaveLogLine(int _nb, List<ISaveWork> WorkList)
+        {
+            CreateLogLine("Launching save work from work : " + WorkList[_nb - 1].Name + ", type : " + WorkList[_nb - 1].Type);
+        }
+
+        /// <summary>
+        /// Create a Log Line about: The end of a saving action
+        /// </summary>
+        /// <param name="_nb"></param>
+        /// <param name="WorkList"></param>
+        /// <param name="timeSpend"></param>
+        public static void FinishSaveLogLine(int _nb, List<ISaveWork> WorkList, string timeSpend)
+        {
+            CreateLogLine(WorkList[_nb - 1].Name + " succesfully saved ! Time spend : " + timeSpend);
+        }
+
+        /// <summary>
+        /// Create a Log Line about: The creation of a new directory
+        /// </summary>
+        /// <param name="filePath"></param>
+        public static void CreateDirectoryLogLine(DirectoryInfo filePath)
+        {
+            CreateLogLine("Creating target directory in : " + filePath.FullName);
+        }
+
+        /// <summary>
+        /// Create a Log Line about: Start copy a file
+        /// </summary>
+        /// <param name="fi"></param>
+        public static void StartCopyFileLogLine(FileInfo fi)
+        {
+            CreateLogLine("Start copy" + fi.Name);
+
+        }
+
+        /// <summary>
+        /// Create a Log Line about: End copy a file
+        /// </summary>
+        /// <param name="fi"></param>
+        /// <param name="timeSpend"></param>
+        public static void FinishCopyFileLogLine(FileInfo fi)
+        {
+            CreateLogLine(fi.Name + " succesfully copy !");
+
+        }
+
     }
 }
+
