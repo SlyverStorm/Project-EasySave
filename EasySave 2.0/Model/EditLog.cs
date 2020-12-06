@@ -53,7 +53,7 @@ namespace EasySave_2._0
         /// Create a Log Line about: the creation of a new save.
         /// </summary>
         /// <param name="_nb">ID of the save</param>
-        /// <param name="WorkList"></param>
+        /// <param name="WorkList">WorkList of the save</param>
         public static void CreateWorkLogLine(int _nb, List<ISaveWork> WorkList)
         {
             CreateLogLine("Creation of a new save work, name : " + WorkList[_nb - 1].Name + ", source path : " + WorkList[_nb - 1].SourcePath + ", destination path : " + WorkList[_nb - 1].DestinationPath + ", type : " + WorkList[_nb - 1].Type);
@@ -63,7 +63,7 @@ namespace EasySave_2._0
         /// Create a Log Line about: the modification of a save.
         /// </summary>
         /// <param name="_nb">ID of the save</param>
-        /// <param name="WorkList"></param>
+        /// <param name="WorkList">WorkList of the save</param>
         public static void ChangeWorkLogLine(int _nb, List<ISaveWork> WorkList)
         {
             CreateLogLine("Modification of a existing save work in position " + _nb + ", current parameters : name : " + WorkList[_nb - 1].Name + ", source path : " + WorkList[_nb - 1].SourcePath + ", destination path : " + WorkList[_nb - 1].DestinationPath + ", type : " + WorkList[_nb - 1].Type);
@@ -81,7 +81,7 @@ namespace EasySave_2._0
         /// <summary>
         /// Create a Log Line about: The research of an existing savework
         /// </summary>
-        /// <param name="saveWorkName"></param>
+        /// <param name="saveWorkName">Name of the save</param>
         public static void SaveWorkAlreadyExistsLogLine(string saveWorkName)
         {
             CreateLogLine("The search savework named : " + saveWorkName + " already exist");
@@ -100,8 +100,8 @@ namespace EasySave_2._0
         /// Create a Log Line about: The current save 
         /// </summary>
         /// <param name="_nb">ID of the save</param>
-        /// <param name="WorkList"></param>
-        /// <param name="fi"></param>
+        /// <param name="WorkList">WorkList of the save</param>
+        /// <param name="fi">FileInfo of the file</param>
         public static void SavingInfoLogLine(int _nb, List<ISaveWork> WorkList, FileInfo fi)
         {
             CreateLogLine("Saving " + fi.FullName + " in " + WorkList[_nb - 1].Progress.CurrentDestinationFilePath + ", size : " + fi.Length + " Bytes");
@@ -110,8 +110,8 @@ namespace EasySave_2._0
         /// <summary>
         /// Create a Log Line about: The start of a saving action
         /// </summary>
-        /// <param name="_nb"></param>
-        /// <param name="WorkList"></param>
+        /// <param name="_nb">ID of the save</param>
+        /// <param name="WorkList">WorkList of the save</param>
         public static void StartSaveLogLine(int _nb, List<ISaveWork> WorkList)
         {
             CreateLogLine("Launching save work from work : " + WorkList[_nb - 1].Name + ", type : " + WorkList[_nb - 1].Type);
@@ -120,9 +120,9 @@ namespace EasySave_2._0
         /// <summary>
         /// Create a Log Line about: The end of a saving action
         /// </summary>
-        /// <param name="_nb"></param>
-        /// <param name="WorkList"></param>
-        /// <param name="timeSpend"></param>
+        /// <param name="_nb">ID of the save</param>
+        /// <param name="WorkList">WorkList of the save</param>
+        /// <param name="timeSpend">time spend between the start and the end of the save</param>
         public static void FinishSaveLogLine(int _nb, List<ISaveWork> WorkList, string timeSpend)
         {
             CreateLogLine(WorkList[_nb - 1].Name + " succesfully saved ! Time spend : " + timeSpend);
@@ -131,7 +131,7 @@ namespace EasySave_2._0
         /// <summary>
         /// Create a Log Line about: The creation of a new directory
         /// </summary>
-        /// <param name="filePath"></param>
+        /// <param name="filePath">DirectoryInfo of the file</param>
         public static void CreateDirectoryLogLine(DirectoryInfo filePath)
         {
             CreateLogLine("Creating target directory in : " + filePath.FullName);
@@ -140,7 +140,7 @@ namespace EasySave_2._0
         /// <summary>
         /// Create a Log Line about: Start copy a file
         /// </summary>
-        /// <param name="fi"></param>
+        /// <param name="fi">FileInfo of the file</param>
         public static void StartCopyFileLogLine(FileInfo fi)
         {
             CreateLogLine("Start copy" + fi.Name);
@@ -150,7 +150,7 @@ namespace EasySave_2._0
         /// <summary>
         /// Create a Log Line about: End copy a file
         /// </summary>
-        /// <param name="fi"></param>
+        /// <param name="fi">FileInfo of the file</param>
         /// <param name="timeSpend"></param>
         public static void FinishCopyFileLogLine(FileInfo fi)
         {
