@@ -40,5 +40,61 @@ namespace EasySave_2._0
 
         }
 
+
+        /// <summary>
+        /// Create a Log Line about: the initialisation of the Software with the date.
+        /// </summary>
+        public static void InitSoftwareLogLine()
+        {
+            CreateLogLine("Initialisation of the Sofware at: " + DateTime.Now); 
+        }
+
+        /// <summary>
+        /// Create a Log Line about: the creation of a new save.
+        /// </summary>
+        /// <param name="_nb"></param>
+        /// <param name="WorkList"></param>
+        public static void CreateWorkLogLine(int _nb, List<ISaveWork> WorkList)
+        {
+            CreateLogLine("Creation of a new save work, name : " + WorkList[_nb - 1].Name + ", source path : " + WorkList[_nb - 1].SourcePath + ", destination path : " + WorkList[_nb - 1].DestinationPath + ", type : " + WorkList[_nb - 1].Type);
+        }
+
+        /// <summary>
+        /// Create a Log Line about: the modification of a save.
+        /// </summary>
+        /// <param name="_nb"></param>
+        /// <param name="WorkList"></param>
+        public static void ChangeWorkLogLine(int _nb, List<ISaveWork> WorkList)
+        {
+            CreateLogLine("Modification of a existing save work in position " + _nb + ", current parameters : name : " + WorkList[_nb - 1].Name + ", source path : " + WorkList[_nb - 1].SourcePath + ", destination path : " + WorkList[_nb - 1].DestinationPath + ", type : " + WorkList[_nb - 1].Type);
+        }
+
+        /// <summary>
+        /// Create a Log Line about: The supression of a save.
+        /// </summary>
+        /// <param name="_nb"></param>
+        public static void DeleteWorkLogLine(int _nb)
+        {
+            CreateLogLine("Supression of save work in position" + _nb);
+        }
+
+        /// <summary>
+        /// Create a Log Line about: The research of an existing savework
+        /// </summary>
+        /// <param name="saveWorkName"></param>
+        public static void SaveWorkAlreadyExistsLogLine(string saveWorkName)
+        {
+            CreateLogLine("The search savework named : " + saveWorkName + " already exist");
+        }
+
+        /// <summary>
+        /// Create a Log Line about: The launch of a savework 
+        /// </summary>
+        /// <param name="_nb"></param>
+        public static void LaunchingSaveLogLine(int _nb)
+        {
+            CreateLogLine("Launching of the savework " + _nb);
+        }
+
     }
 }
