@@ -138,6 +138,17 @@ namespace EasySave_2._0
         }
 
         /// <summary>
+        /// Create a Log Line about: Files found to save
+        /// </summary>
+        /// <param name="nbFiles">Number of files found</param>
+        /// <param name="sourceDirectory">DirectoryInfo of the source directory</param>
+        /// <param name="directorySize">Total size of the directory</param>
+        public static void FileToSaveFound(int nbFiles, DirectoryInfo sourceDirectory, long directorySize)
+        {
+            CreateLogLine(nbFiles + " files to save found from " + sourceDirectory.Name + ",Total size of the directory: " + directorySize + " Bytes");
+        }
+
+        /// <summary>
         /// Create a Log Line about: Start copy a file
         /// </summary>
         /// <param name="fi">FileInfo of the file</param>
@@ -158,6 +169,31 @@ namespace EasySave_2._0
 
         }
 
+        /// <summary>
+        /// Create a Log Line about: Entering in a subdirectory
+        /// </summary>
+        /// <param name="subDir">DirectoryInfo of the subdirectory</param>
+        public static void EnterSubdirectoryLogLine(DirectoryInfo subDir)
+        {
+            CreateLogLine("Entering subdirectory : " + subDir.Name);
+        }
+
+        /// <summary>
+        /// Create a Log Line about: Exiting a subdirectory
+        /// </summary>
+        /// <param name="subDir">DirectoryInfo of the subdirectory</param>
+        public static void ExitSubdirectoryLogLine(DirectoryInfo subDir)
+        {
+            CreateLogLine("Exiting subdirectory : " + subDir.Name);
+        }
+
+        /// <summary>
+        /// Create a Log Line about: The end of the save work program
+        /// </summary>
+        public static void EndSaveProgram()
+        {
+            CreateLogLine("Ending save work program");
+        }
     }
 }
 
