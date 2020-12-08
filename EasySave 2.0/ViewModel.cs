@@ -4,11 +4,25 @@ using System.Text;
 
 namespace EasySave_2._0
 {
-    public class MainViewModel
+    class ViewModel
     {
-        Model model = new Model();
-               
+        //public ModelTest SaveExample { get; set; }
 
+        private List<ModelTest> _workList;
+
+        public List<ModelTest> WorkList
+        {
+            get { return _workList; }
+            set { _workList = value; }
+        }
+
+        public ViewModel()
+        {
+            WorkList = new List<ModelTest>();
+            WorkList.Add(new ModelTest(1, "Test Save", "C:/balek", "D:/balek*2", "complete", ".gabrex"));
+        }
+        
+    
         #region Methodes
 
         /// <summary>

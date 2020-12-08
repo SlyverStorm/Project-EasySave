@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,22 +21,29 @@ namespace EasySave_2._0
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region Variables
+        ViewModel VM;
+
+        #endregion
+
+        #region Constructor
         public MainWindow()
         {
+            VM = new ViewModel();
+            DataContext = VM;
             InitializeComponent();
         }
+        #endregion
 
-        #region Variables
+        #region Methods
 
 
 
         #endregion
 
-        #region Methodes
-
-
-
-        #endregion
-
+        /*private void SaveList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.SaveList.Items.Add(DataContext.SaveExemple());
+        }*/
     }
 }

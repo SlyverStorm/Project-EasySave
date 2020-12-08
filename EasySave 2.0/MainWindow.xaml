@@ -69,15 +69,15 @@
         <!--#endregion-->
 
         <!--#region Save List-->
-        <ListView x:Name="saveList" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="4" Margin="5,5,5,5" ItemsSource="{Binding Save}">
+        <ListView x:Name="SaveList" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="4" Margin="5,5,5,5" ItemsSource="{Binding WorkList}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding SaveId}" Width="30"/>
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding IdSave}" Width="30"/>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding SaveName}" Width="120"/>
                     <GridViewColumn Header="Source Path" DisplayMemberBinding="{Binding SourcePath}" Width="170" />
-                    <GridViewColumn Header="Destination Path" DisplayMemberBinding="{Binding DestinationPath}" Width="170" />
+                    <GridViewColumn Header="Destination Path" DisplayMemberBinding="{Binding DestinationPath}" Width="170"/>
                     <GridViewColumn Header="Save Type" DisplayMemberBinding="{Binding SaveType}" Width="120" />
-                    <GridViewColumn Header="Encryption" DisplayMemberBinding="{Binding EncryptedFile}" Width="120" />
+                    <GridViewColumn Header="Encryption" DisplayMemberBinding="{Binding Encryption}" Width="120" />
                 </GridView>
             </ListView.View>
         </ListView>
