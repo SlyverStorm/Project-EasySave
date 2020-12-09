@@ -57,9 +57,9 @@ namespace EasySave_2._0
             }
         }
 
-        private string _saveType;
+        private ModelTestType _saveType;
 
-        public string SaveType
+        public ModelTestType SaveType
         {
             get { return _saveType; }
             set
@@ -82,7 +82,7 @@ namespace EasySave_2._0
         }
         #endregion
 
-        public ModelTest(int _idSave, string _saveName, string _sourcePath, string _destinationPath, string _saveType, string _encryption)
+        public ModelTest(int _idSave, string _saveName, string _sourcePath, string _destinationPath, ModelTestType _saveType, string _encryption)
         {
             IdSave = _idSave;
             SaveName = _saveName;
@@ -98,6 +98,12 @@ namespace EasySave_2._0
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
+        }
+
+        public enum ModelTestType
+        {
+            complete,
+            differencial
         }
     }
 }

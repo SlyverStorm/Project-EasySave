@@ -19,7 +19,8 @@ namespace EasySave_2._0
         public ViewModel()
         {
             WorkList = new List<ModelTest>();
-            WorkList.Add(new ModelTest(1, "Test Save", "C:/balek", "D:/balek*2", "complete", ".gabrex"));
+            WorkList.Add(new ModelTest(1, "Test Save", "C:/balek", "D:/balek*2", ModelTest.ModelTestType.complete, ".gabrex"));
+            WorkList.Add(new ModelTest(1, "CorenQ", "fdzafzda", "fdzafzda", ModelTest.ModelTestType.differencial, ".chauve"));
         }
         
     
