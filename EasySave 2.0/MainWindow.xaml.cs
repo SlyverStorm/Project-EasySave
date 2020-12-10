@@ -106,12 +106,12 @@ namespace EasySave_2._0
                 ChangeUIElementEnableState(FormElementList, true);
                 ChangeUIElementEnableState(optionButtonList, false);
                 ChangeUIElementVisibilityState(ConfirmButtonList, Visibility.Visible);
-                ModelTest selectedItem = (ModelTest)SaveList.SelectedItem;
+                SaveWorkTest selectedItem = (SaveWorkTest)SaveList.SelectedItem;
                 SaveNameForm.Text = selectedItem.SaveName;
                 SaveSourcePathForm.Text = selectedItem.SourcePath;
                 SaveDestinationPathForm.Text = selectedItem.DestinationPath;
 
-                if (selectedItem.SaveType == ModelTest.ModelTestType.complete)
+                if (selectedItem.SaveType == SaveWorkTest.SaveWorkTestType.complete)
                 {
                     SaveTypeForm.SelectedIndex = 0;
                 }
@@ -148,11 +148,11 @@ namespace EasySave_2._0
         {
             #region Variables
 
-            string Name;
+            /*string Name;
             string SourcePath;
             string DestinationPath;
             string SaveType;
-            List<string> Encryption;
+            List<string> Encryption;*/
 
             #endregion
 
@@ -165,16 +165,19 @@ namespace EasySave_2._0
             //if else create ou modify
 
 
-            List<ModelTest.Extension> encryptList = new List<ModelTest.Extension>
+            List<SaveWorkTest.SaveWorkTestExtension> encryptList = new List<SaveWorkTest.SaveWorkTestExtension>
             {
-                ModelTest.Extension.exe,
-                ModelTest.Extension.gif
+                SaveWorkTest.SaveWorkTestExtension.exe,
+                SaveWorkTest.SaveWorkTestExtension.gif
             };
 
-            string test = ComboBoxItem.IsSelectedProperty
-            VM.CreateSaveProcedure(SaveNameForm.Text, SaveSourcePathForm.Text, SaveDestinationPathForm.Text, ((ComboBoxItem)SaveTypeForm.SelectedItem).Content.ToString(), encryptList);
+            SaveWorkTest.SaveWorkTestType saveType = SaveWorkTest.SaveWorkTestType.complete;
+            if(((ComboBoxItem)SaveTypeForm.SelectedItem).Content.ToString() != "Complete") { saveType = SaveWorkTest.SaveWorkTestType.differencial; }
+
+            VM.CreateSaveProcedure(SaveNameForm.Text, SaveSourcePathForm.Text, SaveDestinationPathForm.Text, saveType, encryptList);
 
             ClearForm();
+            SaveList.Items.Refresh();
         }
 
         /// <summary>

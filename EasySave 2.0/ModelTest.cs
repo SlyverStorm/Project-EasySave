@@ -8,88 +8,22 @@ namespace EasySave_2._0
     class ModelTest : INotifyPropertyChanged
     {
         #region Variables
-        private int _idSave;
 
-        public int IdSave
+        private List<SaveWorkTest> _workList;
+
+        public List<SaveWorkTest> WorkList
         {
-            get { return _idSave; }
-            set
-            {
-                _idSave = value;
-                OnPropertyChanged("IdSave");
-            }
+            get { return _workList; }
+            set { _workList = value; }
         }
 
-        private string _saveName;
-
-        public string SaveName
-        {
-            get { return _saveName; }
-            set
-
-            {
-                _saveName = value;
-                OnPropertyChanged("SaveName");
-            }
-        }
-
-        private string _sourcePath;
-
-        public string SourcePath
-        {
-            get { return _sourcePath; }
-            set
-            {
-                _sourcePath = value;
-                OnPropertyChanged("SourcePath");
-            }
-        }
-
-        private string _destinationPath;
-
-        public string DestinationPath
-        {
-            get { return _destinationPath; }
-            set
-            {
-                _destinationPath = value;
-                OnPropertyChanged("DestinationPath");
-            }
-        }
-
-        private ModelTestType _saveType;
-
-        public ModelTestType SaveType
-        {
-            get { return _saveType; }
-            set
-            {
-                _saveType = value;
-                OnPropertyChanged("SaveType");
-            }
-        }
-
-        private string _encryption;
-
-        public string Encryption
-        {
-            get { return _encryption; }
-            set
-            {
-                _encryption = value;
-                OnPropertyChanged("Encryption");
-            }
-        }
         #endregion
 
-        public ModelTest(int _idSave, string _saveName, string _sourcePath, string _destinationPath, ModelTestType _saveType, string _encryption)
+        public ModelTest()
         {
-            IdSave = _idSave;
-            SaveName = _saveName;
-            SourcePath = _sourcePath;
-            DestinationPath = _destinationPath;
-            SaveType = _saveType;
-            Encryption = _encryption;
+            WorkList = new List<SaveWorkTest>();
+            WorkList.Add(new SaveWorkTest(1, "Test Save", "C:/balek", "D:/balek*2", SaveWorkTest.SaveWorkTestType.complete, new List<SaveWorkTest.SaveWorkTestExtension> { SaveWorkTest.SaveWorkTestExtension.exe, SaveWorkTest.SaveWorkTestExtension.gif }));
+            WorkList.Add(new SaveWorkTest(2, "CorenQ", "fdzafzda", "fdzafzda", SaveWorkTest.SaveWorkTestType.differencial, new List<SaveWorkTest.SaveWorkTestExtension> { SaveWorkTest.SaveWorkTestExtension.ALL }));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -100,29 +34,14 @@ namespace EasySave_2._0
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
         }
 
-        public enum ModelTestType
+        public void CreateCompleteWork(string _name, string _sourcePath, string _destinationPath, List<SaveWorkTest.SaveWorkTestExtension> _extensionList)
         {
-            complete,
-            differencial
+            WorkList.Add(new SaveWorkTest(WorkList[WorkList.Count - 1].SaveID + 1, _name, _sourcePath, _destinationPath, SaveWorkTest.SaveWorkTestType.complete, _extensionList));
         }
 
-        public enum Extension
+        public void CreateDifferencialWork(string _name, string _sourcePath, string _destinationPath, List<SaveWorkTest.SaveWorkTestExtension> _extensionList)
         {
-            txt,
-            rar,
-            zip,
-            docx,
-            mpp,
-            pptx,
-            jpg,
-            png,
-            pdf,
-            exe,
-            iso,
-            gif,
-            mp3,
-            mp4,
-            ALL
+            WorkList.Add(new SaveWorkTest(WorkList[WorkList.Count].SaveID + 1, _name, _sourcePath, _destinationPath, SaveWorkTest.SaveWorkTestType.differencial, _extensionList));
         }
     }
 }

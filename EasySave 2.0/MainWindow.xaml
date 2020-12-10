@@ -46,8 +46,8 @@
         <TextBox x:Name="SaveDestinationPathForm" Grid.Column="1" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Width="575" Height="25" VerticalContentAlignment="Center" Grid.ColumnSpan="2" Margin="8,0,0,0"/>
         <Label Name="saveTypeLabel" Content="Save Type" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
         <ComboBox x:Name="SaveTypeForm" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="575" Height="25" Grid.ColumnSpan="2" Margin="8,0,0,0">
-            <ComboBoxItem IsSelected="False">Complete</ComboBoxItem>
-            <ComboBoxItem IsSelected="False">Differential</ComboBoxItem>
+            <ComboBoxItem IsSelected="False" Content="Complete"/>
+            <ComboBoxItem IsSelected="False" Content="Differential"/>
         </ComboBox>
         <Label Content="Encryption" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
         <ComboBox x:Name="PickEncryptionForm" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Left" Width="575" Height="25" VerticalContentAlignment="Center" Grid.ColumnSpan="2" Margin="8,0,0,0">
@@ -69,15 +69,15 @@
         <!--#endregion-->
 
         <!--#region Save List-->
-        <ListView x:Name="SaveList" ItemsSource="{Binding WorkList}" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="4" Margin="5,5,5,5" SelectionMode="Single">
+        <ListView x:Name="SaveList" ItemsSource="{Binding ModelTest.WorkList}" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="4" Margin="5,5,5,5" SelectionMode="Single">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn x:Name="IdSaveListView" Header="ID" DisplayMemberBinding="{Binding IdSave}" Width="30"/>
+                    <GridViewColumn x:Name="IdSaveListView" Header="ID" DisplayMemberBinding="{Binding SaveID}" Width="30"/>
                     <GridViewColumn x:Name="SaveNameListView" Header="Name" DisplayMemberBinding="{Binding SaveName}" Width="120"/>
                     <GridViewColumn x:Name="SaveSourcePathListView" Header="Source Path" DisplayMemberBinding="{Binding SourcePath}" Width="170" />
                     <GridViewColumn x:Name="SaveDestinationPathListView" Header="Destination Path" DisplayMemberBinding="{Binding DestinationPath}" Width="170"/>
                     <GridViewColumn x:Name="SaveTypeListView" Header="Save Type" DisplayMemberBinding="{Binding SaveType}" Width="120" />
-                    <GridViewColumn x:Name="EncryptionListView" Header="Encryption" DisplayMemberBinding="{Binding Encryption}" Width="120" />
+                    <GridViewColumn x:Name="EncryptionListView" Header="Encryption" DisplayMemberBinding="{Binding ExtensionList}" Width="120" />
                 </GridView>
             </ListView.View>
         </ListView>

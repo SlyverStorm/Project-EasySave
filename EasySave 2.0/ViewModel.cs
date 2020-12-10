@@ -6,8 +6,7 @@ namespace EasySave_2._0
 {
     class ViewModel
     {
-        //public ModelTest SaveExample { get; set; }
-
+        
         private List<ModelTest> _workList;
 
         public List<ModelTest> WorkList
@@ -16,11 +15,17 @@ namespace EasySave_2._0
             set { _workList = value; }
         }
 
+        private ModelTest modelTest;
+
+        public ModelTest ModelTest
+        {
+            get { return modelTest; }
+            set { modelTest = value; }
+        }
+
         public ViewModel()
         {
-            WorkList = new List<ModelTest>();
-            WorkList.Add(new ModelTest(1, "Test Save", "C:/balek", "D:/balek*2", ModelTest.ModelTestType.complete, ".gabrex"));
-            WorkList.Add(new ModelTest(1, "CorenQ", "fdzafzda", "fdzafzda", ModelTest.ModelTestType.differencial, ".chauve"));
+            ModelTest = new ModelTest();
         }
         
     
@@ -29,24 +34,24 @@ namespace EasySave_2._0
         /// <summary>
         /// 
         /// </summary>
-        public void CreateSaveProcedure(string _name, string _sourcePath, string _destinationPath, ModelTest.ModelTestType _saveType, List<Extension> _extensionList)
+        public void CreateSaveProcedure(string _name, string _sourcePath, string _destinationPath, SaveWorkTest.SaveWorkTestType _saveType, List<SaveWorkTest.SaveWorkTestExtension> _extensionList)
         {
-            if(_saveType == ModelTest.ModelTestType.complete)
+            if(_saveType == SaveWorkTest.SaveWorkTestType.complete)
             {
-                CreateCompleteWork(_name, _sourcePath, _destinationPath, _extensionList);
+                ModelTest.CreateCompleteWork(_name, _sourcePath, _destinationPath, _extensionList);
             }
             else
             {
-                CreateDifferencialWork(_name, _sourcePath, _destinationPath, _extensionList);
+                ModelTest.CreateDifferencialWork(_name, _sourcePath, _destinationPath, _extensionList);
             }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public void ModifySaveProcedure(int _id, string _name, string _sourcePath, string _destinationPath, ModelTest.ModelTestType _saveType, List<Encryption> _encryptionList);
+        public void ModifySaveProcedure(int _id, string _name, string _sourcePath, string _destinationPath, SaveWorkTest.SaveWorkTestType _saveType, List<SaveWorkTest.SaveWorkTestExtension> _encryptionList)
         {
-            ChangeWork(_id, _name, _sourcePath, _destinationPath, _type, _encryptionList);
+            //ChangeWork(_id, _name, _sourcePath, _destinationPath, _type, _encryptionList);
         }
 
         /// <summary>
