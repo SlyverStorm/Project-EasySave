@@ -23,10 +23,10 @@ namespace EasySave_2._0
         public Model()
         {
             OnSaveWorkUpdate = UpdateSaveFile;
+            WorkList = new List<ISaveWork>();
             //If the state file has not been initialized then create 5 SaveWork object from nothing
             if (!File.Exists("stateFile.json"))
             {
-                WorkList = new List<ISaveWork>();
                 WorkList.Add(new CompleteSaveWork("Default", "", ""));
                 UpdateSaveFile(-1);
             }
@@ -34,8 +34,19 @@ namespace EasySave_2._0
             else
             {
                 string stateFile = File.ReadAllText("stateFile.json");
-                var tempWorkList = JsonConvert.DeserializeObject<List<ISaveWork>>(stateFile);
-                WorkList = tempWorkList;
+                var tempWorkList = JsonConvert.DeserializeObject<List<CompleteSaveWork>>(stateFile);
+
+                foreach (CompleteSaveWork work in tempWorkList)
+                {
+                    if (work.Type == SaveWorkType.complete)
+                    {
+                        CreateCompleteWork(work.Name, work.SourcePath, work.DestinationPath);
+                    }
+                    else if (work.Type == SaveWorkType.differencial)
+                    {
+                        CreateDifferencialWork(work.Name, work.SourcePath, work.DestinationPath);
+                    }
+                }
                 UpdateSaveFile(-1);
             }
             

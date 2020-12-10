@@ -24,6 +24,7 @@ namespace EasySave_2._0
         {
             InitializeComponent();
             Model model = new Model();
+            model.DoSave(1);
         }
     }
 }
