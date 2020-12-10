@@ -9,7 +9,7 @@ using System.Text;
 namespace EasySave_2._0
 {
 
-    public delegate void SaveWorkUpdateDelegate(int _index);
+    public delegate void SaveWorkUpdateDelegate();
 
     /// <summary>
     /// Program data model class
@@ -28,7 +28,7 @@ namespace EasySave_2._0
             if (!File.Exists("stateFile.json"))
             {
                 WorkList.Add(new CompleteSaveWork("Default", "", "", null));
-                UpdateSaveFile(-1);
+                UpdateSaveFile();
             }
             //Then if the State file already exist, use the objects in it to create the WorkList
             else
@@ -47,7 +47,7 @@ namespace EasySave_2._0
                         CreateDifferencialWork(work.Name, work.SourcePath, work.DestinationPath, work.ExtentionToEncryptList);
                     }
                 }
-                UpdateSaveFile(-1);
+                UpdateSaveFile();
             }
 
             EditLog.InitSoftwareLogLine();
@@ -84,7 +84,7 @@ namespace EasySave_2._0
             {
                 WorkList.Add(new CompleteSaveWork(_name, _source, _destination, _extension));
                 SetWorkIndex();
-                UpdateSaveFile(-1);
+                UpdateSaveFile();
                 EditLog.CreateWorkLogLine(GetWorkIndex(_name), WorkList);
             }
             //TODO: Event pour préveneir la vue MDRRRRRRR !
@@ -102,7 +102,7 @@ namespace EasySave_2._0
             {
                 WorkList.Add(new DifferencialSaveWork(_name, _source, _destination, _extension));
                 SetWorkIndex();
-                UpdateSaveFile(-1);
+                UpdateSaveFile();
                 EditLog.CreateWorkLogLine(GetWorkIndex(_name), WorkList);
             }
             //TODO: Event pour préveneir la vue MDRRRRRRR !
@@ -138,7 +138,7 @@ namespace EasySave_2._0
                 }
                 SetWorkIndex();
 
-                UpdateSaveFile(_nb);
+                UpdateSaveFile();
                 EditLog.ChangeWorkLogLine(_nb, WorkList);
             }
         }
@@ -151,7 +151,7 @@ namespace EasySave_2._0
         {
             WorkList.RemoveAt(_nb);
             SetWorkIndex();
-            UpdateSaveFile(_nb);
+            UpdateSaveFile();
             EditLog.DeleteWorkLogLine(_nb);
         }
 
@@ -215,23 +215,8 @@ namespace EasySave_2._0
         /// Update the state file with the work list value
         /// </summary>
         /// <param name="_nb">Index of the save work process to update</param>
-        public void UpdateSaveFile(int _nb)
+        public void UpdateSaveFile()
         {
-            if (_nb >= 0)
-            {
-                //Check is a save protocol is active or not
-                if (WorkList[_nb - 1].IsActive)
-                {
-                    long sizeDifference = WorkList[_nb].Progress.TotalSize - WorkList[_nb].Progress.SizeRemaining;
-
-                    //Check if the difference in size is equal to 0, to avoid division by 0
-                    if (sizeDifference != 0)
-                    {
-                        WorkList[_nb].Progress.ProgressState = ((WorkList[_nb].Progress.TotalSize - WorkList[_nb].Progress.SizeRemaining) / WorkList[_nb - 1].Progress.TotalSize * 100);
-                    }
-                }
-            }
-
             //Convert the work list to a json string then write it in a json file
             var convertedJson = JsonConvert.SerializeObject(WorkList, Formatting.Indented);
             File.WriteAllText("stateFile.json", convertedJson);

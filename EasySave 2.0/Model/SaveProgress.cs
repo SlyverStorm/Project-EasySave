@@ -76,9 +76,9 @@ namespace EasySave_2._0
         }
 
         //Percent of progress in the save protocol
-        private long progressState;
+        private double progressState;
 
-        public long ProgressState
+        public double ProgressState
         {
             get { return progressState; }
             set
@@ -124,6 +124,18 @@ namespace EasySave_2._0
             { 
                 currentDestinationFilePath = value;
                 OnPropertyChanged("CurrentDestinationFilePath");
+            }
+        }
+
+
+        public void UpdateProgressState()
+        {
+            double sizeDifference = TotalSize - SizeRemaining;
+
+            //Check if the difference in size is equal to 0, to avoid division by 0
+            if (sizeDifference != 0)
+            {
+                ProgressState = sizeDifference / TotalSize * 100;
             }
         }
 

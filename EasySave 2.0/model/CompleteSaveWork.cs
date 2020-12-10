@@ -170,7 +170,7 @@ namespace EasySave_2._0
 
             CreateProgress(nbFiles, directorySize, nbFiles, 0, directorySize);
             IsActive = true;
-            Model.OnSaveWorkUpdate(Index);
+            Model.OnSaveWorkUpdate();
 
             //initiate Copy from the source directory to the target directory
             //CreateLogLine("Saving file from " + _sourceDirectory + " to " + _targetDirectory + " ...");
@@ -179,7 +179,7 @@ namespace EasySave_2._0
             //Closing the complete save protocol
             DeleteProgress();
             IsActive = false;
-            Model.OnSaveWorkUpdate(Index);
+            Model.OnSaveWorkUpdate();
             //CreateLogLine("Closing complete save work program ...");
         }
 
@@ -198,7 +198,7 @@ namespace EasySave_2._0
             {
                 Progress.CurrentSourceFilePath = fi.FullName;
                 Progress.CurrentDestinationFilePath = Path.Combine(_target.FullName, fi.Name);
-                Model.OnSaveWorkUpdate(Index);
+                Model.OnSaveWorkUpdate();
 
                 //CreateLogLine("Saving " + fi.FullName + " in " + WorkList[_nb - 1].SaveProgress.CurrentDestinationFilePath + ", size : " + fi.Length + " Bytes ...");
 
@@ -211,7 +211,8 @@ namespace EasySave_2._0
 
                 Progress.FilesRemaining--;
                 Progress.SizeRemaining -= fi.Length;
-                Model.OnSaveWorkUpdate(Index);
+                Progress.UpdateProgressState();
+                Model.OnSaveWorkUpdate();
                 //CreateLogLine(fi.Name + " succesfully saved ! Time spend : " + watch.Elapsed.TotalSeconds.ToString());
             }
 
@@ -264,6 +265,7 @@ namespace EasySave_2._0
                 }
             }
         }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
