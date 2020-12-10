@@ -8,6 +8,9 @@ using System.Text;
 
 namespace EasySave_2._0
 {
+
+    public delegate void SaveWorkUpdateDelegate(int _index);
+
     /// <summary>
     /// Program data model class
     /// </summary>
@@ -19,12 +22,13 @@ namespace EasySave_2._0
         /// </summary>
         public Model()
         {
+            OnSaveWorkUpdate = UpdateSaveFile;
             //If the state file has not been initialized then create 5 SaveWork object from nothing
             if (!File.Exists("stateFile.json"))
             {
                 WorkList = new List<ISaveWork>();
                 WorkList.Add(new CompleteSaveWork("Default", "", ""));
-                //UpdateSaveFile(0);
+                UpdateSaveFile(-1);
             }
             //Then if the State file already exist, use the objects in it to create the WorkList
             else
@@ -32,10 +36,12 @@ namespace EasySave_2._0
                 string stateFile = File.ReadAllText("stateFile.json");
                 var tempWorkList = JsonConvert.DeserializeObject<List<ISaveWork>>(stateFile);
                 WorkList = tempWorkList;
-                //UpdateSaveFile(0);
+                UpdateSaveFile(-1);
             }
             
         }
+
+        public static SaveWorkUpdateDelegate OnSaveWorkUpdate;
 
         //Store all 5 (max) save works
         private List<ISaveWork> workList;
@@ -78,6 +84,7 @@ namespace EasySave_2._0
         {
             WorkList.Add(new CompleteSaveWork(_name, _source, _destination));
             SetWorkIndex();
+            UpdateSaveFile(-1);
         }
 
         /// <summary>
@@ -90,6 +97,7 @@ namespace EasySave_2._0
         {
             WorkList.Add(new DifferencialSaveWork(_name, _source, _destination));
             SetWorkIndex();
+            UpdateSaveFile(-1);
         }
 
 
@@ -117,8 +125,9 @@ namespace EasySave_2._0
                 if (_sourcePath != "") { WorkList[_nb].SourcePath = _sourcePath; }
                 if (_destinationPath != "") { WorkList[_nb].DestinationPath = _destinationPath; }
             }
+            SetWorkIndex();
 
-            //UpdateSaveFile(_nb);
+            UpdateSaveFile(_nb);
             //CreateLogLine("Modification of a existing save work in position " + _nb + ", current parameters : name : " + WorkList[_nb - 1].Name + ", source path : " + WorkList[_nb - 1].SourcePath + ", destination path : " + WorkList[_nb - 1].DestinationPath + ", type : " + WorkList[_nb - 1].Type);
         }
 
@@ -130,7 +139,7 @@ namespace EasySave_2._0
         {
             WorkList.RemoveAt(_nb);
             SetWorkIndex();
-            //UpdateSaveFile(_nb);
+            UpdateSaveFile(_nb);
             //CreateLogLine("Supression of save work in position"+_nb);
         }
 
@@ -176,48 +185,36 @@ namespace EasySave_2._0
                     return WorkList.IndexOf(work);
                 }
             }
-            return 0;
+            return -1;
         }
 
         /// <summary>
         /// Can initiate a type of save from the numbers of the save work in workList.
         /// </summary>
         /// <param name="_nb">Index of the work in the list to execute the save process</param>
-        /*public void DoSave(int _nb)
+        public void DoSave(int _nb)
         {
-            SaveWork work = WorkList[_nb - 1];
-
-            if (Directory.Exists(WorkList[_nb - 1].SourcePath))
-            {
-                if (work.Type == SaveWorkType.complete)
-                {
-                    CompleteSave(work);
-                }
-                else if (work.Type == SaveWorkType.differencial)
-                {
-                    DifferencialSave(work);
-                }
-            }
-        }*/
+            WorkList[_nb].Save();
+        }
 
 
         /// <summary>
         /// Update the state file with the work list value
         /// </summary>
         /// <param name="_nb">Index of the save work process to update</param>
-        /*public void UpdateSaveFile(int _nb)
+        public void UpdateSaveFile(int _nb)
         {
-            if (_nb != 0)
+            if (_nb >= 0)
             {
                 //Check is a save protocol is active or not
                 if (WorkList[_nb - 1].IsActive)
                 {
-                    long sizeDifference = WorkList[_nb - 1].SaveProgress.TotalSize - WorkList[_nb - 1].SaveProgress.SizeRemaining;
+                    long sizeDifference = WorkList[_nb].Progress.TotalSize - WorkList[_nb].Progress.SizeRemaining;
 
                     //Check if the difference in size is equal to 0, to avoid division by 0
                     if (sizeDifference != 0)
                     {
-                        WorkList[_nb - 1].SaveProgress.ProgressState = ((WorkList[_nb - 1].SaveProgress.TotalSize - WorkList[_nb - 1].SaveProgress.SizeRemaining) / WorkList[_nb - 1].SaveProgress.TotalSize * 100);
+                        WorkList[_nb].Progress.ProgressState = ((WorkList[_nb].Progress.TotalSize - WorkList[_nb].Progress.SizeRemaining) / WorkList[_nb - 1].Progress.TotalSize * 100);
                     }
                 }
             }
@@ -225,7 +222,7 @@ namespace EasySave_2._0
             //Convert the work list to a json string then write it in a json file
             var convertedJson = JsonConvert.SerializeObject(WorkList, Formatting.Indented);
             File.WriteAllText("stateFile.json", convertedJson);
-        }*/
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
