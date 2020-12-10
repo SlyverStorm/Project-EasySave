@@ -149,6 +149,8 @@ namespace EasySave_2._0
             CompleteCopy();
             //CreateLogLine(work.Name + " save DONE !");
 
+            EncryptFiles();
+
             //TODO: FONCTION ENCRYPTION FICHIER 
         }
 
@@ -229,33 +231,36 @@ namespace EasySave_2._0
         /// </summary>
         public void EncryptFiles()
         {
-            // If we encrypt all files
-            if (extentionToEncryptList.Contains(Extension.ALL))
+            if (ExtentionToEncryptList != null)
             {
-                // Find all files
-                string[] filesPathToEncrypt = Directory.GetFiles(destinationPath, "*.*", SearchOption.AllDirectories);
-                // For each files
-                foreach (string files in filesPathToEncrypt)
+                // If we encrypt all files
+                if (extentionToEncryptList.Contains(Extension.ALL))
                 {
-                    Console.WriteLine(files);
-                    // Encrypt File
-                    CryptoSoft.CryptoSoftTools.CryptoSoftDecryption(files);
+                    // Find all files
+                    string[] filesPathToEncrypt = Directory.GetFiles(destinationPath, "*.*", SearchOption.AllDirectories);
+                    // For each files
+                    foreach (string files in filesPathToEncrypt)
+                    {
+                        Console.WriteLine(files);
+                        // Encrypt File
+                        CryptoSoft.CryptoSoftTools.CryptoSoftDecryption(files);
+                    }
                 }
-            }
 
-            // for each exntensions in the list
-            foreach (Extension extension in extentionToEncryptList)
-            {
-                // Adjusts the format of the extension
-                string extensionReformated = "*." + extension.ToString() + "*";
-                // Find all files in directory with aimed extensions
-                string[] filesPathToEncrypt = Directory.GetFiles(destinationPath, extensionReformated, SearchOption.AllDirectories);
-                // For each files with aimed extensions
-                foreach (string files in filesPathToEncrypt)
+                // for each exntensions in the list
+                foreach (Extension extension in extentionToEncryptList)
                 {
-                    Console.WriteLine(files);
-                    // Encrypt File
-                    CryptoSoft.CryptoSoftTools.CryptoSoftEncryption(files);
+                    // Adjusts the format of the extension
+                    string extensionReformated = "*." + extension.ToString() + "*";
+                    // Find all files in directory with aimed extensions
+                    string[] filesPathToEncrypt = Directory.GetFiles(destinationPath, extensionReformated, SearchOption.AllDirectories);
+                    // For each files with aimed extensions
+                    foreach (string files in filesPathToEncrypt)
+                    {
+                        Console.WriteLine(files);
+                        // Encrypt File
+                        CryptoSoft.CryptoSoftTools.CryptoSoftEncryption(files);
+                    }
                 }
             }
         }

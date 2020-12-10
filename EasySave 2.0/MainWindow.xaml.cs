@@ -24,7 +24,10 @@ namespace EasySave_2._0
         {
             InitializeComponent();
             Model model = new Model();
-            model.DoSave(1);
+            /*List<Extension> list = new List<Extension>();
+            list.Add(Extension.ALL);
+            model.CreateCompleteWork("ALL", "D:/save/source", "D:/save/TestDestinationALL", list);*/
+            model.DoSave(4);
         }
     }
 }

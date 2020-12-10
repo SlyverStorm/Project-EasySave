@@ -56,7 +56,7 @@ namespace EasySave_2._0
         /// <param name="WorkList">WorkList of the save</param>
         public static void CreateWorkLogLine(int _nb, List<ISaveWork> WorkList)
         {
-            CreateLogLine("Creation of a new save work, name : " + WorkList[_nb - 1].Name + ", source path : " + WorkList[_nb - 1].SourcePath + ", destination path : " + WorkList[_nb - 1].DestinationPath + ", type : " + WorkList[_nb - 1].Type);
+            CreateLogLine("Creation of a new save work, name : " + WorkList[_nb].Name + ", source path : " + WorkList[_nb].SourcePath + ", destination path : " + WorkList[_nb].DestinationPath + ", type : " + WorkList[_nb].Type);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace EasySave_2._0
         /// <param name="WorkList">WorkList of the save</param>
         public static void ChangeWorkLogLine(int _nb, List<ISaveWork> WorkList)
         {
-            CreateLogLine("Modification of a existing save work in position " + _nb + ", current parameters : name : " + WorkList[_nb - 1].Name + ", source path : " + WorkList[_nb - 1].SourcePath + ", destination path : " + WorkList[_nb - 1].DestinationPath + ", type : " + WorkList[_nb - 1].Type);
+            CreateLogLine("Modification of a existing save work in position " + _nb + ", current parameters : name : " + WorkList[_nb].Name + ", source path : " + WorkList[_nb].SourcePath + ", destination path : " + WorkList[_nb].DestinationPath + ", type : " + WorkList[_nb].Type);
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace EasySave_2._0
         /// <param name="fi">FileInfo of the file</param>
         public static void SavingInfoLogLine(int _nb, List<ISaveWork> WorkList, FileInfo fi)
         {
-            CreateLogLine("Saving " + fi.FullName + " in " + WorkList[_nb - 1].Progress.CurrentDestinationFilePath + ", size : " + fi.Length + " Bytes");
+            CreateLogLine("Saving " + fi.FullName + " in " + WorkList[_nb].Progress.CurrentDestinationFilePath + ", size : " + fi.Length + " Bytes");
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace EasySave_2._0
         /// <param name="WorkList">WorkList of the save</param>
         public static void StartSaveLogLine(int _nb, List<ISaveWork> WorkList)
         {
-            CreateLogLine("Launching save work from work : " + WorkList[_nb - 1].Name + ", type : " + WorkList[_nb - 1].Type);
+            CreateLogLine("Launching save work from work : " + WorkList[_nb].Name + ", type : " + WorkList[_nb].Type);
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace EasySave_2._0
         /// <param name="timeSpend">time spend between the start and the end of the save</param>
         public static void FinishSaveLogLine(int _nb, List<ISaveWork> WorkList, string timeSpend)
         {
-            CreateLogLine(WorkList[_nb - 1].Name + " succesfully saved ! Time spend : " + timeSpend);
+            CreateLogLine(WorkList[_nb].Name + " succesfully saved ! Time spend : " + timeSpend);
         }
 
         /// <summary>
