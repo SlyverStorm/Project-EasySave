@@ -107,12 +107,13 @@ namespace EasySave_2._0
             }
         }
 
-        public CompleteSaveWork(string _name, string _source, string _target)
+        public CompleteSaveWork(string _name, string _source, string _target, List<Extension> _extension)
         {
             Name = _name;
             SourcePath = _source;
             DestinationPath = _target;
             type = SaveWorkType.complete;
+            ExtentionToEncryptList = _extension;
             CreationTime = DateTime.Now.ToString();
             IsActive = false;
             Progress = null;

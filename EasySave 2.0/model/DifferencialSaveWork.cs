@@ -106,14 +106,14 @@ namespace EasySave_2._0
             }
         }
 
-        public DifferencialSaveWork(string _name, string _source, string _target)
+        public DifferencialSaveWork(string _name, string _source, string _target, List<Extension> _extension)
         {
             Name = _name;
             SourcePath = _source;
             DestinationPath = _target;
             type = SaveWorkType.differencial;
             CreationTime = DateTime.Now.ToString();
-            //ExtentionToEncryptList = _extensionList;
+            ExtentionToEncryptList = _extension;
             IsActive = false;
             Progress = null;
         }

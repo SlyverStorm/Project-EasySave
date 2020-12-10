@@ -27,7 +27,7 @@ namespace EasySave_2._0
             //If the state file has not been initialized then create 5 SaveWork object from nothing
             if (!File.Exists("stateFile.json"))
             {
-                WorkList.Add(new CompleteSaveWork("Default", "", ""));
+                WorkList.Add(new CompleteSaveWork("Default", "", "", null));
                 UpdateSaveFile(-1);
             }
             //Then if the State file already exist, use the objects in it to create the WorkList
@@ -40,11 +40,11 @@ namespace EasySave_2._0
                 {
                     if (work.Type == SaveWorkType.complete)
                     {
-                        CreateCompleteWork(work.Name, work.SourcePath, work.DestinationPath);
+                        CreateCompleteWork(work.Name, work.SourcePath, work.DestinationPath, work.ExtentionToEncryptList);
                     }
                     else if (work.Type == SaveWorkType.differencial)
                     {
-                        CreateDifferencialWork(work.Name, work.SourcePath, work.DestinationPath);
+                        CreateDifferencialWork(work.Name, work.SourcePath, work.DestinationPath, work.ExtentionToEncryptList);
                     }
                 }
                 UpdateSaveFile(-1);
@@ -78,11 +78,11 @@ namespace EasySave_2._0
         /// <param name="_name">Name of the work (must be different from existing ones)</param>
         /// <param name="_source">The Source path to save</param>
         /// <param name="_destination">The Target destination to save files in</param>
-        public void CreateCompleteWork(string _name, string _source, string _destination)
+        public void CreateCompleteWork(string _name, string _source, string _destination, List<Extension> _extension)
         {
             if (!IfSaveWorkAlreadyExists(_name))
             {
-                WorkList.Add(new CompleteSaveWork(_name, _source, _destination));
+                WorkList.Add(new CompleteSaveWork(_name, _source, _destination, _extension));
                 SetWorkIndex();
                 UpdateSaveFile(-1);
                 EditLog.CreateWorkLogLine(GetWorkIndex(_name), WorkList);
@@ -96,11 +96,11 @@ namespace EasySave_2._0
         /// <param name="_name">Name of the work (must be different from existing ones)</param>
         /// <param name="_source">The Source path to save</param>
         /// <param name="_destination">The Target destination to save files in</param>
-        public void CreateDifferencialWork(string _name, string _source, string _destination)
+        public void CreateDifferencialWork(string _name, string _source, string _destination, List<Extension> _extension)
         {
             if (!IfSaveWorkAlreadyExists(_name))
             {
-                WorkList.Add(new DifferencialSaveWork(_name, _source, _destination));
+                WorkList.Add(new DifferencialSaveWork(_name, _source, _destination, _extension));
                 SetWorkIndex();
                 UpdateSaveFile(-1);
                 EditLog.CreateWorkLogLine(GetWorkIndex(_name), WorkList);
@@ -117,23 +117,24 @@ namespace EasySave_2._0
         /// <param name="_sourcePath">New source path to apply to the work</param>
         /// <param name="_destinationPath">New target destination path to apply to the work</param>
         /// <param name="_type">New type of save work to apply to the work</param>
-        public void ChangeWork(int _nb, string _name, string _sourcePath, string _destinationPath, SaveWorkType _type)
+        public void ChangeWork(int _nb, string _name, string _sourcePath, string _destinationPath, SaveWorkType _type, List<Extension> _extension)
         {
             if (!IfSaveWorkAlreadyExists(_name))
             {
                 if (_type != WorkList[_nb].Type && _type == SaveWorkType.complete)
                 {
-                    WorkList[_nb] = new CompleteSaveWork(_name, _sourcePath, _destinationPath);
+                    WorkList[_nb] = new CompleteSaveWork(_name, _sourcePath, _destinationPath, _extension);
                 }
                 else if (_type != WorkList[_nb].Type && _type == SaveWorkType.differencial)
                 {
-                    WorkList[_nb] = new DifferencialSaveWork(_name, _sourcePath, _destinationPath);
+                    WorkList[_nb] = new DifferencialSaveWork(_name, _sourcePath, _destinationPath, _extension);
                 }
                 else
                 {
                     if (_name != "") { WorkList[_nb].Name = _name; }
                     if (_sourcePath != "") { WorkList[_nb].SourcePath = _sourcePath; }
                     if (_destinationPath != "") { WorkList[_nb].DestinationPath = _destinationPath; }
+                    WorkList[_nb].ExtentionToEncryptList = _extension;
                 }
                 SetWorkIndex();
 
