@@ -144,6 +144,7 @@ namespace EasySave_2._0
 
                 ChangeUIElementEnableState(FormElementList, true);
                 ChangeUIElementEnableState(optionButtonList, false);
+                ChangeUIElementEnableState(selectionButtonList, false);
                 ChangeUIElementVisibilityState(ConfirmButtonList, Visibility.Visible);
 
                 Confirm.Click -= ConfirmModifyClick;
@@ -161,6 +162,7 @@ namespace EasySave_2._0
         {
             ChangeUIElementEnableState(FormElementList, true);
             ChangeUIElementEnableState(optionButtonList, false);
+            ChangeUIElementEnableState(selectionButtonList, false);
             ChangeUIElementVisibilityState(ConfirmButtonList, Visibility.Visible);
             ClearForm();
             Confirm.Click -= ConfirmModifyClick;
@@ -188,6 +190,7 @@ namespace EasySave_2._0
 
             ChangeUIElementEnableState(FormElementList, false);
             ChangeUIElementEnableState(optionButtonList, true);
+            ChangeUIElementEnableState(selectionButtonList, true);
             ChangeUIElementVisibilityState(confirmButtonList, Visibility.Hidden);
             ClearForm();
 
@@ -198,6 +201,7 @@ namespace EasySave_2._0
         {
             ChangeUIElementEnableState(FormElementList, false);
             ChangeUIElementEnableState(optionButtonList, true);
+            ChangeUIElementEnableState(selectionButtonList, true);
             ChangeUIElementVisibilityState(confirmButtonList, Visibility.Hidden);
             ClearForm();
 
@@ -211,9 +215,10 @@ namespace EasySave_2._0
         /// <param name="e"></param>
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            /*ChangeUIElementEnableState(FormElementList, false);
+            ChangeUIElementEnableState(FormElementList, false);
             ChangeUIElementEnableState(optionButtonList, true);
-            ChangeUIElementVisibilityState(confirmButtonList, Visibility.Hidden);*/
+            ChangeUIElementEnableState(selectionButtonList, true);
+            ChangeUIElementVisibilityState(confirmButtonList, Visibility.Hidden);
             ClearForm();
         }
 
