@@ -11,7 +11,7 @@ namespace EasySave_2._0
         public string Name { get; set; }
         public string SourcePath { get; set; }
         public string DestinationPath { get; set; }
-        public List<string> ExtentionToEncryptList { get; set; }
+        public List<Extension> ExtentionToEncryptList { get; set; }
         public SaveWorkType Type { get; }
         public string CreationTime { get; set; }
         public bool IsActive { get; set; }

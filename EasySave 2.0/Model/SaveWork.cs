@@ -106,6 +106,5 @@ namespace EasySave_2._0
     {
         complete,
         differencial,
-        unset
     }
 }

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace EasySave_2._0
 {
 
     //Class used to create object that store information during a save protocol (complete or differencial)
-    class SaveProgress
+    class SaveProgress : INotifyPropertyChanged
     {
         //Contructor, create the object from simple parameters
         public SaveProgress(int _totalFilesNumber, long _totalSize, int _filesRemaining, long _progressState, long _sizeRemaining)
@@ -28,7 +29,11 @@ namespace EasySave_2._0
         public string LaunchTime
         {
             get { return launchTime; }
-            set { launchTime = value; }
+            set
+            { 
+                launchTime = value;
+                OnPropertyChanged("LaunchTime");
+            }
         }
 
         //Total file to save
@@ -37,7 +42,11 @@ namespace EasySave_2._0
         public int TotalFilesNumber
         {
             get { return totalFilesNumber; }
-            set { totalFilesNumber = value; }
+            set 
+            { 
+                totalFilesNumber = value;
+                OnPropertyChanged("TotalFilesNumber");
+            }
         }
 
         //Total size to copy
@@ -46,7 +55,11 @@ namespace EasySave_2._0
         public long TotalSize
         {
             get { return totalSize; }
-            set { totalSize = value; }
+            set 
+            {
+                totalSize = value;
+                OnPropertyChanged("TotalSize");
+            }
         }
 
         //Total file remaining to save
@@ -55,7 +68,11 @@ namespace EasySave_2._0
         public int FilesRemaining
         {
             get { return filesRemaining; }
-            set { filesRemaining = value; }
+            set
+            { 
+                filesRemaining = value;
+                OnPropertyChanged("FilesRemaining");
+            }
         }
 
         //Percent of progress in the save protocol
@@ -64,7 +81,11 @@ namespace EasySave_2._0
         public long ProgressState
         {
             get { return progressState; }
-            set { progressState = value; }
+            set
+            {
+                progressState = value;
+                OnPropertyChanged("ProgressState");
+            }
         }
 
         //Size remaining to save
@@ -73,7 +94,11 @@ namespace EasySave_2._0
         public long SizeRemaining
         {
             get { return sizeRemaining; }
-            set { sizeRemaining = value; }
+            set 
+            { 
+                sizeRemaining = value;
+                OnPropertyChanged("SizeRemaining");
+            }
         }
 
         //Source path of the current file we need to save
@@ -82,7 +107,11 @@ namespace EasySave_2._0
         public string CurrentSourceFilePath
         {
             get { return currentSourceFilePath; }
-            set { currentSourceFilePath = value; }
+            set 
+            { 
+                currentSourceFilePath = value;
+                OnPropertyChanged("CurrentSourceFilePath");
+            }
         }
 
         //Target path of the current file we need to save
@@ -91,7 +120,21 @@ namespace EasySave_2._0
         public string CurrentDestinationFilePath
         {
             get { return currentDestinationFilePath; }
-            set { currentDestinationFilePath = value; }
+            set
+            { 
+                currentDestinationFilePath = value;
+                OnPropertyChanged("CurrentDestinationFilePath");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            }
         }
     }
 }

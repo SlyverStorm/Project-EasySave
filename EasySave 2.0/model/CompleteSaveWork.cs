@@ -1,48 +1,69 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text;
 
 namespace EasySave_2._0
 {
-    class CompleteSaveWork : ISaveWork
+    class CompleteSaveWork : ISaveWork, INotifyPropertyChanged
     {
         private int index;
         public int Index
         {
             get { return index; }
-            set { index = value; }
+            set 
+            { 
+                index = value;
+                OnPropertyChanged("Index");
+            }
         }
 
         private string name;
         public string Name
         {
             get { return name; }
-            set { name = value; }
+            set 
+            {
+                name = value;
+                OnPropertyChanged("Name");
+            }
         }
 
         private string sourcePath;
         public string SourcePath
         {
             get { return sourcePath; }
-            set { sourcePath = value; }
+            set 
+            { 
+                sourcePath = value;
+                OnPropertyChanged("SourcePath");
+            }
         }
 
         private string destinationPath;
         public string DestinationPath
         {
             get { return destinationPath; }
-            set { destinationPath = value; }
+            set 
+            {
+                destinationPath = value;
+                OnPropertyChanged("DestinationPath");
+            }
         }
 
-        private List<string> extentionToEncryptList;
+        private List<Extension> extentionToEncryptList;
 
-        public List<string> ExtentionToEncryptList
+        public List<Extension> ExtentionToEncryptList
         {
             get { return extentionToEncryptList; }
-            set { extentionToEncryptList = value; }
+            set 
+            {
+                extentionToEncryptList = value;
+                OnPropertyChanged("ExtensionToEncryptList");
+            }
         }
 
         private SaveWorkType type;
@@ -55,14 +76,22 @@ namespace EasySave_2._0
         public string CreationTime
         {
             get { return creationTime; }
-            set { creationTime = value; }
+            set
+            { 
+                creationTime = value;
+                OnPropertyChanged("CreationTime");
+            }
         }
 
         private bool isActive;
         public bool IsActive
         {
             get { return isActive; }
-            set { isActive = value; }
+            set
+            { 
+                isActive = value;
+                OnPropertyChanged("IsActive");
+            }
         }
 
         private SaveProgress progress;
@@ -70,7 +99,11 @@ namespace EasySave_2._0
         public SaveProgress Progress
         {
             get { return progress; }
-            set { progress = value; }
+            set
+            {
+                progress = value;
+                OnPropertyChanged("Progress");
+            }
         }
 
         public CompleteSaveWork(string _name, string _source, string _target)
@@ -191,6 +224,16 @@ namespace EasySave_2._0
         public void EncryptFiles()
         {
 
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            }
         }
 
     }

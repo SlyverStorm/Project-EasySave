@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +11,7 @@ namespace EasySave_2._0
     /// <summary>
     /// Program data model class
     /// </summary>
-    class Model
+    class Model : INotifyPropertyChanged
     {
 
         /// <summary>
@@ -45,7 +46,11 @@ namespace EasySave_2._0
         public List<ISaveWork> WorkList
         {
             get { return workList; }
-            set { workList = value; }
+            set 
+            { 
+                workList = value;
+                OnPropertyChanged("WorkList");
+            }
         }
 
         /// <summary>
@@ -72,6 +77,7 @@ namespace EasySave_2._0
         public void CreateCompleteWork(string _name, string _source, string _destination)
         {
             WorkList.Add(new CompleteSaveWork(_name, _source, _destination));
+            SetWorkIndex();
         }
 
         /// <summary>
@@ -83,6 +89,7 @@ namespace EasySave_2._0
         public void CreateDifferencialWork(string _name, string _source, string _destination)
         {
             WorkList.Add(new DifferencialSaveWork(_name, _source, _destination));
+            SetWorkIndex();
         }
 
 
@@ -122,7 +129,7 @@ namespace EasySave_2._0
         public void DeleteWork(int _nb)
         {
             WorkList.RemoveAt(_nb);
-            //TODO: IMPLEMENTER METHODE DE REASSIGNATION DES SAVEWORK, YA PEUT ËTRE DES BUG SANS
+            SetWorkIndex();
             //UpdateSaveFile(_nb);
             //CreateLogLine("Supression of save work in position"+_nb);
         }
@@ -142,6 +149,17 @@ namespace EasySave_2._0
                 }
             }
             return false;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void SetWorkIndex()
+        {
+            foreach (ISaveWork li in WorkList)
+            {
+                li.Index = WorkList.IndexOf(li);
+            }
         }
 
         /// <summary>
@@ -182,36 +200,6 @@ namespace EasySave_2._0
             }
         }*/
 
-        /// <summary>
-        /// Create the line to record in the log file
-        /// </summary>
-        /// <param name="_content">Content to write in the log</param>
-        /*public void CreateLogLine(string _content)
-        {
-            //Check if file log.json doesn't exists, if so then create it and initialize it
-            if (!File.Exists("log.json"))
-            {
-                File.WriteAllText("log.json", "[]");
-            }
-            //New LogLine object with Time and content
-            LogLine newLogLine = new LogLine(_content);
-
-            //Create a raw string from the json log file
-            string JsonLog = File.ReadAllText("log.json");
-
-            //Convert the raw string into a LogLine object list
-            var LogList = JsonConvert.DeserializeObject<List<LogLine>>(JsonLog);
-
-            //Add the new object to the list
-            LogList.Add(newLogLine);
-
-            //Convert the LogLine object list into a json formated string
-            var convertedJson = JsonConvert.SerializeObject(LogList, Formatting.Indented);
-
-            //Write the new string into the json log file
-            File.WriteAllText("log.json", convertedJson);
-
-        }*/
 
         /// <summary>
         /// Update the state file with the work list value
@@ -238,6 +226,16 @@ namespace EasySave_2._0
             var convertedJson = JsonConvert.SerializeObject(WorkList, Formatting.Indented);
             File.WriteAllText("stateFile.json", convertedJson);
         }*/
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            }
+        }
 
     }
 }
