@@ -22,23 +22,81 @@ namespace EasySave_2._0
     public partial class MainWindow : Window
     {
         #region Variables
+
         ViewModel VM;
+
+        
+        private List<UIElement> formElementList;
+
+        /// <summary>
+        /// List of Elements in the form.
+        /// </summary>
+        public List<UIElement> FormElementList { get => formElementList; set => formElementList = value; }
+
+
+        private List<UIElement> optionButtonList;
+
+        /// <summary>
+        /// List of option Buttons (Launch, Modify...) + the SaveList ListView.
+        /// </summary>
+        public List<UIElement> OptionButtonList { get => optionButtonList; set => optionButtonList = value; }
+
+
+        private List<UIElement> confirmButtonList;
+
+        /// <summary>
+        /// List of Buttons Confirm and Back.
+        /// </summary>
+        public List<UIElement> ConfirmButtonList { get => confirmButtonList; set => confirmButtonList = value; }
 
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// View Constructor
         /// </summary>
         public MainWindow()
         {
+            
             VM = new ViewModel();
             DataContext = VM;
             InitializeComponent();
+            
+            FormElementList = new List<UIElement>
+            {
+                SaveNameForm,
+                SaveSourcePathForm,
+                SaveDestinationPathForm,
+                SaveTypeForm,
+                PickEncryptionForm
+            };
+
+            OptionButtonList = new List<UIElement>
+            {
+                ModifySave,
+                LaunchSave,
+                LaunchAllSave,
+                Create,
+                DeleteSave,
+                SaveList
+            };
+
+            ConfirmButtonList = new List<UIElement>
+            {
+                Confirm,
+                Back
+            };
+
+            ChangeUIElementEnableState(FormElementList, false);
+            ChangeUIElementVisibilityState(ConfirmButtonList, Visibility.Hidden);
+
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Fill in the form with Save object info.
         /// </summary>
@@ -48,7 +106,9 @@ namespace EasySave_2._0
         {
             if (SaveList.SelectedItem != null)
             {
-                DisableUIElements();
+                ChangeUIElementEnableState(FormElementList, true);
+                ChangeUIElementEnableState(optionButtonList, false);
+                ChangeUIElementVisibilityState(ConfirmButtonList, Visibility.Visible);
                 ModelTest selectedItem = (ModelTest)SaveList.SelectedItem;
                 SaveNameForm.Text = selectedItem.SaveName;
                 SaveSourcePathForm.Text = selectedItem.SourcePath;
@@ -65,7 +125,7 @@ namespace EasySave_2._0
 
                 // TODO : Create checkbox with available extensions
 
-                EnableConfirmBackBtn();
+                ChangeUIElementVisibilityState(confirmButtonList, Visibility.Visible);
             }
         }
 
@@ -76,7 +136,9 @@ namespace EasySave_2._0
         /// <param name="e"></param>
         private void Create_Click(object sender, RoutedEventArgs e)
         {
-            DisableUIElements();
+            ChangeUIElementEnableState(FormElementList, true);
+            ChangeUIElementEnableState(optionButtonList, false);
+            ChangeUIElementVisibilityState(ConfirmButtonList, Visibility.Visible);
             ClearForm();
         }
 
@@ -87,8 +149,10 @@ namespace EasySave_2._0
         /// <param name="e"></param>
         private void Confirm_Click(object sender, RoutedEventArgs e)
         {
+            ChangeUIElementEnableState(FormElementList, false);
+            ChangeUIElementEnableState(optionButtonList, true);
+            ChangeUIElementVisibilityState(confirmButtonList, Visibility.Hidden);
             // Sauvegarde et envoie de l'objet Save modifié vers le Model
-            EnableUIElements();
             ClearForm();
         }
 
@@ -99,56 +163,10 @@ namespace EasySave_2._0
         /// <param name="e"></param>
         private void Back_Click(object sender, RoutedEventArgs e)
         {
+            ChangeUIElementEnableState(FormElementList, false);
+            ChangeUIElementEnableState(optionButtonList, true);
+            ChangeUIElementVisibilityState(confirmButtonList, Visibility.Hidden);
             ClearForm();
-            EnableUIElements();
-        }
-
-        /// <summary>
-        /// Disable interaction with Save Objects.
-        /// Permits Confirm or Back.
-        /// </summary>
-        private void DisableUIElements()
-        {
-            Create.IsEnabled = false;
-            LaunchAllSave.IsEnabled = false;
-            LaunchSave.IsEnabled = false;
-            ModifySave.IsEnabled = false;
-            DeleteSave.IsEnabled = false;
-            SaveList.IsEnabled = false;
-            EnableConfirmBackBtn();
-        }
-
-        /// <summary>
-        /// Enable interaction with Save Objects.
-        /// Deny Confirm or Back.
-        /// </summary>
-        private void EnableUIElements()
-        {
-            Create.IsEnabled = true;
-            LaunchAllSave.IsEnabled = true;
-            LaunchSave.IsEnabled = true;
-            ModifySave.IsEnabled = true;
-            DeleteSave.IsEnabled = true;
-            SaveList.IsEnabled = true;
-            DisableConfirmBackBtn();
-        }
-
-        /// <summary>
-        /// Disable Confirm and Back button.
-        /// </summary>
-        private void DisableConfirmBackBtn()
-        {
-            Confirm.IsEnabled = false;
-            Back.IsEnabled = false;
-        }
-
-        /// <summary>
-        /// Enable Confirm and Back button.
-        /// </summary>
-        private void EnableConfirmBackBtn()
-        {
-            Confirm.IsEnabled = true;
-            Back.IsEnabled = true;
         }
 
         /// <summary>
@@ -160,6 +178,32 @@ namespace EasySave_2._0
             SaveSourcePathForm.Text = "";
             SaveDestinationPathForm.Text = "";
             SaveTypeForm.SelectedIndex = -1;
+        }
+
+        /// <summary>
+        /// Enable or disable elements inside an UIElement Collection.
+        /// </summary>
+        /// <param name="_elementCollection">The UIELement Collection you want to enable/disable.</param>
+        /// <param name="_choice">Choose if you want to enable (true) the UIElements or not (false).</param>
+        private void ChangeUIElementEnableState(List<UIElement> _elementList, bool _choice)
+        {
+            foreach (UIElement element in _elementList)
+            {
+                element.IsEnabled = _choice;
+            }
+        }
+
+        /// <summary>
+        /// Set the visibility of elements inside an UIElement Collection
+        /// </summary>
+        /// <param name="_elementList">The UIELement Collection you want to show/hide.</param>
+        /// <param name="_choice">Choose the visibility state Visible, Hidden or Collapsed.</param>
+        private void ChangeUIElementVisibilityState(List<UIElement> _elementList, Visibility _choice)
+        {
+            foreach (UIElement element in _elementList)
+            {
+                element.Visibility = _choice;
+            }
         }
 
         #endregion
