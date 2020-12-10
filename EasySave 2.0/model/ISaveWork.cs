@@ -20,6 +20,6 @@ namespace EasySave_2._0
         public void Save();
         public void CreateProgress(int _totalFilesNumber, long _totalSize, int _filesRemaining, int _progressState, long _sizeRemaining);
         public void DeleteProgress();
-        public void EncryptFiles(DirectoryInfo _target);
+        public void EncryptFiles();
     }
 }

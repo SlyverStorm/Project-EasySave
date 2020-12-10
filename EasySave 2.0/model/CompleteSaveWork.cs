@@ -112,6 +112,8 @@ namespace EasySave_2._0
             //CreateLogLine("Launching save work from work : " + work.Name + ", type : complete save");
             CompleteCopy();
             //CreateLogLine(work.Name + " save DONE !");
+
+            //TODO: FONCTION ENCRYPTION FICHIER 
         }
 
         /// <summary>
@@ -186,7 +188,7 @@ namespace EasySave_2._0
             }
         }
 
-        public void EncryptFiles(DirectoryInfo _target)
+        public void EncryptFiles()
         {
 
         }

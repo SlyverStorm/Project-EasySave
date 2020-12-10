@@ -80,6 +80,7 @@ namespace EasySave_2._0
             DestinationPath = _target;
             type = SaveWorkType.differencial;
             CreationTime = DateTime.Now.ToString();
+            //ExtentionToEncryptList = _extensionList;
             IsActive = false;
             Progress = null;
         }
@@ -216,7 +217,7 @@ namespace EasySave_2._0
 
 
 
-        public void EncryptFiles(DirectoryInfo _target)
+        public void EncryptFiles()
         {
 
         }
