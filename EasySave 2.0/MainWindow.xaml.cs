@@ -25,7 +25,6 @@ namespace EasySave_2._0
 
         ViewModel VM;
 
-        
         private List<UIElement> formElementList;
 
         /// <summary>
@@ -33,14 +32,12 @@ namespace EasySave_2._0
         /// </summary>
         public List<UIElement> FormElementList { get => formElementList; set => formElementList = value; }
 
-
         private List<UIElement> optionButtonList;
 
         /// <summary>
         /// List of option Buttons (Launch, Modify...) + the SaveList ListView.
         /// </summary>
         public List<UIElement> OptionButtonList { get => optionButtonList; set => optionButtonList = value; }
-
 
         private List<UIElement> confirmButtonList;
 
@@ -149,10 +146,34 @@ namespace EasySave_2._0
         /// <param name="e"></param>
         private void Confirm_Click(object sender, RoutedEventArgs e)
         {
+            #region Variables
+
+            string Name;
+            string SourcePath;
+            string DestinationPath;
+            string SaveType;
+            List<string> Encryption;
+
+            #endregion
+
             ChangeUIElementEnableState(FormElementList, false);
             ChangeUIElementEnableState(optionButtonList, true);
             ChangeUIElementVisibilityState(confirmButtonList, Visibility.Hidden);
+
             // Sauvegarde et envoie de l'objet Save modifié vers le Model
+
+            //if else create ou modify
+
+
+            List<ModelTest.Extension> encryptList = new List<ModelTest.Extension>
+            {
+                ModelTest.Extension.exe,
+                ModelTest.Extension.gif
+            };
+
+            string test = ComboBoxItem.IsSelectedProperty
+            VM.CreateSaveProcedure(SaveNameForm.Text, SaveSourcePathForm.Text, SaveDestinationPathForm.Text, ((ComboBoxItem)SaveTypeForm.SelectedItem).Content.ToString(), encryptList);
+
             ClearForm();
         }
 

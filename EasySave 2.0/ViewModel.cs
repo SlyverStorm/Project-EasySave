@@ -29,17 +29,24 @@ namespace EasySave_2._0
         /// <summary>
         /// 
         /// </summary>
-        public void CreateSaveProcedure()
+        public void CreateSaveProcedure(string _name, string _sourcePath, string _destinationPath, ModelTest.ModelTestType _saveType, List<Extension> _extensionList)
         {
-
+            if(_saveType == ModelTest.ModelTestType.complete)
+            {
+                CreateCompleteWork(_name, _sourcePath, _destinationPath, _extensionList);
+            }
+            else
+            {
+                CreateDifferencialWork(_name, _sourcePath, _destinationPath, _extensionList);
+            }
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
-        public void ModifySaveProcedure()
+        public void ModifySaveProcedure(int _id, string _name, string _sourcePath, string _destinationPath, ModelTest.ModelTestType _saveType, List<Encryption> _encryptionList);
         {
-
+            ChangeWork(_id, _name, _sourcePath, _destinationPath, _type, _encryptionList);
         }
 
         /// <summary>

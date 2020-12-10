@@ -27,13 +27,13 @@
         </Grid.RowDefinitions>
 
         <!--#region Header-->
-        <Label x:Name="Title" Content="EasySave 2.0" Grid.Column="1" HorizontalAlignment="center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold"/>
+        <Label x:Name="TitleApp" Content="EasySave 2.0" Grid.Column="1" HorizontalAlignment="center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold"/>
         <!--#endregion-->
 
         <!--#region i18n-->
-        <ComboBox x:Name="Language" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontWeight="DemiBold" Width="85">
+        <ComboBox x:Name="LanguageSelection" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontWeight="DemiBold" Width="85">
             <ComboBoxItem IsSelected="True">English</ComboBoxItem>
-            <ComboBoxItem>Français</ComboBoxItem>
+            <ComboBoxItem IsSelected="False">Français</ComboBoxItem>
         </ComboBox>
         <!--#endregion-->
 
