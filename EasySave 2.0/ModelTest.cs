@@ -41,7 +41,7 @@ namespace EasySave_2._0
 
         public void CreateDifferencialWork(string _name, string _sourcePath, string _destinationPath, List<SaveWorkTest.SaveWorkTestExtension> _extensionList)
         {
-            WorkList.Add(new SaveWorkTest(WorkList[WorkList.Count].SaveID + 1, _name, _sourcePath, _destinationPath, SaveWorkTest.SaveWorkTestType.differencial, _extensionList));
+            WorkList.Add(new SaveWorkTest(WorkList[WorkList.Count - 1].SaveID + 1, _name, _sourcePath, _destinationPath, SaveWorkTest.SaveWorkTestType.differencial, _extensionList));
         }
     }
 }

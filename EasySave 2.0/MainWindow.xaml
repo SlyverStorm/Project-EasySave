@@ -57,7 +57,7 @@
 
         <!--#region Created Save Interaction-->
         <Button x:Name="Create" Content="Create" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Height="25" FontSize="14" Margin="10,10,10,10" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="Create_Click"/>
-        <Button x:Name="Confirm" Content="Confirm" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4" Height="25" FontSize="14" Margin="10,10,10,10" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="Confirm_Click"/>
+        <Button x:Name="Confirm" Content="Confirm" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4" Height="25" FontSize="14" Margin="10,10,10,10" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="ConfirmCreateClick"/>
         <Button x:Name="Back" Content="Back" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="5" Height="25" FontSize="14" Margin="10,10,10,10" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="Back_Click"/>
         <!--#endregion-->
 
@@ -77,7 +77,7 @@
                     <GridViewColumn x:Name="SaveSourcePathListView" Header="Source Path" DisplayMemberBinding="{Binding SourcePath}" Width="170" />
                     <GridViewColumn x:Name="SaveDestinationPathListView" Header="Destination Path" DisplayMemberBinding="{Binding DestinationPath}" Width="170"/>
                     <GridViewColumn x:Name="SaveTypeListView" Header="Save Type" DisplayMemberBinding="{Binding SaveType}" Width="120" />
-                    <GridViewColumn x:Name="EncryptionListView" Header="Encryption" DisplayMemberBinding="{Binding ExtensionList}" Width="120" />
+                    <GridViewColumn x:Name="EncryptionListView" Header="Encryption" DisplayMemberBinding="{Binding ExtensionList}" Width="120" /> <!--Has to be removed-->
                 </GridView>
             </ListView.View>
         </ListView>

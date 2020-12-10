@@ -103,9 +103,6 @@ namespace EasySave_2._0
         {
             if (SaveList.SelectedItem != null)
             {
-                ChangeUIElementEnableState(FormElementList, true);
-                ChangeUIElementEnableState(optionButtonList, false);
-                ChangeUIElementVisibilityState(ConfirmButtonList, Visibility.Visible);
                 SaveWorkTest selectedItem = (SaveWorkTest)SaveList.SelectedItem;
                 SaveNameForm.Text = selectedItem.SaveName;
                 SaveSourcePathForm.Text = selectedItem.SourcePath;
@@ -120,9 +117,13 @@ namespace EasySave_2._0
                     SaveTypeForm.SelectedIndex = 1;
                 }
 
-                // TODO : Create checkbox with available extensions
+                ChangeUIElementEnableState(FormElementList, true);
+                ChangeUIElementEnableState(optionButtonList, false);
+                ChangeUIElementVisibilityState(ConfirmButtonList, Visibility.Visible);
 
-                ChangeUIElementVisibilityState(confirmButtonList, Visibility.Visible);
+                Confirm.Click -= ConfirmModifyClick;
+                Confirm.Click -= ConfirmCreateClick;
+                Confirm.Click += ConfirmModifyClick;
             }
         }
 
@@ -137,6 +138,9 @@ namespace EasySave_2._0
             ChangeUIElementEnableState(optionButtonList, false);
             ChangeUIElementVisibilityState(ConfirmButtonList, Visibility.Visible);
             ClearForm();
+            Confirm.Click -= ConfirmModifyClick;
+            Confirm.Click -= ConfirmCreateClick;
+            Confirm.Click += ConfirmCreateClick;
         }
 
         /// <summary>
@@ -144,27 +148,8 @@ namespace EasySave_2._0
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Confirm_Click(object sender, RoutedEventArgs e)
+        private void ConfirmCreateClick(object sender, RoutedEventArgs e)
         {
-            #region Variables
-
-            /*string Name;
-            string SourcePath;
-            string DestinationPath;
-            string SaveType;
-            List<string> Encryption;*/
-
-            #endregion
-
-            ChangeUIElementEnableState(FormElementList, false);
-            ChangeUIElementEnableState(optionButtonList, true);
-            ChangeUIElementVisibilityState(confirmButtonList, Visibility.Hidden);
-
-            // Sauvegarde et envoie de l'objet Save modifié vers le Model
-
-            //if else create ou modify
-
-
             List<SaveWorkTest.SaveWorkTestExtension> encryptList = new List<SaveWorkTest.SaveWorkTestExtension>
             {
                 SaveWorkTest.SaveWorkTestExtension.exe,
@@ -176,7 +161,21 @@ namespace EasySave_2._0
 
             VM.CreateSaveProcedure(SaveNameForm.Text, SaveSourcePathForm.Text, SaveDestinationPathForm.Text, saveType, encryptList);
 
+            ChangeUIElementEnableState(FormElementList, false);
+            ChangeUIElementEnableState(optionButtonList, true);
+            ChangeUIElementVisibilityState(confirmButtonList, Visibility.Hidden);
             ClearForm();
+
+            SaveList.Items.Refresh();
+        }
+
+        private void ConfirmModifyClick(object sender, RoutedEventArgs e)
+        {
+            ChangeUIElementEnableState(FormElementList, false);
+            ChangeUIElementEnableState(optionButtonList, true);
+            ChangeUIElementVisibilityState(confirmButtonList, Visibility.Hidden);
+            ClearForm();
+
             SaveList.Items.Refresh();
         }
 
@@ -187,9 +186,9 @@ namespace EasySave_2._0
         /// <param name="e"></param>
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            ChangeUIElementEnableState(FormElementList, false);
+            /*ChangeUIElementEnableState(FormElementList, false);
             ChangeUIElementEnableState(optionButtonList, true);
-            ChangeUIElementVisibilityState(confirmButtonList, Visibility.Hidden);
+            ChangeUIElementVisibilityState(confirmButtonList, Visibility.Hidden);*/
             ClearForm();
         }
 
