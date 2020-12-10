@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace EasySave_2._0
 {
@@ -221,9 +222,40 @@ namespace EasySave_2._0
             }
         }
 
+        /// <summary>
+        /// Encrypt selected files 
+        /// </summary>
         public void EncryptFiles()
         {
+            // If we encrypt all files
+            if (extentionToEncryptList.Contains(Extension.ALL))
+            {
+                // Find all files
+                string[] filesPathToEncrypt = Directory.GetFiles(destinationPath, "*.*", SearchOption.AllDirectories);
+                // For each files
+                foreach (string files in filesPathToEncrypt)
+                {
+                    Console.WriteLine(files);
+                    // Encrypt File
+                    CryptoSoft.CryptoSoftTools.CryptoSoftDecryption(files);
+                }
+            }
 
+            // for each exntensions in the list
+            foreach (Extension extension in extentionToEncryptList)
+            {
+                // Adjusts the format of the extension
+                string extensionReformated = "*." + extension.ToString() + "*";
+                // Find all files in directory with aimed extensions
+                string[] filesPathToEncrypt = Directory.GetFiles(destinationPath, extensionReformated, SearchOption.AllDirectories);
+                // For each files with aimed extensions
+                foreach (string files in filesPathToEncrypt)
+                {
+                    Console.WriteLine(files);
+                    // Encrypt File
+                    CryptoSoft.CryptoSoftTools.CryptoSoftEncryption(files);
+                }
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
