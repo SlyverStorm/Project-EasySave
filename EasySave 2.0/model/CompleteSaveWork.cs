@@ -243,7 +243,7 @@ namespace EasySave_2._0
                     {
                         Console.WriteLine(files);
                         // Encrypt File
-                        CryptoSoft.CryptoSoftTools.CryptoSoftDecryption(files);
+                        CryptoSoft.CryptoSoftTools.CryptoSoftEncryption(files);
                     }
                 }
 
