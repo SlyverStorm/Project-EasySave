@@ -143,6 +143,7 @@ namespace EasySave_2._0
             //TODO: relation avec event !!!
 
             //CreateLogLine("Launching save work from work : " + work.Name + ", type : complete save");
+            EditLog.LaunchingSaveLogLine(Index);
             CompleteCopy();
             //CreateLogLine(work.Name + " save DONE !");
 

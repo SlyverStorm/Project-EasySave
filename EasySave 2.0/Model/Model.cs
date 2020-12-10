@@ -49,6 +49,8 @@ namespace EasySave_2._0
                 }
                 UpdateSaveFile(-1);
             }
+
+            EditLog.InitSoftwareLogLine();
             
         }
 
@@ -71,21 +73,6 @@ namespace EasySave_2._0
         }
 
         /// <summary>
-        /// Can create a save work from simple parameters (private method)
-        /// </summary>
-        /// <param name="_name">Name of the work (must be different from existing ones)</param>
-        /// <param name="_sourcePath">The Source path to save</param>
-        /// <param name="_destinationPath">The Target destination to save files in</param>
-        /// <param name="_type">Save work type (complete or differential)</param>
-        /*private void CreateWork(string _name, string _sourcePath, string _destinationPath, SaveWorkType _type)
-        {
-            ISaveWork tempSave = new SaveWork(_name, _sourcePath, _destinationPath, _type);
-            WorkList.Add(tempSave);
-            UpdateSaveFile(WorkList.IndexOf(tempSave));
-            CreateLogLine("Creation of a new save work, name : " + tempSave.Name + ", source path : " + tempSave.SourcePath + ", destination path : "+tempSave.DestinationPath+", type : "+tempSave.Type);
-        }*/
-
-        /// <summary>
         /// Create a save work (with a complete save algorithm)
         /// </summary>
         /// <param name="_name">Name of the work (must be different from existing ones)</param>
@@ -93,9 +80,14 @@ namespace EasySave_2._0
         /// <param name="_destination">The Target destination to save files in</param>
         public void CreateCompleteWork(string _name, string _source, string _destination)
         {
-            WorkList.Add(new CompleteSaveWork(_name, _source, _destination));
-            SetWorkIndex();
-            UpdateSaveFile(-1);
+            if (!IfSaveWorkAlreadyExists(_name))
+            {
+                WorkList.Add(new CompleteSaveWork(_name, _source, _destination));
+                SetWorkIndex();
+                UpdateSaveFile(-1);
+                EditLog.CreateWorkLogLine(GetWorkIndex(_name), WorkList);
+            }
+            //TODO: Event pour préveneir la vue MDRRRRRRR !
         }
 
         /// <summary>
@@ -106,9 +98,14 @@ namespace EasySave_2._0
         /// <param name="_destination">The Target destination to save files in</param>
         public void CreateDifferencialWork(string _name, string _source, string _destination)
         {
-            WorkList.Add(new DifferencialSaveWork(_name, _source, _destination));
-            SetWorkIndex();
-            UpdateSaveFile(-1);
+            if (!IfSaveWorkAlreadyExists(_name))
+            {
+                WorkList.Add(new DifferencialSaveWork(_name, _source, _destination));
+                SetWorkIndex();
+                UpdateSaveFile(-1);
+                EditLog.CreateWorkLogLine(GetWorkIndex(_name), WorkList);
+            }
+            //TODO: Event pour préveneir la vue MDRRRRRRR !
         }
 
 
@@ -122,24 +119,27 @@ namespace EasySave_2._0
         /// <param name="_type">New type of save work to apply to the work</param>
         public void ChangeWork(int _nb, string _name, string _sourcePath, string _destinationPath, SaveWorkType _type)
         {
-            if (_type != WorkList[_nb].Type && _type == SaveWorkType.complete)
+            if (!IfSaveWorkAlreadyExists(_name))
             {
-                WorkList[_nb] = new CompleteSaveWork(_name, _sourcePath, _destinationPath);
-            }
-            else if (_type != WorkList[_nb].Type && _type == SaveWorkType.differencial)
-            {
-                WorkList[_nb] = new DifferencialSaveWork(_name, _sourcePath, _destinationPath);
-            }
-            else
-            {
-                if (_name != "") { WorkList[_nb].Name = _name; }
-                if (_sourcePath != "") { WorkList[_nb].SourcePath = _sourcePath; }
-                if (_destinationPath != "") { WorkList[_nb].DestinationPath = _destinationPath; }
-            }
-            SetWorkIndex();
+                if (_type != WorkList[_nb].Type && _type == SaveWorkType.complete)
+                {
+                    WorkList[_nb] = new CompleteSaveWork(_name, _sourcePath, _destinationPath);
+                }
+                else if (_type != WorkList[_nb].Type && _type == SaveWorkType.differencial)
+                {
+                    WorkList[_nb] = new DifferencialSaveWork(_name, _sourcePath, _destinationPath);
+                }
+                else
+                {
+                    if (_name != "") { WorkList[_nb].Name = _name; }
+                    if (_sourcePath != "") { WorkList[_nb].SourcePath = _sourcePath; }
+                    if (_destinationPath != "") { WorkList[_nb].DestinationPath = _destinationPath; }
+                }
+                SetWorkIndex();
 
-            UpdateSaveFile(_nb);
-            //CreateLogLine("Modification of a existing save work in position " + _nb + ", current parameters : name : " + WorkList[_nb - 1].Name + ", source path : " + WorkList[_nb - 1].SourcePath + ", destination path : " + WorkList[_nb - 1].DestinationPath + ", type : " + WorkList[_nb - 1].Type);
+                UpdateSaveFile(_nb);
+                EditLog.ChangeWorkLogLine(_nb, WorkList);
+            }
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace EasySave_2._0
             WorkList.RemoveAt(_nb);
             SetWorkIndex();
             UpdateSaveFile(_nb);
-            //CreateLogLine("Supression of save work in position"+_nb);
+            EditLog.DeleteWorkLogLine(_nb);
         }
 
         /// <summary>
@@ -168,6 +168,7 @@ namespace EasySave_2._0
                     return true;
                 }
             }
+            EditLog.SaveWorkAlreadyExistsLogLine(_name);
             return false;
         }
 
