@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <Reference Include="CryptoSoft">
-      <HintPath>C:\Users\omen\Desktop\CryptoSoft.dll</HintPath>
+      <HintPath>bin\Debug\netcoreapp3.1\CryptoSoft.dll</HintPath>
     </Reference>
   </ItemGroup>
 
