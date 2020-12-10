@@ -46,6 +46,22 @@ namespace EasySave_2._0
         /// </summary>
         public List<UIElement> ConfirmButtonList { get => confirmButtonList; set => confirmButtonList = value; }
 
+        private List<UIElement> selectionButtonList;
+
+        /// <summary>
+        /// List of Buttons Confirm and Back.
+        /// </summary>
+        public List<UIElement> SelectionButtonList { get => selectionButtonList; set => selectionButtonList = value; }
+
+        private bool isAnItemSelected = false;
+
+        public bool IsAnItemSelected
+        {
+            get { return isAnItemSelected; }
+            set { isAnItemSelected = value; }
+        }
+
+
         #endregion
 
         #region Constructor
@@ -71,11 +87,8 @@ namespace EasySave_2._0
 
             OptionButtonList = new List<UIElement>
             {
-                ModifySave,
-                LaunchSave,
                 LaunchAllSave,
                 Create,
-                DeleteSave,
                 SaveList
             };
 
@@ -85,14 +98,26 @@ namespace EasySave_2._0
                 Back
             };
 
-            ChangeUIElementEnableState(FormElementList, false);
-            ChangeUIElementVisibilityState(ConfirmButtonList, Visibility.Hidden);
-
+            SelectionButtonList = new List<UIElement>
+            {
+                ModifySave,
+                LaunchSave,
+                DeleteSave
+            };
         }
 
         #endregion
 
         #region Methods
+
+        private void ItemSelected(object sender, SelectionChangedEventArgs args)
+        {
+            if (!IsAnItemSelected)
+            {
+                IsAnItemSelected = true;
+                ChangeUIElementEnableState(SelectionButtonList, true);
+            }
+        }
 
         /// <summary>
         /// Fill in the form with Save object info.
@@ -210,9 +235,13 @@ namespace EasySave_2._0
         /// <param name="_choice">Choose if you want to enable (true) the UIElements or not (false).</param>
         private void ChangeUIElementEnableState(List<UIElement> _elementList, bool _choice)
         {
-            foreach (UIElement element in _elementList)
+            if (!(_elementList == SelectionButtonList && IsAnItemSelected == false))
             {
-                element.IsEnabled = _choice;
+                foreach (UIElement element in _elementList)
+                {
+                    element.IsEnabled = _choice;
+                }
+
             }
         }
 

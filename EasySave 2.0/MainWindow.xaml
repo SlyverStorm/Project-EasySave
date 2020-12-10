@@ -39,37 +39,37 @@
 
         <!--#region Save Form-->
         <Label Name="saveNameLabel" Content="Name" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-        <TextBox x:Name="SaveNameForm" Text="" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Width="575" Height="25" VerticalContentAlignment="Center" Grid.ColumnSpan="2" Margin="8,0,0,0"/>
+        <TextBox x:Name="SaveNameForm" Text="" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Width="575" Height="25" VerticalContentAlignment="Center" Grid.ColumnSpan="2" Margin="8,0,0,0" IsEnabled="False"/>
         <Label Name="sourcePathLabel" Content="Source Path" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-        <TextBox x:Name="SaveSourcePathForm" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Width="575" Height="25" VerticalContentAlignment="Center" Grid.ColumnSpan="2" Margin="8,0,0,0"/>
+        <TextBox x:Name="SaveSourcePathForm" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Width="575" Height="25" VerticalContentAlignment="Center" Grid.ColumnSpan="2" Margin="8,0,0,0" IsEnabled="False"/>
         <Label Name="destinationPathLabel" Content="Destination Path" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-        <TextBox x:Name="SaveDestinationPathForm" Grid.Column="1" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Width="575" Height="25" VerticalContentAlignment="Center" Grid.ColumnSpan="2" Margin="8,0,0,0"/>
+        <TextBox x:Name="SaveDestinationPathForm" Grid.Column="1" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Width="575" Height="25" VerticalContentAlignment="Center" Grid.ColumnSpan="2" Margin="8,0,0,0" IsEnabled="False"/>
         <Label Name="saveTypeLabel" Content="Save Type" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-        <ComboBox x:Name="SaveTypeForm" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="575" Height="25" Grid.ColumnSpan="2" Margin="8,0,0,0">
+        <ComboBox x:Name="SaveTypeForm" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="575" Height="25" Grid.ColumnSpan="2" Margin="8,0,0,0" IsEnabled="False">
             <ComboBoxItem IsSelected="False" Content="Complete"/>
             <ComboBoxItem IsSelected="False" Content="Differential"/>
         </ComboBox>
         <Label Content="Encryption" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-        <ComboBox x:Name="PickEncryptionForm" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Left" Width="575" Height="25" VerticalContentAlignment="Center" Grid.ColumnSpan="2" Margin="8,0,0,0">
+        <ComboBox x:Name="PickEncryptionForm" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Left" Width="575" Height="25" VerticalContentAlignment="Center" Grid.ColumnSpan="2" Margin="8,0,0,0" IsEnabled="False">
             <ComboBoxItem IsSelected="True">standby --> wait for model</ComboBoxItem>
         </ComboBox>
         <!--#endregion-->
 
         <!--#region Created Save Interaction-->
         <Button x:Name="Create" Content="Create" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Height="25" FontSize="14" Margin="10,10,10,10" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="Create_Click"/>
-        <Button x:Name="Confirm" Content="Confirm" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4" Height="25" FontSize="14" Margin="10,10,10,10" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="ConfirmCreateClick"/>
-        <Button x:Name="Back" Content="Back" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="5" Height="25" FontSize="14" Margin="10,10,10,10" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="Back_Click"/>
+        <Button x:Name="Confirm" Content="Confirm" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4" Height="25" FontSize="14" Margin="10,10,10,10" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="ConfirmCreateClick" Visibility="Hidden"/>
+        <Button x:Name="Back" Content="Back" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="5" Height="25" FontSize="14" Margin="10,10,10,10" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="Back_Click" Visibility="Hidden"/>
         <!--#endregion-->
 
         <!--#region Created Save Interaction-->
         <Button x:Name="LaunchAllSave" Content="Launch All" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="6" Height="25" FontSize="14" Margin="10,10,10,10" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-        <Button x:Name="LaunchSave" Content="Launch" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="7" Height="25" FontSize="14" Margin="10,10,10,10" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-        <Button x:Name="ModifySave" Content="Modify" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="8" Height="25" FontSize="14" Margin="10,10,10,10" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="ModifySave_Click"/>
-        <Button x:Name="DeleteSave" Content="Delete" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="9" Height="25" FontSize="14" Margin="10,10,10,10" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <Button x:Name="LaunchSave" Content="Launch" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="7" Height="25" FontSize="14" Margin="10,10,10,10" FontWeight="DemiBold" VerticalContentAlignment="Center" IsEnabled="False" HorizontalContentAlignment="Center"/>
+        <Button x:Name="ModifySave" Content="Modify" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="8" Height="25" FontSize="14" Margin="10,10,10,10" FontWeight="DemiBold" VerticalContentAlignment="Center" IsEnabled="False" HorizontalContentAlignment="Center" Click="ModifySave_Click"/>
+        <Button x:Name="DeleteSave" Content="Delete" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="9" Height="25" FontSize="14" Margin="10,10,10,10" FontWeight="DemiBold" VerticalContentAlignment="Center" IsEnabled="False" HorizontalContentAlignment="Center"/>
         <!--#endregion-->
 
         <!--#region Save List-->
-        <ListView x:Name="SaveList" ItemsSource="{Binding ModelTest.WorkList}" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="4" Margin="5,5,5,5" SelectionMode="Single">
+        <ListView x:Name="SaveList" ItemsSource="{Binding ModelTest.WorkList}" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="4" Margin="5,5,5,5" SelectionMode="Single" SelectionChanged="ItemSelected">
             <ListView.View>
                 <GridView>
                     <GridViewColumn x:Name="IdSaveListView" Header="ID" DisplayMemberBinding="{Binding SaveID}" Width="30"/>
