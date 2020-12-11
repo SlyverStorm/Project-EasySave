@@ -4,6 +4,9 @@ using System.Text;
 
 namespace EasySave_2._0
 {
+    /// <summary>
+    /// Language Interface
+    /// </summary>
     interface ILanguage
     {
         public string MainTitle { get; }
