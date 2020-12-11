@@ -56,18 +56,18 @@
             <ComboBoxItem IsSelected="False" Content="Differential"/>
         </ComboBox>
         <Label Content="Encryption" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold" Height="34" Width="102" Grid.RowSpan="2"/>
-        <CheckBox x:Name="Txt" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".txt" Height="15" Width="36"/>
-        <CheckBox x:Name="Rar" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".rar" Height="15" Width="37"/>
-        <CheckBox x:Name="Zip" Grid.Row="5" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".zip" Height="15" Width="38"/>
-        <CheckBox x:Name="Docx" Grid.Row="5" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".docx" Height="15" Width="48"/>
-        <CheckBox x:Name="Mp4" Grid.Row="5" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".mp4" Height="15" Width="46"/>
-        <CheckBox x:Name="Pptx" Grid.Row="5" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".pptx" Height="15" Width="46"/>
-        <CheckBox x:Name="Jpg" Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".jpg" Height="15" Width="40"/>
-        <CheckBox x:Name="Png" Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".png" Height="15" Width="43"/>
-        <CheckBox x:Name="Pdf" Grid.Row="6" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".pdf" Height="15" Width="40"/>
-        <CheckBox x:Name="Exe" Grid.Row="6" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".exe" Height="15" Width="41"/>
-        <CheckBox x:Name="Iso" Grid.Row="6" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".iso" Height="15" Width="38"/>
-        <CheckBox x:Name="All" Grid.Row="6" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Encrypt All" Height="15" Width="76"/>
+        <CheckBox x:Name="Txt" IsChecked="False" IsEnabled="False" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".txt" Height="15" Width="36"/>
+        <CheckBox x:Name="Rar" IsChecked="False" IsEnabled="False" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".rar" Height="15" Width="37"/>
+        <CheckBox x:Name="Zip" IsChecked="False" IsEnabled="False" Grid.Row="5" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".zip" Height="15" Width="38"/>
+        <CheckBox x:Name="Docx" IsChecked="False" IsEnabled="False" Grid.Row="5" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".docx" Height="15" Width="48"/>
+        <CheckBox x:Name="Mp4" IsChecked="False" IsEnabled="False" Grid.Row="5" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".mp4" Height="15" Width="46"/>
+        <CheckBox x:Name="Pptx" IsChecked="False" IsEnabled="False" Grid.Row="5" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".pptx" Height="15" Width="46"/>
+        <CheckBox x:Name="Jpg" IsChecked="False" IsEnabled="False" Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".jpg" Height="15" Width="40"/>
+        <CheckBox x:Name="Png" IsChecked="False" IsEnabled="False" Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".png" Height="15" Width="43"/>
+        <CheckBox x:Name="Pdf" IsChecked="False" IsEnabled="False" Grid.Row="6" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".pdf" Height="15" Width="40"/>
+        <CheckBox x:Name="Exe" IsChecked="False" IsEnabled="False" Grid.Row="6" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".exe" Height="15" Width="41"/>
+        <CheckBox x:Name="Iso" IsChecked="False" IsEnabled="False" Grid.Row="6" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".iso" Height="15" Width="38"/>
+        <CheckBox x:Name="ALL" IsChecked="False" IsEnabled="False" Grid.Row="6" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Every File" Height="15" Width="76" Checked="ALL_Checked" Unchecked="ALL_Unchecked"/>
         <!--#endregion-->
 
         <!--#region Created Save Interaction-->

@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Text.RegularExpressions;
 
 namespace EasySave_2._0
 {
@@ -52,6 +53,13 @@ namespace EasySave_2._0
         /// List of Buttons Confirm and Back.
         /// </summary>
         public List<UIElement> SelectionButtonList { get => selectionButtonList; set => selectionButtonList = value; }
+
+        private List<UIElement> checkBoxList;
+
+        /// <summary>
+        /// List of Buttons Confirm and Back.
+        /// </summary>
+        public List<UIElement> CheckBoxList { get => checkBoxList; set => checkBoxList = value; }
 
         private bool isAnItemSelected = false;
 
@@ -103,6 +111,21 @@ namespace EasySave_2._0
                 LaunchSave,
                 DeleteSave
             };
+
+            CheckBoxList = new List<UIElement>
+            {
+                Txt,
+                Rar,
+                Zip,
+                Docx,
+                Mp4,
+                Pptx,
+                Jpg,
+                Png,
+                Pdf,
+                Exe,
+                Iso
+            };
         }
 
         #endregion
@@ -128,6 +151,8 @@ namespace EasySave_2._0
         {
             ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
             VM.DeleteSaveProcedure(selectedItem.Index);
+
+            SaveList.Items.Refresh();
         }
 
         /// <summary>
@@ -151,9 +176,20 @@ namespace EasySave_2._0
                 SaveTypeForm.SelectedIndex = 1;
             }
 
+            if (selectedItem.ExtentionToEncryptList != null)
+            {
+                foreach (Extension _extension in selectedItem.ExtentionToEncryptList)
+                {
+                    CheckBox _checkBox = FindName(_extension.ToString().First().ToString().ToUpper() + _extension.ToString().Substring(1)) as CheckBox;
+                    _checkBox.IsChecked = true;
+                }
+            }
+
             ChangeUIElementEnableState(FormElementList, true);
-            ChangeUIElementEnableState(optionButtonList, false);
-            ChangeUIElementEnableState(selectionButtonList, false);
+            ChangeUIElementEnableState(OptionButtonList, false);
+            ChangeUIElementEnableState(SelectionButtonList, false);
+            ChangeUIElementEnableState(CheckBoxList, true);
+            ALL.IsEnabled = true;
             ChangeUIElementVisibilityState(ConfirmButtonList, Visibility.Visible);
 
             Confirm.Click -= ConfirmModifyClick;
@@ -170,8 +206,10 @@ namespace EasySave_2._0
         private void Create_Click(object sender, RoutedEventArgs e)
         {
             ChangeUIElementEnableState(FormElementList, true);
-            ChangeUIElementEnableState(optionButtonList, false);
-            ChangeUIElementEnableState(selectionButtonList, false);
+            ChangeUIElementEnableState(OptionButtonList, false);
+            ChangeUIElementEnableState(SelectionButtonList, false);
+            ChangeUIElementEnableState(CheckBoxList, true);
+            ALL.IsEnabled = true;
             ChangeUIElementVisibilityState(ConfirmButtonList, Visibility.Visible);
             ClearForm();
             Confirm.Click -= ConfirmModifyClick;
@@ -186,63 +224,117 @@ namespace EasySave_2._0
         /// <param name="e"></param>
         private void ConfirmCreateClick(object sender, RoutedEventArgs e)
         {
-            if (SaveNameForm.Text == "" || SaveSourcePathForm.Text == "" || SaveDestinationPathForm.Text == "" || SaveTypeForm.SelectedItem == null)
+            if (!Regex.IsMatch(SaveNameForm.Text, @"^[a-zA-Z0-9 _]{3,50}$") || !Regex.IsMatch(SaveSourcePathForm.Text, @"^[a-zA-Z]:(?:[\/\\][a-zA-Z0-9 _#]+)*$") || !Regex.IsMatch(SaveDestinationPathForm.Text, @"^[a-zA-Z]:(?:[\/\\][a-zA-Z0-9 _#]+)*$") || SaveTypeForm.SelectedItem == null)
             {
                 MessageBox.Show("Error: Please fill every field before confirming.", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
                 ChangeUIElementEnableState(FormElementList, false);
-                ChangeUIElementEnableState(optionButtonList, true);
-                ChangeUIElementEnableState(selectionButtonList, true);
+                ChangeUIElementEnableState(OptionButtonList, true);
+                ChangeUIElementEnableState(SelectionButtonList, true);
+                ChangeUIElementEnableState(CheckBoxList, false);
+                ALL.IsEnabled = false;
                 ChangeUIElementVisibilityState(confirmButtonList, Visibility.Hidden);
-                ClearForm();
 
-                List<Extension> encryptList = new List<Extension> //faut changer ça
+                ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
+
+                List<Extension> extensionList = new List<Extension>();
+                if (ALL.IsChecked == false)
                 {
-                    Extension.exe,
-                    Extension.png
-                };
+                    foreach (CheckBox _checkBox in CheckBoxList)
+                    {
+                        if (_checkBox.IsChecked == true)
+                        {
+                            Enum.TryParse(_checkBox.Name.ToLower(), out Extension _extension);
+                            extensionList.Add(_extension);
+                        }
+                    }
+                }
+                else
+                {
+                    extensionList.Add(Extension.ALL);
+                }
 
                 SaveWorkType saveType = SaveWorkType.complete;
                 if (((ComboBoxItem)SaveTypeForm.SelectedItem).Content.ToString() != "Complete") { saveType = SaveWorkType.differencial; }
 
-                VM.CreateSaveProcedure(SaveNameForm.Text, SaveSourcePathForm.Text, SaveDestinationPathForm.Text, saveType, encryptList);
+                VM.CreateSaveProcedure(SaveNameForm.Text, SaveSourcePathForm.Text.Replace("\\", "/"), SaveDestinationPathForm.Text.Replace("\\", "/"), saveType, extensionList);
+
+                ClearForm();
 
                 SaveList.Items.Refresh();
             }
         }
 
+        /// <summary>
+        /// Confirm changes and save them to the existing object.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ConfirmModifyClick(object sender, RoutedEventArgs e)
         {
-            if (SaveNameForm.Text == "" || SaveSourcePathForm.Text == "" || SaveDestinationPathForm.Text == "" || SaveTypeForm.SelectedItem == null)
+            if (!Regex.IsMatch(SaveNameForm.Text, @"^[a-zA-Z0-9 _]{3,50}$") || !Regex.IsMatch(SaveSourcePathForm.Text, @"^[a-zA-Z]:(?:[\/\\][a-zA-Z0-9 _#]+)*$") || !Regex.IsMatch(SaveDestinationPathForm.Text, @"^[a-zA-Z]:(?:[\/\\][a-zA-Z0-9 _#]+)*$") || SaveTypeForm.SelectedItem == null)
             {
-                MessageBox.Show("Error: Please fill every field before confirming.", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Error: Please fill every field before confirming.\n\n -Name should contain between 3 and 50 alphanumeric, space or underscore characters.\n\n -Paths must follow this structure : DRIVE_LETTER:/folder1/folder2...", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
             else
             {
-
                 ChangeUIElementEnableState(FormElementList, false);
-                ChangeUIElementEnableState(optionButtonList, true);
-                ChangeUIElementEnableState(selectionButtonList, true);
+                ChangeUIElementEnableState(OptionButtonList, true);
+                ChangeUIElementEnableState(SelectionButtonList, true);
+                ChangeUIElementEnableState(CheckBoxList, false);
+                ALL.IsEnabled = false;
                 ChangeUIElementVisibilityState(confirmButtonList, Visibility.Hidden);
-                ClearForm();
 
                 ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
 
-                List<Extension> encryptList = new List<Extension> //faut changer ça
+                List<Extension> extensionList = new List<Extension>();
+                if (ALL.IsChecked == false)
                 {
-                    Extension.exe,
-                    Extension.png
-                };
+                    foreach (CheckBox _checkBox in CheckBoxList)
+                    {
+                        if (_checkBox.IsChecked == true)
+                        {
+                            Enum.TryParse(_checkBox.Name.ToLower(), out Extension _extension);
+                            extensionList.Add(_extension);
+                        }
+                    }
+                }
+                else
+                {
+                    extensionList.Add(Extension.ALL);
+                }
 
                 SaveWorkType saveType = SaveWorkType.complete;
                 if (((ComboBoxItem)SaveTypeForm.SelectedItem).Content.ToString() != "Complete") { saveType = SaveWorkType.differencial; }
 
-                VM.ModifySaveProcedure(selectedItem.Index, SaveNameForm.Text, SaveSourcePathForm.Text, SaveDestinationPathForm.Text, saveType, encryptList);
+                VM.ModifySaveProcedure(selectedItem.Index, SaveNameForm.Text, SaveSourcePathForm.Text.Replace("\\", "/"), SaveDestinationPathForm.Text.Replace("\\", "/"), saveType, extensionList);
+
+                ClearForm();
 
                 SaveList.Items.Refresh();
             }
+        }
+
+        /// <summary>
+        /// Disable checkboxes when All is ticked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ALL_Checked(object sender, RoutedEventArgs e)
+        {
+            ChangeUIElementEnableState(CheckBoxList, false);
+        }
+
+        /// <summary>
+        /// Enable checkboxes when All is unticked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ALL_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ChangeUIElementEnableState(CheckBoxList, true);
         }
 
         /// <summary>
@@ -255,6 +347,8 @@ namespace EasySave_2._0
             ChangeUIElementEnableState(FormElementList, false);
             ChangeUIElementEnableState(optionButtonList, true);
             ChangeUIElementEnableState(selectionButtonList, true);
+            ChangeUIElementEnableState(checkBoxList, false);
+            ALL.IsEnabled = false;
             ChangeUIElementVisibilityState(confirmButtonList, Visibility.Hidden);
             ClearForm();
         }
@@ -268,6 +362,10 @@ namespace EasySave_2._0
             SaveSourcePathForm.Text = "";
             SaveDestinationPathForm.Text = "";
             SaveTypeForm.SelectedIndex = -1;
+            foreach (CheckBox _checkBox in CheckBoxList)
+            {
+                _checkBox.IsChecked = false;
+            }
         }
 
         /// <summary>
@@ -301,5 +399,7 @@ namespace EasySave_2._0
         }
 
         #endregion
+
+        
     }
 }
