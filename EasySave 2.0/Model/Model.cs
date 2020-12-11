@@ -174,7 +174,7 @@ namespace EasySave_2._0
         }
 
         /// <summary>
-        /// 
+        /// Asign index to work in worklist
         /// </summary>
         public void SetWorkIndex()
         {
@@ -208,6 +208,15 @@ namespace EasySave_2._0
         public void DoSave(int _nb)
         {
             WorkList[_nb].Save();
+        }
+
+        /// <summary>
+        /// Can initiate a type of save from the name of the save work in workList.
+        /// </summary>
+        /// <param name="_name"></param>
+        public void DoSave(string _name)
+        {
+            WorkList[GetWorkIndex(_name)].Save();
         }
 
 

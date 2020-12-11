@@ -10,15 +10,12 @@ namespace EasySave_2._0
         rar,
         zip,
         docx,
-        mpp,
         pptx,
         jpg,
         png,
         pdf,
         exe,
         iso,
-        gif,
-        mp3,
         mp4,
         ALL
     }
