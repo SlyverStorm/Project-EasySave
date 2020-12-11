@@ -52,19 +52,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ricar\\.nuget\\packages\\": {}
+    "C:\\Users\\Utilisateur\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\Projet EasySave v1.0\\Projet EasySave v1.0.csproj",
+      "projectUniqueName": "C:\\Dev\\C#\\ProjetA3_EasySave\\Projet-EasySave\\Projet EasySave v1.0\\Projet EasySave v1.0.csproj",
       "projectName": "Projet EasySave v1.0",
-      "projectPath": "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\Projet EasySave v1.0\\Projet EasySave v1.0.csproj",
-      "packagesPath": "C:\\Users\\ricar\\.nuget\\packages\\",
-      "outputPath": "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\Projet EasySave v1.0\\obj\\",
+      "projectPath": "C:\\Dev\\C#\\ProjetA3_EasySave\\Projet-EasySave\\Projet EasySave v1.0\\Projet EasySave v1.0.csproj",
+      "packagesPath": "C:\\Users\\Utilisateur\\.nuget\\packages\\",
+      "outputPath": "C:\\Dev\\C#\\ProjetA3_EasySave\\Projet-EasySave\\Projet EasySave v1.0\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\ricar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Utilisateur\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
