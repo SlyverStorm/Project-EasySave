@@ -8,15 +8,15 @@
         Title="MainWindow" Height="500" Width="900">
     <Grid ShowGridLines="False" Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="81*"/>
-            <ColumnDefinition Width="50*"/>
-            <ColumnDefinition Width="50*"/>
-            <ColumnDefinition Width="50*"/>
-            <ColumnDefinition Width="50*"/>
-            <ColumnDefinition Width="50*"/>
-            <ColumnDefinition Width="50*"/>
-            <ColumnDefinition Width="40*"/>
-            <ColumnDefinition Width="29*"/>
+            <ColumnDefinition Width="162*"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="69*"/>
+            <ColumnDefinition Width="69*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="40*"/>
@@ -37,7 +37,7 @@
         <!--#endregion-->
 
         <!--#region i18n-->
-        <ComboBox x:Name="LanguageSelection" Grid.Column="7" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontWeight="DemiBold" Width="85" Height="25">
+        <ComboBox x:Name="LanguageSelection" Grid.Column="7" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left" VerticalContentAlignment="Center" FontSize="14" FontWeight="DemiBold" Width="85" Height="25" Margin="26,0,0,0">
             <ComboBoxItem IsSelected="True">English</ComboBoxItem>
             <ComboBoxItem IsSelected="False">Français</ComboBoxItem>
         </ComboBox>
@@ -55,19 +55,19 @@
             <ComboBoxItem IsSelected="False" Content="Complete"/>
             <ComboBoxItem IsSelected="False" Content="Differential"/>
         </ComboBox>
-        <Label Content="Encryption" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="18" FontWeight="Bold" Height="34" Width="102" Margin="0,8,0,0" Grid.RowSpan="2"/>
-        <CheckBox x:Name="Txt" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content=".txt"/>
-        <CheckBox x:Name="Rar" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content=".rar"/>
-        <CheckBox x:Name="Zip" Grid.Row="5" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Content=".zip"/>
-        <CheckBox x:Name="Docx" Grid.Row="5" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Content=".docx"/>
-        <CheckBox x:Name="Mp4" Grid.Row="5" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" Content=".mp4"/>
-        <CheckBox x:Name="Pptx" Grid.Row="5" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center" Content=".pptx"/>
-        <CheckBox x:Name="Jpg" Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content=".jpg"/>
-        <CheckBox x:Name="Png" Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content=".png"/>
-        <CheckBox x:Name="Pdf" Grid.Row="6" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Content=".pdf"/>
-        <CheckBox x:Name="Exe" Grid.Row="6" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Content=".exe"/>
-        <CheckBox x:Name="Iso" Grid.Row="6" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" Content=".iso"/>
-        <CheckBox x:Name="AllExtensionsSelected" Grid.Row="6" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Select All"/>
+        <Label Content="Encryption" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold" Height="34" Width="102" Grid.RowSpan="2"/>
+        <CheckBox x:Name="Txt" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".txt" Height="15" Width="36"/>
+        <CheckBox x:Name="Rar" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".rar" Height="15" Width="37"/>
+        <CheckBox x:Name="Zip" Grid.Row="5" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".zip" Height="15" Width="38"/>
+        <CheckBox x:Name="Docx" Grid.Row="5" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".docx" Height="15" Width="48"/>
+        <CheckBox x:Name="Mp4" Grid.Row="5" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".mp4" Height="15" Width="46"/>
+        <CheckBox x:Name="Pptx" Grid.Row="5" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".pptx" Height="15" Width="46"/>
+        <CheckBox x:Name="Jpg" Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".jpg" Height="15" Width="40"/>
+        <CheckBox x:Name="Png" Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".png" Height="15" Width="43"/>
+        <CheckBox x:Name="Pdf" Grid.Row="6" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".pdf" Height="15" Width="40"/>
+        <CheckBox x:Name="Exe" Grid.Row="6" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".exe" Height="15" Width="41"/>
+        <CheckBox x:Name="Iso" Grid.Row="6" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".iso" Height="15" Width="38"/>
+        <CheckBox x:Name="All" Grid.Row="6" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Encrypt All" Height="15" Width="76"/>
         <!--#endregion-->
 
         <!--#region Created Save Interaction-->
