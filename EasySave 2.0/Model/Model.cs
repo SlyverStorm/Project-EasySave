@@ -27,7 +27,7 @@ namespace EasySave_2._0
             //If the state file has not been initialized then create 5 SaveWork object from nothing
             if (!File.Exists("stateFile.json"))
             {
-                WorkList.Add(new CompleteSaveWork("Default", "", "", null));
+                WorkList.Add(new CompleteSaveWork("Default", "test", "test", null));
                 UpdateSaveFile();
             }
             //Then if the State file already exist, use the objects in it to create the WorkList

@@ -81,8 +81,7 @@ namespace EasySave_2._0
                 SaveNameForm,
                 SaveSourcePathForm,
                 SaveDestinationPathForm,
-                SaveTypeForm,
-                PickEncryptionForm
+                SaveTypeForm
             };
 
             OptionButtonList = new List<UIElement>
@@ -119,6 +118,18 @@ namespace EasySave_2._0
             }
         }
 
+        private void LaunchSave(object sender, RoutedEventArgs e)
+        {
+            ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
+            VM.LaunchSaveProcedure(selectedItem.Index);
+        }
+
+        private void DeleteSave(object sender, RoutedEventArgs e)
+        {
+            ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
+            VM.DeleteSaveProcedure(selectedItem.Index);
+        }
+
         /// <summary>
         /// Fill in the form with Save object info.
         /// </summary>
@@ -126,31 +137,29 @@ namespace EasySave_2._0
         /// <param name="e"></param>
         private void ModifySave_Click(object sender, RoutedEventArgs e)
         {
-            if (SaveList.SelectedItem != null)
+            ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
+            SaveNameForm.Text = selectedItem.Name;
+            SaveSourcePathForm.Text = selectedItem.SourcePath;
+            SaveDestinationPathForm.Text = selectedItem.DestinationPath;
+
+            if (selectedItem.Type == SaveWorkType.complete)
             {
-                SaveWorkTest selectedItem = (SaveWorkTest)SaveList.SelectedItem;
-                SaveNameForm.Text = selectedItem.SaveName;
-                SaveSourcePathForm.Text = selectedItem.SourcePath;
-                SaveDestinationPathForm.Text = selectedItem.DestinationPath;
-
-                if (selectedItem.SaveType == SaveWorkTest.SaveWorkTestType.complete)
-                {
-                    SaveTypeForm.SelectedIndex = 0;
-                }
-                else
-                {
-                    SaveTypeForm.SelectedIndex = 1;
-                }
-
-                ChangeUIElementEnableState(FormElementList, true);
-                ChangeUIElementEnableState(optionButtonList, false);
-                ChangeUIElementEnableState(selectionButtonList, false);
-                ChangeUIElementVisibilityState(ConfirmButtonList, Visibility.Visible);
-
-                Confirm.Click -= ConfirmModifyClick;
-                Confirm.Click -= ConfirmCreateClick;
-                Confirm.Click += ConfirmModifyClick;
+                SaveTypeForm.SelectedIndex = 0;
             }
+            else
+            {
+                SaveTypeForm.SelectedIndex = 1;
+            }
+
+            ChangeUIElementEnableState(FormElementList, true);
+            ChangeUIElementEnableState(optionButtonList, false);
+            ChangeUIElementEnableState(selectionButtonList, false);
+            ChangeUIElementVisibilityState(ConfirmButtonList, Visibility.Visible);
+
+            Confirm.Click -= ConfirmModifyClick;
+            Confirm.Click -= ConfirmCreateClick;
+            Confirm.Click += ConfirmModifyClick;
+            
         }
 
         /// <summary>
@@ -177,35 +186,63 @@ namespace EasySave_2._0
         /// <param name="e"></param>
         private void ConfirmCreateClick(object sender, RoutedEventArgs e)
         {
-            List<SaveWorkTest.SaveWorkTestExtension> encryptList = new List<SaveWorkTest.SaveWorkTestExtension>
+            if (SaveNameForm.Text == "" || SaveSourcePathForm.Text == "" || SaveDestinationPathForm.Text == "" || SaveTypeForm.SelectedItem == null)
             {
-                SaveWorkTest.SaveWorkTestExtension.exe,
-                SaveWorkTest.SaveWorkTestExtension.gif
-            };
+                MessageBox.Show("Error: Please fill every field before confirming.", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                ChangeUIElementEnableState(FormElementList, false);
+                ChangeUIElementEnableState(optionButtonList, true);
+                ChangeUIElementEnableState(selectionButtonList, true);
+                ChangeUIElementVisibilityState(confirmButtonList, Visibility.Hidden);
+                ClearForm();
 
-            SaveWorkTest.SaveWorkTestType saveType = SaveWorkTest.SaveWorkTestType.complete;
-            if(((ComboBoxItem)SaveTypeForm.SelectedItem).Content.ToString() != "Complete") { saveType = SaveWorkTest.SaveWorkTestType.differencial; }
+                List<Extension> encryptList = new List<Extension> //faut changer ça
+                {
+                    Extension.exe,
+                    Extension.png
+                };
 
-            VM.CreateSaveProcedure(SaveNameForm.Text, SaveSourcePathForm.Text, SaveDestinationPathForm.Text, saveType, encryptList);
+                SaveWorkType saveType = SaveWorkType.complete;
+                if (((ComboBoxItem)SaveTypeForm.SelectedItem).Content.ToString() != "Complete") { saveType = SaveWorkType.differencial; }
 
-            ChangeUIElementEnableState(FormElementList, false);
-            ChangeUIElementEnableState(optionButtonList, true);
-            ChangeUIElementEnableState(selectionButtonList, true);
-            ChangeUIElementVisibilityState(confirmButtonList, Visibility.Hidden);
-            ClearForm();
+                VM.CreateSaveProcedure(SaveNameForm.Text, SaveSourcePathForm.Text, SaveDestinationPathForm.Text, saveType, encryptList);
 
-            SaveList.Items.Refresh();
+                SaveList.Items.Refresh();
+            }
         }
 
         private void ConfirmModifyClick(object sender, RoutedEventArgs e)
         {
-            ChangeUIElementEnableState(FormElementList, false);
-            ChangeUIElementEnableState(optionButtonList, true);
-            ChangeUIElementEnableState(selectionButtonList, true);
-            ChangeUIElementVisibilityState(confirmButtonList, Visibility.Hidden);
-            ClearForm();
+            if (SaveNameForm.Text == "" || SaveSourcePathForm.Text == "" || SaveDestinationPathForm.Text == "" || SaveTypeForm.SelectedItem == null)
+            {
+                MessageBox.Show("Error: Please fill every field before confirming.", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
 
-            SaveList.Items.Refresh();
+                ChangeUIElementEnableState(FormElementList, false);
+                ChangeUIElementEnableState(optionButtonList, true);
+                ChangeUIElementEnableState(selectionButtonList, true);
+                ChangeUIElementVisibilityState(confirmButtonList, Visibility.Hidden);
+                ClearForm();
+
+                ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
+
+                List<Extension> encryptList = new List<Extension> //faut changer ça
+                {
+                    Extension.exe,
+                    Extension.png
+                };
+
+                SaveWorkType saveType = SaveWorkType.complete;
+                if (((ComboBoxItem)SaveTypeForm.SelectedItem).Content.ToString() != "Complete") { saveType = SaveWorkType.differencial; }
+
+                VM.ModifySaveProcedure(selectedItem.Index, SaveNameForm.Text, SaveSourcePathForm.Text, SaveDestinationPathForm.Text, saveType, encryptList);
+
+                SaveList.Items.Refresh();
+            }
         }
 
         /// <summary>

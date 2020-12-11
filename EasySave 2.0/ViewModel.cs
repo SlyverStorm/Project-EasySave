@@ -6,26 +6,17 @@ namespace EasySave_2._0
 {
     class ViewModel
     {
-        
-        private List<ModelTest> _workList;
+        private Model model;
 
-        public List<ModelTest> WorkList
+        public Model Model
         {
-            get { return _workList; }
-            set { _workList = value; }
-        }
-
-        private ModelTest modelTest;
-
-        public ModelTest ModelTest
-        {
-            get { return modelTest; }
-            set { modelTest = value; }
+            get { return model; }
+            set { model = value; }
         }
 
         public ViewModel()
         {
-            ModelTest = new ModelTest();
+            Model = new Model();
         }
         
     
@@ -34,40 +25,40 @@ namespace EasySave_2._0
         /// <summary>
         /// 
         /// </summary>
-        public void CreateSaveProcedure(string _name, string _sourcePath, string _destinationPath, SaveWorkTest.SaveWorkTestType _saveType, List<SaveWorkTest.SaveWorkTestExtension> _extensionList)
+        public void CreateSaveProcedure(string _name, string _sourcePath, string _destinationPath, SaveWorkType _saveType, List<Extension> _extensionList)
         {
-            if(_saveType == SaveWorkTest.SaveWorkTestType.complete)
+            if(_saveType == SaveWorkType.complete)
             {
-                ModelTest.CreateCompleteWork(_name, _sourcePath, _destinationPath, _extensionList);
+                Model.CreateCompleteWork(_name, _sourcePath, _destinationPath, _extensionList);
             }
             else
             {
-                ModelTest.CreateDifferencialWork(_name, _sourcePath, _destinationPath, _extensionList);
+                Model.CreateDifferencialWork(_name, _sourcePath, _destinationPath, _extensionList);
             }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public void ModifySaveProcedure(int _id, string _name, string _sourcePath, string _destinationPath, SaveWorkTest.SaveWorkTestType _saveType, List<SaveWorkTest.SaveWorkTestExtension> _encryptionList)
+        public void ModifySaveProcedure(int _id, string _name, string _sourcePath, string _destinationPath, SaveWorkType _saveType, List<Extension> _encryptionList)
         {
-            //ChangeWork(_id, _name, _sourcePath, _destinationPath, _type, _encryptionList);
+            Model.ChangeWork(_id, _name, _sourcePath, _destinationPath, _saveType, _encryptionList);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public void DeleteSaveProcedure()
+        public void DeleteSaveProcedure(int _id)
         {
-
+            Model.DeleteWork(_id);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public void LaunchSaveProcedure()
+        public void LaunchSaveProcedure(int _id)
         {
-
+            Model.DoSave(_id);
         }
 
         /// <summary>
@@ -75,7 +66,7 @@ namespace EasySave_2._0
         /// </summary>
         public void LaunchAllSaveProcedures()
         {
-
+            //TO DO
         }
 
         #endregion
