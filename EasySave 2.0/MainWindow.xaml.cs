@@ -118,13 +118,13 @@ namespace EasySave_2._0
             }
         }
 
-        private void LaunchSave(object sender, RoutedEventArgs e)
+        private void LaunchSave_Click(object sender, RoutedEventArgs e)
         {
             ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
             VM.LaunchSaveProcedure(selectedItem.Index);
         }
 
-        private void DeleteSave(object sender, RoutedEventArgs e)
+        private void DeleteSave_Click(object sender, RoutedEventArgs e)
         {
             ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
             VM.DeleteSaveProcedure(selectedItem.Index);
@@ -301,6 +301,5 @@ namespace EasySave_2._0
         }
 
         #endregion
-
     }
 }
