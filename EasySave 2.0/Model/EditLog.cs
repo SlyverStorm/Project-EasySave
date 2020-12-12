@@ -208,7 +208,7 @@ namespace EasySave_2._0
         /// </summary>
         public static void EndEncryption(int _nb)
         {
-            CreateLogLine("ENXRYPTION DONE ! Ending encyption program, Index : " + _nb);
+            CreateLogLine("ENCRYPTION DONE ! Ending encyption program, Index : " + _nb);
         }
 
         public static void StartCopy(ISaveWork _work)
@@ -219,6 +219,20 @@ namespace EasySave_2._0
         public static void NoFilesFound(int _nb)
         {
             CreateLogLine("There is no file to save in the target directory, Save Index : " + _nb);
+        }
+        
+        public static void SavePaused(int _nb)
+        {
+            CreateLogLine("Index : " + _nb + ", save paused !");
+        }
+        public static void SaveResumed(int _nb)
+        {
+            CreateLogLine("Index : " + _nb + ", save successfully resumed !");
+        }
+
+        public static void SaveCancelled(int _nb)
+        {
+            CreateLogLine("Index : " + _nb + ", save cancelled");
         }
     }
 }

@@ -186,6 +186,11 @@ namespace EasySave_2._0
         /// </summary>
         private void CompleteCopyAll(DirectoryInfo _source, DirectoryInfo _target)
         {
+            if (Progress.Cancelled) return;
+            while(Progress.IsPaused)
+            {
+                if (Progress.Cancelled) return;
+            }
 
             //First create the new target directory where all the files are saved later on
             EditLog.CreateDirectoryLogLine(_target);
@@ -212,6 +217,12 @@ namespace EasySave_2._0
                 Progress.UpdateProgressState();
                 Model.OnSaveWorkUpdate();
                 EditLog.FinishCopyFileLogLine(fi, watch.Elapsed.TotalSeconds.ToString());
+
+                if (Progress.Cancelled) return;
+                while (Progress.IsPaused)
+                {
+                    if (Progress.Cancelled) return;
+                }
             }
 
             // Copy each subdirectory using recursion.
@@ -225,12 +236,14 @@ namespace EasySave_2._0
             }
         }
 
+
+
         /// <summary>
         /// Encrypt selected files 
         /// </summary>
         public void EncryptFiles()
         {
-            if (ExtentionToEncryptList != null)
+            if (ExtentionToEncryptList != null && Directory.Exists(DestinationPath))
             {
                 // If we encrypt all files
                 if (extentionToEncryptList.Contains(Extension.ALL))

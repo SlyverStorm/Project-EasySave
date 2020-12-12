@@ -194,6 +194,13 @@ namespace EasySave_2._0
         /// <param name="_target">target destination directory path</param>
         private void DifferencialCopyAll(DirectoryInfo _source, DirectoryInfo _target)
         {
+
+            if (Progress.Cancelled) return;
+            while (Progress.IsPaused)
+            {
+                if (Progress.Cancelled) return;
+            }
+
             Directory.CreateDirectory(_target.FullName);
             EditLog.CreateDirectoryLogLine(_target);
 
@@ -222,6 +229,12 @@ namespace EasySave_2._0
                     Progress.UpdateProgressState();
                     Model.OnSaveWorkUpdate();
                     EditLog.FinishCopyFileLogLine(fi, watch.Elapsed.TotalSeconds.ToString());
+
+                    if (Progress.Cancelled) return;
+                    while (Progress.IsPaused)
+                    {
+                        if (Progress.Cancelled) return;
+                    }
                 }
 
 

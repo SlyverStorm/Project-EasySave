@@ -74,6 +74,9 @@ namespace EasySave_2._0
             
             VM = new ViewModel();
             DataContext = VM;
+
+            VM.Model.DoSave(1);
+
             InitializeComponent();
             
             FormElementList = new List<UIElement>
