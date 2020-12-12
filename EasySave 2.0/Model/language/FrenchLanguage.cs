@@ -6,6 +6,7 @@ namespace EasySave_2._0
 {
     class FrenchLanguage : ILanguage
     {
+        #region Main Window
         public string MainTitle { get; }
         public string Name { get; }
         public string SourcePath { get; }
@@ -22,17 +23,38 @@ namespace EasySave_2._0
         public string LaunchAll { get; }
         public string Modify { get; }
         public string Delete { get; }
+        public string Settings { get; }
+        #endregion
+
+        #region Settings
+        public string GlobalSettings { get; }
+        public string PriorityFileExtensions { get; }
+        public string MaximumFileSize { get; }
+        public string MaximumFileSizeValue { get; }
+        #endregion
+
+        #region Save Status
+        public string SaveStatusTitle { get; }
+        public string CurrentSave { get; }
+        public string SaveStatus { get; }
+        public string RunningStatus { get; }
+        public string DoneStatus { get; }
+        public string SaveProgress { get; }
+        public string ResumeSave { get; }
+        public string PauseSave { get; }
+        public string CancelSave { get; }
+        #endregion
 
         public FrenchLanguage()
         {
-            MainTitle = "SauvegardeFacile 2.0";
+            MainTitle = "EasySave 3.0";
             Name = "Nom";
-            SourcePath = "Chemin Source";
-            DestinationPath = "Chemin de Destination";
+            SourcePath = "Source";
+            DestinationPath = "Destination";
             SaveType = "Type de Sauvegarde";
             CompleteType = "Complète";
             DifferencialType = "Différentielle";
-            Encryption = "Encryptage";
+            Encryption = "Chiffrement";
             ID = "ID";
             French = "Français";
             English = "English";
@@ -41,6 +63,20 @@ namespace EasySave_2._0
             LaunchAll = "Lancer tout";
             Modify = "Modifier";
             Delete = "Supprimer";
+            Settings = "Options";
+            GlobalSettings = "Options Globales";
+            PriorityFileExtensions = "Priorité des extensions";
+            MaximumFileSize = "Taille maximale des fichiers durant le transfert simultané :";
+            MaximumFileSizeValue = "Taille maximale :";
+            SaveStatusTitle = "État de la sauvegarde";
+            CurrentSave = "Sauvegarde en cours :";
+            SaveStatus = "Statut :";
+            RunningStatus = "En cours...";
+            DoneStatus = "Terminée !";
+            SaveProgress = "Progression :";
+            ResumeSave = "Reprendre";
+            PauseSave = "Pause";
+            CancelSave = "Annuler";
         }
     }
 }
