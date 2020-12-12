@@ -142,16 +142,14 @@ namespace EasySave_2._0
 
         public void Save()
         {
-            //TODO: relation avec event !!!
-
-            //CreateLogLine("Launching save work from work : " + work.Name + ", type : complete save");
+            EditLog.StartSaveLogLine(this);
             EditLog.LaunchingSaveLogLine(Index);
             CompleteCopy();
-            //CreateLogLine(work.Name + " save DONE !");
+            EditLog.EndSaveProgram(Index);
 
+            EditLog.StartEncryption(Index);
             EncryptFiles();
-
-            //TODO: FONCTION ENCRYPTION FICHIER 
+            EditLog.EndEncryption(Index);
         }
 
         /// <summary>
@@ -166,21 +164,21 @@ namespace EasySave_2._0
             //Calculate the number of file in the source directory and the total size of it
             int nbFiles = EasySaveInfo.GetFilesNumberInSourceDirectory(diSource);
             long directorySize = EasySaveInfo.GetSizeInSourceDirectory(diSource);
-            //CreateLogLine(nbFiles + " files to save found from " + _sourceDirectory + ",Total size of the directory: " + directorySize + " Bytes");
+
+            EditLog.FileToSaveFound(nbFiles, diSource, directorySize);
 
             CreateProgress(nbFiles, directorySize, nbFiles, 0, directorySize);
             IsActive = true;
             Model.OnSaveWorkUpdate();
 
             //initiate Copy from the source directory to the target directory
-            //CreateLogLine("Saving file from " + _sourceDirectory + " to " + _targetDirectory + " ...");
+            EditLog.StartCopy(this);
             CompleteCopyAll(diSource, diTarget);
 
             //Closing the complete save protocol
             DeleteProgress();
             IsActive = false;
             Model.OnSaveWorkUpdate();
-            //CreateLogLine("Closing complete save work program ...");
         }
 
         /// <summary>
@@ -190,7 +188,7 @@ namespace EasySave_2._0
         {
 
             //First create the new target directory where all the files are saved later on
-            //CreateLogLine("Creating target directory ...");
+            EditLog.CreateDirectoryLogLine(_target);
             Directory.CreateDirectory(_target.FullName);
 
             // Copy each file into the new directory.
@@ -200,7 +198,7 @@ namespace EasySave_2._0
                 Progress.CurrentDestinationFilePath = Path.Combine(_target.FullName, fi.Name);
                 Model.OnSaveWorkUpdate();
 
-                //CreateLogLine("Saving " + fi.FullName + " in " + WorkList[_nb - 1].SaveProgress.CurrentDestinationFilePath + ", size : " + fi.Length + " Bytes ...");
+                EditLog.StartCopyFileLogLine(fi);
 
                 //Copy the file and measure execution time
                 Stopwatch watch = new Stopwatch();
@@ -213,7 +211,7 @@ namespace EasySave_2._0
                 Progress.SizeRemaining -= fi.Length;
                 Progress.UpdateProgressState();
                 Model.OnSaveWorkUpdate();
-                //CreateLogLine(fi.Name + " succesfully saved ! Time spend : " + watch.Elapsed.TotalSeconds.ToString());
+                EditLog.FinishCopyFileLogLine(fi, watch.Elapsed.TotalSeconds.ToString());
             }
 
             // Copy each subdirectory using recursion.
@@ -221,9 +219,9 @@ namespace EasySave_2._0
             {
                 DirectoryInfo nextTargetSubDir =
                     _target.CreateSubdirectory(diSourceSubDir.Name);
-                //CreateLogLine("Entering subdirectory : " + diSourceSubDir.Name);
+                EditLog.EnterSubdirectoryLogLine(diSourceSubDir);
                 CompleteCopyAll(diSourceSubDir, nextTargetSubDir);
-                //CreateLogLine("Exiting subdirectory : " + diSourceSubDir.Name);
+                EditLog.ExitSubdirectoryLogLine(diSourceSubDir);
             }
         }
 

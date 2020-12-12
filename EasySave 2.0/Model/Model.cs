@@ -82,12 +82,12 @@ namespace EasySave_2._0
         {
             if (!IfSaveWorkAlreadyExists(_name))
             {
-                WorkList.Add(new CompleteSaveWork(_name, _source, _destination, _extension));
+                CompleteSaveWork work = new CompleteSaveWork(_name, _source, _destination, _extension);
+                WorkList.Add(work);
                 SetWorkIndex();
                 UpdateSaveFile();
-                EditLog.CreateWorkLogLine(GetWorkIndex(_name), WorkList);
+                EditLog.CreateWorkLogLine(work);
             }
-            //TODO: Event pour préveneir la vue MDRRRRRRR !
         }
 
         /// <summary>
@@ -100,12 +100,12 @@ namespace EasySave_2._0
         {
             if (!IfSaveWorkAlreadyExists(_name))
             {
-                WorkList.Add(new DifferencialSaveWork(_name, _source, _destination, _extension));
+                DifferencialSaveWork work = new DifferencialSaveWork(_name, _source, _destination, _extension);
+                WorkList.Add(work);
                 SetWorkIndex();
                 UpdateSaveFile();
-                EditLog.CreateWorkLogLine(GetWorkIndex(_name), WorkList);
+                EditLog.CreateWorkLogLine(work);
             }
-            //TODO: Event pour préveneir la vue MDRRRRRRR !
         }
 
 
@@ -139,7 +139,7 @@ namespace EasySave_2._0
                 SetWorkIndex();
 
                 UpdateSaveFile();
-                EditLog.ChangeWorkLogLine(_nb, WorkList);
+                EditLog.ChangeWorkLogLine(WorkList[_nb]);
             }
         }
 
