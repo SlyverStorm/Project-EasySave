@@ -14,10 +14,6 @@ namespace EasySave_2._0
     /// </summary>
     public partial class App : Application, ISingleInstance
     {
-        public void OnInstanceInvoked(string[] args)
-        {
-            throw new NotImplementedException();
-        }
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
@@ -34,6 +30,10 @@ namespace EasySave_2._0
         private void Application_Exit(object sender, ExitEventArgs e)
         {
             SingleInstance<App>.Cleanup();
+        }
+        public void OnInstanceInvoked(string[] args)
+        {
+            throw new NotImplementedException();
         }
 
     }
