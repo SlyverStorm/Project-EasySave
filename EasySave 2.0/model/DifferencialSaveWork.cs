@@ -139,7 +139,7 @@ namespace EasySave_2._0
             Progress = null;
         }
 
-        public void Save()
+        public void Save(object obj)
         {
             EditLog.StartSaveLogLine(this);
             EditLog.LaunchingSaveLogLine(Index);
@@ -158,16 +158,19 @@ namespace EasySave_2._0
             var diTarget = new DirectoryInfo(DestinationPath);
 
             //Calculate the number of file in the source directory and the total size of it (of all )
-            int nbFiles = EasySaveInfo.DifferencialGetFilesNumberInSourceDirectory(diSource, diTarget);
-            long directorySize = EasySaveInfo.DifferencialGetSizeInSourceDirectory(diSource, diTarget);
+            int nbFiles = EasySaveInfo.DifferencialFilesNumber(diSource, diTarget);
+            long directorySize = EasySaveInfo.DifferencialSize(diSource, diTarget);
 
             //If there is at least one file to save then initiate the differencial saving protocol
             if (nbFiles != 0)
             {
                 EditLog.FileToSaveFound(nbFiles, diSource, directorySize);
 
-                CreateProgress(nbFiles, directorySize, nbFiles, 0, directorySize);
-                IsActive = true;
+                lock (Model.sync)
+                {
+                    CreateProgress(nbFiles, directorySize, nbFiles, 0, directorySize);
+                    IsActive = true;
+                }
 
                 Model.OnSaveWorkUpdate();
 
@@ -175,8 +178,11 @@ namespace EasySave_2._0
                 EditLog.StartCopy(this);
                 DifferencialCopyAll(diSource, diTarget);
 
-                DeleteProgress();
-                IsActive = false;
+                lock (Model.sync)
+                {
+                    DeleteProgress();
+                    IsActive = false;
+                }
                 Model.OnSaveWorkUpdate();
             }
             //If there is no file to save then cancel the saving protocol
@@ -213,8 +219,11 @@ namespace EasySave_2._0
                 //Check if the file already exist or not (new one), and verify if it has been modified or not
                 if (!File.Exists(targetPath) || fi.LastWriteTime != File.GetLastWriteTime(targetPath))
                 {
-                    Progress.CurrentSourceFilePath = fi.FullName;
-                    Progress.CurrentDestinationFilePath = Path.Combine(_target.FullName, fi.Name);
+                    lock (Model.sync)
+                    {
+                        Progress.CurrentSourceFilePath = fi.FullName;
+                        Progress.CurrentDestinationFilePath = Path.Combine(_target.FullName, fi.Name);
+                    }
                     Model.OnSaveWorkUpdate();
                     EditLog.StartCopyFileLogLine(fi);
 
@@ -224,9 +233,12 @@ namespace EasySave_2._0
                     fi.CopyTo(targetPath, true);
                     watch.Stop();
 
-                    Progress.FilesRemaining--;
-                    Progress.SizeRemaining -= fi.Length;
-                    Progress.UpdateProgressState();
+                    lock (Model.sync)
+                    {
+                        Progress.FilesRemaining--;
+                        Progress.SizeRemaining -= fi.Length;
+                        Progress.UpdateProgressState();
+                    }
                     Model.OnSaveWorkUpdate();
                     EditLog.FinishCopyFileLogLine(fi, watch.Elapsed.TotalSeconds.ToString());
 

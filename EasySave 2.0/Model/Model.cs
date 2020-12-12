@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace EasySave_2._0
 {
@@ -54,6 +55,9 @@ namespace EasySave_2._0
             
         }
 
+
+        public static object sync = new object();
+
         public static SaveWorkUpdateDelegate OnSaveWorkUpdate;
 
         //Store all 5 (max) save works
@@ -80,14 +84,11 @@ namespace EasySave_2._0
         /// <param name="_destination">The Target destination to save files in</param>
         public void CreateCompleteWork(string _name, string _source, string _destination, List<Extension> _extension)
         {
-            if (!IfSaveWorkAlreadyExists(_name))
-            {
-                CompleteSaveWork work = new CompleteSaveWork(_name, _source, _destination, _extension);
-                WorkList.Add(work);
-                SetWorkIndex();
-                UpdateSaveFile();
-                EditLog.CreateWorkLogLine(work);
-            }
+            CompleteSaveWork work = new CompleteSaveWork(_name, _source, _destination, _extension);
+            WorkList.Add(work);
+            SetWorkIndex();
+            UpdateSaveFile();
+            EditLog.CreateWorkLogLine(work);
         }
 
         /// <summary>
@@ -98,14 +99,11 @@ namespace EasySave_2._0
         /// <param name="_destination">The Target destination to save files in</param>
         public void CreateDifferencialWork(string _name, string _source, string _destination, List<Extension> _extension)
         {
-            if (!IfSaveWorkAlreadyExists(_name))
-            {
-                DifferencialSaveWork work = new DifferencialSaveWork(_name, _source, _destination, _extension);
-                WorkList.Add(work);
-                SetWorkIndex();
-                UpdateSaveFile();
-                EditLog.CreateWorkLogLine(work);
-            }
+            DifferencialSaveWork work = new DifferencialSaveWork(_name, _source, _destination, _extension);
+            WorkList.Add(work);
+            SetWorkIndex();
+            UpdateSaveFile();
+            EditLog.CreateWorkLogLine(work);
         }
 
 
@@ -119,28 +117,25 @@ namespace EasySave_2._0
         /// <param name="_type">New type of save work to apply to the work</param>
         public void ChangeWork(int _nb, string _name, string _sourcePath, string _destinationPath, SaveWorkType _type, List<Extension> _extension)
         {
-            if (!IfSaveWorkAlreadyExists(_name))
+            if (_type != WorkList[_nb].Type && _type == SaveWorkType.complete)
             {
-                if (_type != WorkList[_nb].Type && _type == SaveWorkType.complete)
-                {
-                    WorkList[_nb] = new CompleteSaveWork(_name, _sourcePath, _destinationPath, _extension);
-                }
-                else if (_type != WorkList[_nb].Type && _type == SaveWorkType.differencial)
-                {
-                    WorkList[_nb] = new DifferencialSaveWork(_name, _sourcePath, _destinationPath, _extension);
-                }
-                else
-                {
-                    if (_name != "") { WorkList[_nb].Name = _name; }
-                    if (_sourcePath != "") { WorkList[_nb].SourcePath = _sourcePath; }
-                    if (_destinationPath != "") { WorkList[_nb].DestinationPath = _destinationPath; }
-                    WorkList[_nb].ExtentionToEncryptList = _extension;
-                }
-                SetWorkIndex();
-
-                UpdateSaveFile();
-                EditLog.ChangeWorkLogLine(WorkList[_nb]);
+                WorkList[_nb] = new CompleteSaveWork(_name, _sourcePath, _destinationPath, _extension);
             }
+            else if (_type != WorkList[_nb].Type && _type == SaveWorkType.differencial)
+            {
+                WorkList[_nb] = new DifferencialSaveWork(_name, _sourcePath, _destinationPath, _extension);
+            }
+            else
+            {
+                if (_name != "") { WorkList[_nb].Name = _name; }
+                if (_sourcePath != "") { WorkList[_nb].SourcePath = _sourcePath; }
+                if (_destinationPath != "") { WorkList[_nb].DestinationPath = _destinationPath; }
+                WorkList[_nb].ExtentionToEncryptList = _extension;
+            }
+            SetWorkIndex();
+
+            UpdateSaveFile();
+            EditLog.ChangeWorkLogLine(WorkList[_nb]);
         }
 
         /// <summary>
@@ -153,24 +148,6 @@ namespace EasySave_2._0
             SetWorkIndex();
             UpdateSaveFile();
             EditLog.DeleteWorkLogLine(_nb);
-        }
-
-        /// <summary>
-        /// This method check if a work already exists in the WorkList, matching with their name
-        /// </summary>
-        /// <param name="_name">The name of the work you want to check</param>
-        /// <returns></returns>
-        public bool IfSaveWorkAlreadyExists(string _name)
-        {
-            foreach(ISaveWork work in WorkList)
-            {
-                if (work.Name == _name)
-                {
-                    return true;
-                }
-            }
-            EditLog.SaveWorkAlreadyExistsLogLine(_name);
-            return false;
         }
 
         /// <summary>
@@ -207,18 +184,8 @@ namespace EasySave_2._0
         /// <param name="_nb">Index of the work in the list to execute the save process</param>
         public void DoSave(int _nb)
         {
-            WorkList[_nb].Save();
+            ThreadPool.QueueUserWorkItem(new WaitCallback(WorkList[_nb].Save));
         }
-
-        /// <summary>
-        /// Can initiate a type of save from the name of the save work in workList.
-        /// </summary>
-        /// <param name="_name"></param>
-        public void DoSave(string _name)
-        {
-            WorkList[GetWorkIndex(_name)].Save();
-        }
-
 
         /// <summary>
         /// Update the state file with the work list value
@@ -226,9 +193,12 @@ namespace EasySave_2._0
         /// <param name="_nb">Index of the save work process to update</param>
         public void UpdateSaveFile()
         {
-            //Convert the work list to a json string then write it in a json file
-            var convertedJson = JsonConvert.SerializeObject(WorkList, Formatting.Indented);
-            File.WriteAllText("stateFile.json", convertedJson);
+            lock (sync)
+            {
+                //Convert the work list to a json string then write it in a json file
+                var convertedJson = JsonConvert.SerializeObject(WorkList, Formatting.Indented);
+                File.WriteAllText("stateFile.json", convertedJson);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

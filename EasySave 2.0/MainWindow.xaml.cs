@@ -76,6 +76,7 @@ namespace EasySave_2._0
             DataContext = VM;
 
             VM.Model.DoSave(1);
+            VM.Model.DoSave(2);
 
             InitializeComponent();
             

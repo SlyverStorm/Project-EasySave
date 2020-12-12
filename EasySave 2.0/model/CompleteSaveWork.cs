@@ -11,6 +11,7 @@ namespace EasySave_2._0
 {
     class CompleteSaveWork : ISaveWork, INotifyPropertyChanged
     {
+
         private int index;
         public int Index
         {
@@ -140,7 +141,7 @@ namespace EasySave_2._0
             Progress = null;
         }
 
-        public void Save()
+        public void Save(object obj)
         {
             EditLog.StartSaveLogLine(this);
             EditLog.LaunchingSaveLogLine(Index);
@@ -162,13 +163,16 @@ namespace EasySave_2._0
             var diTarget = new DirectoryInfo(DestinationPath);
 
             //Calculate the number of file in the source directory and the total size of it
-            int nbFiles = EasySaveInfo.GetFilesNumberInSourceDirectory(diSource);
-            long directorySize = EasySaveInfo.GetSizeInSourceDirectory(diSource);
+            int nbFiles = EasySaveInfo.CompleteFilesNumber(diSource);
+            long directorySize = EasySaveInfo.CompleteSize(diSource);
 
             EditLog.FileToSaveFound(nbFiles, diSource, directorySize);
 
-            CreateProgress(nbFiles, directorySize, nbFiles, 0, directorySize);
-            IsActive = true;
+            lock (Model.sync)
+            {
+                CreateProgress(nbFiles, directorySize, nbFiles, 0, directorySize);
+                IsActive = true;
+            }
             Model.OnSaveWorkUpdate();
 
             //initiate Copy from the source directory to the target directory
@@ -176,8 +180,11 @@ namespace EasySave_2._0
             CompleteCopyAll(diSource, diTarget);
 
             //Closing the complete save protocol
-            DeleteProgress();
-            IsActive = false;
+            lock (Model.sync)
+            {
+                DeleteProgress();
+                IsActive = false;
+            }
             Model.OnSaveWorkUpdate();
         }
 
@@ -199,8 +206,11 @@ namespace EasySave_2._0
             // Copy each file into the new directory.
             foreach (FileInfo fi in _source.GetFiles())
             {
-                Progress.CurrentSourceFilePath = fi.FullName;
-                Progress.CurrentDestinationFilePath = Path.Combine(_target.FullName, fi.Name);
+                lock (Model.sync)
+                {
+                    Progress.CurrentSourceFilePath = fi.FullName;
+                    Progress.CurrentDestinationFilePath = Path.Combine(_target.FullName, fi.Name);
+                }
                 Model.OnSaveWorkUpdate();
 
                 EditLog.StartCopyFileLogLine(fi);
@@ -212,9 +222,13 @@ namespace EasySave_2._0
                 watch.Stop();
 
 
-                Progress.FilesRemaining--;
-                Progress.SizeRemaining -= fi.Length;
-                Progress.UpdateProgressState();
+                lock (Model.sync)
+                {
+                    Progress.FilesRemaining--;
+                    Progress.SizeRemaining -= fi.Length;
+                    Progress.UpdateProgressState();
+                }
+                
                 Model.OnSaveWorkUpdate();
                 EditLog.FinishCopyFileLogLine(fi, watch.Elapsed.TotalSeconds.ToString());
 

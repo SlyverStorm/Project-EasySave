@@ -15,116 +15,175 @@ namespace EasySave_2._0
         //Define the total size of a specific directory
         static int nbFiles = 0;
 
+        public static int CompleteFilesNumber(DirectoryInfo _diSource)
+        {
+            lock (Model.sync)
+            {
+                int temp = GetFilesNumberInSourceDirectory(_diSource);
+                Reset();
+                return temp;
+            }
+        }
+
         //Calculate the number of file in a directory using recursion (for complete save)
-        static public int GetFilesNumberInSourceDirectory(DirectoryInfo _diSource)
+        static private int GetFilesNumberInSourceDirectory(DirectoryInfo _diSource)
         {
-
-            foreach (FileInfo fi in _diSource.GetFiles())
+            lock (Model.sync)
             {
-                nbFiles++;
-            }
-            foreach (DirectoryInfo diSourceSubDir in _diSource.GetDirectories())
-            {
-                GetFilesNumberInSourceDirectory(diSourceSubDir);
-            }
-
-            return nbFiles;
-        }
-
-        //Calculate the total size of a directory using recursion (for complete save)
-        static public long GetSizeInSourceDirectory(DirectoryInfo _diSource)
-        {
-
-            foreach (FileInfo fi in _diSource.GetFiles())
-            {
-                filesSize += fi.Length;
-            }
-            foreach (DirectoryInfo diSourceSubDir in _diSource.GetDirectories())
-            {
-                GetSizeInSourceDirectory(diSourceSubDir);
-            }
-
-            return filesSize;
-        }
-
-        //Calculate the number of file in a directory using recursion (for differencial save)
-        static public int DifferencialGetFilesNumberInSourceDirectory(DirectoryInfo _diSource, DirectoryInfo _diTarget)
-        {
-
-            Directory.CreateDirectory(_diTarget.FullName);
-
-            // Count each file from the parent directory.
-            foreach (FileInfo fi in _diSource.GetFiles())
-            {
-
-                string targetPath = Path.Combine(_diTarget.FullName, fi.Name);
-
-                if (!File.Exists(targetPath) || fi.LastWriteTime != File.GetLastWriteTime(targetPath))
+                foreach (FileInfo fi in _diSource.GetFiles())
                 {
                     nbFiles++;
                 }
-
-
-            }
-
-            // Enter each subdirectory and count the files in them using recursion.
-            foreach (DirectoryInfo diSourceSubDir in _diSource.GetDirectories())
-            {
-                string targetDirectoryPath = Path.Combine(_diTarget.FullName, diSourceSubDir.Name);
-
-                if (!Directory.Exists(targetDirectoryPath))
+                foreach (DirectoryInfo diSourceSubDir in _diSource.GetDirectories())
                 {
                     GetFilesNumberInSourceDirectory(diSourceSubDir);
                 }
-                else
-                {
-                    DirectoryInfo nextTargetSubDir = new DirectoryInfo(targetDirectoryPath);
-                    DifferencialGetFilesNumberInSourceDirectory(diSourceSubDir, nextTargetSubDir);
-                }
 
+                return nbFiles;
             }
-
-            return nbFiles;
         }
 
-        //Calculate the total size of a directory using recursion (for differencial save)
-        static public long DifferencialGetSizeInSourceDirectory(DirectoryInfo _diSource, DirectoryInfo _diTarget)
+        public static long CompleteSize(DirectoryInfo _diSource)
         {
-
-            Directory.CreateDirectory(_diTarget.FullName);
-
-            //// Count the size of each file from the parent directory.
-            foreach (FileInfo fi in _diSource.GetFiles())
+            lock (Model.sync)
             {
+                long temp = GetSizeInSourceDirectory(_diSource);
+                Reset();
+                return temp;
+            }
+        }
 
-                string targetPath = Path.Combine(_diTarget.FullName, fi.Name);
-
-                if (!File.Exists(targetPath) || fi.LastWriteTime != File.GetLastWriteTime(targetPath))
+        //Calculate the total size of a directory using recursion (for complete save)
+        static private long GetSizeInSourceDirectory(DirectoryInfo _diSource)
+        {
+            lock (Model.sync)
+            {
+                foreach (FileInfo fi in _diSource.GetFiles())
                 {
                     filesSize += fi.Length;
                 }
-
-
-            }
-
-            // Enter each subdirectory and count the size of all the files in them using recursion.
-            foreach (DirectoryInfo diSourceSubDir in _diSource.GetDirectories())
-            {
-                string targetDirectoryPath = Path.Combine(_diTarget.FullName, diSourceSubDir.Name);
-
-                if (!Directory.Exists(targetDirectoryPath))
+                foreach (DirectoryInfo diSourceSubDir in _diSource.GetDirectories())
                 {
                     GetSizeInSourceDirectory(diSourceSubDir);
                 }
-                else
+
+                return filesSize;
+            }
+        }
+
+        public static int DifferencialFilesNumber(DirectoryInfo _diSource, DirectoryInfo _diTarget)
+        {
+            lock (Model.sync)
+            {
+                int temp = DifferencialGetFilesNumberInSourceDirectory(_diSource, _diTarget);
+                Reset();
+                return temp;
+            }
+        }
+
+        //Calculate the number of file in a directory using recursion (for differencial save)
+        static private int DifferencialGetFilesNumberInSourceDirectory(DirectoryInfo _diSource, DirectoryInfo _diTarget)
+        {
+            lock (Model.sync)
+            {
+                Directory.CreateDirectory(_diTarget.FullName);
+
+                // Count each file from the parent directory.
+                foreach (FileInfo fi in _diSource.GetFiles())
                 {
-                    DirectoryInfo nextTargetSubDir = new DirectoryInfo(targetDirectoryPath);
-                    DifferencialGetSizeInSourceDirectory(diSourceSubDir, nextTargetSubDir);
+
+                    string targetPath = Path.Combine(_diTarget.FullName, fi.Name);
+
+                    if (!File.Exists(targetPath) || fi.LastWriteTime != File.GetLastWriteTime(targetPath))
+                    {
+                        nbFiles++;
+                    }
+
+
                 }
 
-            }
+                // Enter each subdirectory and count the files in them using recursion.
+                foreach (DirectoryInfo diSourceSubDir in _diSource.GetDirectories())
+                {
+                    string targetDirectoryPath = Path.Combine(_diTarget.FullName, diSourceSubDir.Name);
 
-            return filesSize;
+                    if (!Directory.Exists(targetDirectoryPath))
+                    {
+                        GetFilesNumberInSourceDirectory(diSourceSubDir);
+                    }
+                    else
+                    {
+                        DirectoryInfo nextTargetSubDir = new DirectoryInfo(targetDirectoryPath);
+                        DifferencialGetFilesNumberInSourceDirectory(diSourceSubDir, nextTargetSubDir);
+                    }
+
+                }
+
+                return nbFiles;
+            }
+        }
+
+        public static long DifferencialSize(DirectoryInfo _diSource, DirectoryInfo _diTarget)
+        {
+            lock (Model.sync)
+            {
+                long temp = DifferencialGetSizeInSourceDirectory(_diSource, _diTarget);
+                Reset();
+                return temp;
+            }
+        }
+
+        //Calculate the total size of a directory using recursion (for differencial save)
+        static private long DifferencialGetSizeInSourceDirectory(DirectoryInfo _diSource, DirectoryInfo _diTarget)
+        {
+            lock (Model.sync)
+            {
+                Directory.CreateDirectory(_diTarget.FullName);
+
+                //// Count the size of each file from the parent directory.
+                foreach (FileInfo fi in _diSource.GetFiles())
+                {
+
+                    string targetPath = Path.Combine(_diTarget.FullName, fi.Name);
+
+                    if (!File.Exists(targetPath) || fi.LastWriteTime != File.GetLastWriteTime(targetPath))
+                    {
+                        filesSize += fi.Length;
+                    }
+
+
+                }
+
+                // Enter each subdirectory and count the size of all the files in them using recursion.
+                foreach (DirectoryInfo diSourceSubDir in _diSource.GetDirectories())
+                {
+                    string targetDirectoryPath = Path.Combine(_diTarget.FullName, diSourceSubDir.Name);
+
+                    if (!Directory.Exists(targetDirectoryPath))
+                    {
+                        GetSizeInSourceDirectory(diSourceSubDir);
+                    }
+                    else
+                    {
+                        DirectoryInfo nextTargetSubDir = new DirectoryInfo(targetDirectoryPath);
+                        DifferencialGetSizeInSourceDirectory(diSourceSubDir, nextTargetSubDir);
+                    }
+
+                }
+
+                return filesSize;
+            }
+        }
+
+
+
+        private static void Reset()
+        {
+            lock (Model.sync)
+            {
+                nbFiles = 0;
+                filesSize = 0;
+            }
         }
 
         /// <summary>
@@ -134,9 +193,11 @@ namespace EasySave_2._0
         /// <returns></returns>
         public static string GetFileExtension(FileInfo targetFile)
         {
-            string fileExtension = targetFile.Extension;
-
-            return fileExtension;
+            lock (Model.sync)
+            {
+                string fileExtension = targetFile.Extension;
+                return fileExtension;
+            }
         }
 
 
@@ -147,20 +208,23 @@ namespace EasySave_2._0
         /// <returns></returns>
         public static bool CheckIfSoftwareIsLaunched(string _processName)
         {
-            bool softwareIsLaunched;
+            lock (Model.sync)
+            {
+                bool softwareIsLaunched;
 
-            // Check if the Sofware (Calculator for testing purpose) is launched
-            if (Process.GetProcessesByName(_processName).Length == 0)
-            {
-                // The software isn't launched
-                softwareIsLaunched = false;
+                // Check if the Sofware (Calculator for testing purpose) is launched
+                if (Process.GetProcessesByName(_processName).Length == 0)
+                {
+                    // The software isn't launched
+                    softwareIsLaunched = false;
+                }
+                else
+                {
+                    // The software is launched
+                    softwareIsLaunched = true;
+                }
+                return softwareIsLaunched;
             }
-            else
-            {
-                // The software is launched
-                softwareIsLaunched = true;
-            }
-            return softwareIsLaunched;
         }
 
     }
