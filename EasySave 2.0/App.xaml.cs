@@ -5,13 +5,14 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using SingleInstanceCore;
 
 namespace EasySave_2._0
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : Application, ISingleInstance
     {
         /*protected override void OnStartup(StartupEventArgs e)
         {
@@ -22,5 +23,27 @@ namespace EasySave_2._0
             app.DataContext = context;
             app.Show();
         }*/
+        public void OnInstanceInvoked(string[] args)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            bool isFirstInstance = SingleInstance<App>.InitializeAsFirstInstance("EasySave");
+            if (!isFirstInstance)
+            {
+                Current.Shutdown();
+            }
+
+            MainWindow app = new MainWindow();
+            app.Show();
+        }
+
+        private void Application_Exit(object sender, ExitEventArgs e)
+        {
+            SingleInstance<App>.Cleanup();
+        }
+
     }
 }
