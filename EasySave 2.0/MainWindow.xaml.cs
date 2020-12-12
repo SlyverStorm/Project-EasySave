@@ -145,7 +145,14 @@ namespace EasySave_2._0
         private void LaunchSave_Click(object sender, RoutedEventArgs e)
         {
             ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
-            VM.LaunchSaveProcedure(selectedItem.Index);
+            //VM.LaunchSaveProcedure(selectedItem.Index);
+
+            SaveStatus.Visibility = Visibility.Visible;
+            PauseSaveSatus.IsEnabled = true;
+            ResumeSaveStatus.IsEnabled = false;
+            ChangeCurrentSaveLabel(selectedItem.Name);
+            ChangeSaveStatusLabel(SaveStatusEnum.running);
+            ChangeSaveProgressLabel(0);
         }
 
         /// <summary>
@@ -458,5 +465,127 @@ namespace EasySave_2._0
         }
 
         #endregion
+
+        #region Save Status Panel
+
+        /// <summary>
+        /// Changes the curent save label content
+        /// </summary>
+        /// <param name="_currentSaveName">Name of the current save procedure</param>
+        private void ChangeCurrentSaveLabel(string _currentSaveName)
+        {
+            CurrentSaveLabel.Content = _currentSaveName;
+        }
+
+        /// <summary>
+        /// Changes the curent save status label content
+        /// </summary>
+        /// <param name="_currentSaveStatus">Status of the current save procedure</param>
+        private void ChangeSaveStatusLabel(SaveStatusEnum _currentSaveStatus)
+        {
+            switch (_currentSaveStatus)
+            {
+                case SaveStatusEnum.running:
+                    SaveStatusLabel.Content = "Running...";
+                    break;
+                case SaveStatusEnum.paused:
+                    SaveStatusLabel.Content = "On hold";
+                    break;
+                case SaveStatusEnum.complete:
+                    SaveStatusLabel.Content = "Complete";
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Changes the save progress label content.
+        /// </summary>
+        /// <param name="_saveProgress">percentage completion of the save procedure</param>
+        private void ChangeSaveProgressLabel(int _saveProgress)
+        {
+            SaveProgressLabel.Content = _saveProgress + " %";
+            if (_saveProgress == 100)
+            {
+                ChangeSaveStatusLabel(SaveStatusEnum.complete);
+                PauseSaveSatus.IsEnabled = false;
+                ResumeSaveStatus.IsEnabled = false;
+                CancelSaveSatus.Visibility = Visibility.Collapsed;
+                CloseSaveSatus.Visibility = Visibility.Visible;
+            }
+        }
+
+        /// <summary>
+        /// Closes save status frame after save completion
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CloseSaveStatus_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeSaveStatusLabel(SaveStatusEnum.complete);
+            CloseSaveSatus.Visibility = Visibility.Collapsed;
+            CancelSaveSatus.Visibility = Visibility.Visible;
+            SaveStatus.Visibility = Visibility.Collapsed;
+        }
+
+        /// <summary>
+        /// Informs the Model of the pause request, and change UIElements accordingly.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PauseSaveStatus_Click(object sender, RoutedEventArgs e)
+        {
+            PauseSaveSatus.IsEnabled = false;
+            ResumeSaveStatus.IsEnabled = true;
+            ChangeSaveStatusLabel(SaveStatusEnum.paused);
+            //To-do : Model information
+        }
+
+        /// <summary> 
+        /// Informs the Model of the resume request, and change UIElements accordingly.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ResumeSaveStatus_Click(object sender, RoutedEventArgs e)
+        {
+            PauseSaveSatus.IsEnabled = true;
+            ResumeSaveStatus.IsEnabled = false;
+            ChangeSaveStatusLabel(SaveStatusEnum.running);
+            //To-do : Model information
+
+            //To remove on Model implementation
+            #region Testing code 
+
+            string _label = SaveProgressLabel.Content.ToString();
+
+            int _currentpercent = int.Parse(_label.Remove(_label.Length - 2)) + 10;
+
+            ChangeSaveProgressLabel(_currentpercent);
+
+            #endregion
+        }
+
+        /// <summary>
+        /// Informs the Model of the cancel request, and closes the save status frame.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CancelSaveStatus_Click(object sender, RoutedEventArgs e)
+        {
+            SaveStatus.Visibility = Visibility.Collapsed;
+            //To-do : Model information
+        }
+
+        /// <summary>
+        /// Possible save procedure status
+        /// </summary>
+        enum SaveStatusEnum
+        {
+            running,
+            paused,
+            complete
+        }
+
+        #endregion
+
     }
 }

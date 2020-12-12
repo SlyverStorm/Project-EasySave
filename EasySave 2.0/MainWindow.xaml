@@ -7,6 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="500" Width="900">
     <Grid ShowGridLines="False" Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}">
+        
+        <!--#region Main-->
+        
         <!--#region Grid Definitions-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="160*"/>
@@ -102,6 +105,8 @@
             </ListView.View>
         </ListView>
         <!--#endregion-->
+        
+        <!--#endregion-->
 
         <!--#region Global Settings-->
         <Grid x:Name="GlobalSettings" Panel.ZIndex="1" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="9" Grid.RowSpan="11" Visibility="Collapsed">
@@ -175,5 +180,69 @@
             
         </Grid>
         <!--#endregion-->
+        
+        <!--#region Save Status-->
+        <Grid x:Name="SaveStatus" Panel.ZIndex="1" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="9" Grid.RowSpan="11" Visibility="Collapsed">
+
+            <!--#region Grid Background-->
+            <Grid.Background>
+                <SolidColorBrush Color="Black" Opacity=".7"/>
+            </Grid.Background>
+            <!--#endregion-->
+            
+            <!--#region Grid Definitions-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <!--#endregion-->
+
+            <!--#region Frame-->
+            <Border BorderThickness="2" Grid.Column="0" Grid.Row="0" Grid.RowSpan="12" Grid.ColumnSpan="8" BorderBrush="Black" Background="White" Margin="50" CornerRadius="15"/>
+            <!--#endregion-->
+
+            <!--#region Title-->
+            <Label x:Name="SaveFrameLabel" Content="Saving status" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Grid.ColumnSpan="9"/>
+            <!--#endregion-->
+
+            <!--#region Status Labels-->
+            <Label Content="Ongoing save procedure :" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" FontSize="17" FontWeight="DemiBold"/>
+            <Label x:Name="CurrentSaveLabel" Content="Ongoing save procedure :" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" HorizontalAlignment="Left" FontSize="17" FontWeight="Normal"/>
+            <Label Content="Status :" Grid.Row="5" Grid.Column="3" HorizontalAlignment="Right" FontSize="16" FontWeight="DemiBold"/>
+            <Label x:Name="SaveStatusLabel" Content="Running..." Grid.Row="5" Grid.Column="4" HorizontalAlignment="Left" FontSize="16" FontWeight="Normal"/>
+            <Label Content="Progress :" Grid.Row="6" Grid.Column="3" HorizontalAlignment="Right" FontSize="16" FontWeight="DemiBold"/>
+            <Label x:Name="SaveProgressLabel" Content="0 %" Grid.Row="6" Grid.Column="4" HorizontalAlignment="Left" FontSize="16" FontWeight="Normal"/>
+            <!--#endregion-->
+
+            <!--#region Back Buttons-->
+            <Button x:Name="ResumeSaveStatus" Content="Resume" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="9" FontSize="14" Margin="5,5,90,5" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="ResumeSaveStatus_Click" IsEnabled="False"/>
+            <Button x:Name="PauseSaveSatus" Content="Pause" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="9" FontSize="14" Margin="50,5,50,5" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="PauseSaveStatus_Click"/>
+            <Button x:Name="CancelSaveSatus" Content="Cancel" Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="9" FontSize="14" Margin="90,5,5,5" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="CancelSaveStatus_Click"/>
+            <Button x:Name="CloseSaveSatus" Content="Close" Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="9" FontSize="14" Margin="90,5,5,5" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="CloseSaveStatus_Click" Panel.ZIndex="2" Visibility="Collapsed"/>
+            <!--#endregion-->
+                       
+        </Grid>
+        <!--#endregion-->
+
     </Grid>
 </Window>
