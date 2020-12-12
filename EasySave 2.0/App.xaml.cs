@@ -14,15 +14,6 @@ namespace EasySave_2._0
     /// </summary>
     public partial class App : Application, ISingleInstance
     {
-        /*protected override void OnStartup(StartupEventArgs e)
-        {
-            base.OnStartup(e);
-
-            MainWindow app = new MainWindow();
-            MainViewModel context = new MainViewModel();
-            app.DataContext = context;
-            app.Show();
-        }*/
         public void OnInstanceInvoked(string[] args)
         {
             throw new NotImplementedException();
