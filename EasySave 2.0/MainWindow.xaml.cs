@@ -27,47 +27,40 @@ namespace EasySave_2._0
         ViewModel VM;
 
         private List<UIElement> formElementList;
-
         /// <summary>
         /// List of Elements in the form.
         /// </summary>
         public List<UIElement> FormElementList { get => formElementList; set => formElementList = value; }
 
         private List<UIElement> optionButtonList;
-
         /// <summary>
         /// List of option Buttons (Launch, Modify...) + the SaveList ListView.
         /// </summary>
         public List<UIElement> OptionButtonList { get => optionButtonList; set => optionButtonList = value; }
 
         private List<UIElement> confirmButtonList;
-
         /// <summary>
         /// List of Buttons Confirm and Back.
         /// </summary>
         public List<UIElement> ConfirmButtonList { get => confirmButtonList; set => confirmButtonList = value; }
 
         private List<UIElement> selectionButtonList;
-
         /// <summary>
         /// List of Buttons Confirm and Back.
         /// </summary>
         public List<UIElement> SelectionButtonList { get => selectionButtonList; set => selectionButtonList = value; }
 
         private List<UIElement> checkBoxList;
-
         /// <summary>
         /// List of Buttons Confirm and Back.
         /// </summary>
         public List<UIElement> CheckBoxList { get => checkBoxList; set => checkBoxList = value; }
 
         private bool isAnItemSelected = false;
-
-        public bool IsAnItemSelected
-        {
-            get { return isAnItemSelected; }
-            set { isAnItemSelected = value; }
-        }
+        /// <summary>
+        /// Keeps track of the item selection status
+        /// </summary>
+        public bool IsAnItemSelected { get => isAnItemSelected; set => isAnItemSelected = value; }
 
 
         #endregion
@@ -132,27 +125,43 @@ namespace EasySave_2._0
 
         #region Methods
 
-        private void ItemSelected(object sender, SelectionChangedEventArgs args)
+        #region Option Buttons
+
+        /// <summary>
+        /// Shows the settings menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Settings_Click(object sender, RoutedEventArgs e)
         {
-            if (!IsAnItemSelected)
-            {
-                IsAnItemSelected = true;
-                ChangeUIElementEnableState(SelectionButtonList, true);
-            }
+            GlobalSettings.Visibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// Launch the selected save
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LaunchSave_Click(object sender, RoutedEventArgs e)
         {
             ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
             VM.LaunchSaveProcedure(selectedItem.Index);
         }
 
+        /// <summary>
+        /// Deletion of the selected save
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DeleteSave_Click(object sender, RoutedEventArgs e)
         {
             ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
             VM.DeleteSaveProcedure(selectedItem.Index);
 
+            ChangeUIElementEnableState(SelectionButtonList, false);
+
             SaveList.Items.Refresh();
+            IsAnItemSelected = false;
         }
 
         /// <summary>
@@ -216,6 +225,10 @@ namespace EasySave_2._0
             Confirm.Click -= ConfirmCreateClick;
             Confirm.Click += ConfirmCreateClick;
         }
+
+        #endregion
+
+        #region Confirm Buttons
 
         /// <summary>
         /// Confirm changes and save them to the Save object.
@@ -318,26 +331,6 @@ namespace EasySave_2._0
         }
 
         /// <summary>
-        /// Disable checkboxes when All is ticked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ALL_Checked(object sender, RoutedEventArgs e)
-        {
-            ChangeUIElementEnableState(CheckBoxList, false);
-        }
-
-        /// <summary>
-        /// Enable checkboxes when All is unticked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ALL_Unchecked(object sender, RoutedEventArgs e)
-        {
-            ChangeUIElementEnableState(CheckBoxList, true);
-        }
-
-        /// <summary>
         /// Cancel any changes and go back to inital state of the UI.
         /// </summary>
         /// <param name="sender"></param>
@@ -353,8 +346,26 @@ namespace EasySave_2._0
             ClearForm();
         }
 
+        #endregion
+
+        #region Change UIElement state
+
         /// <summary>
-        /// Clear Form
+        /// Controls the first time an item is selected
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void ItemSelected(object sender, SelectionChangedEventArgs args)
+        {
+            if (!IsAnItemSelected)
+            {
+                IsAnItemSelected = true;
+                ChangeUIElementEnableState(SelectionButtonList, true);
+            }
+        }
+
+        /// <summary>
+        /// Empty all of the form fields
         /// </summary>
         private void ClearForm()
         {
@@ -398,8 +409,54 @@ namespace EasySave_2._0
             }
         }
 
+        /// <summary>
+        /// Disable checkboxes when All is ticked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ALL_Checked(object sender, RoutedEventArgs e)
+        {
+            ChangeUIElementEnableState(CheckBoxList, false);
+        }
+
+        /// <summary>
+        /// Enable checkboxes when All is unticked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ALL_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ChangeUIElementEnableState(CheckBoxList, true);
+        }
+
         #endregion
 
-        
+        #endregion
+
+        #region Setting Pannel
+
+        /// <summary>
+        /// Only permits numbers to be entered in the text field
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void ConfirmSettings_Click(object sender, RoutedEventArgs e)
+        {
+            //To-do : implement settings saving
+            GlobalSettings.Visibility = Visibility.Collapsed;
+        }
+
+        private void BackSettings_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalSettings.Visibility = Visibility.Collapsed;
+        }
+
+        #endregion
     }
 }

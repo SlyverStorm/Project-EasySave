@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="500" Width="900">
     <Grid ShowGridLines="False" Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}">
+        <!--#region Grid Definitions-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="160*"/>
             <ColumnDefinition Width="100*"/>
@@ -31,11 +32,16 @@
             <RowDefinition Height="49*"/>
             <RowDefinition Height="49*"/>
         </Grid.RowDefinitions>
-
-        <!--#region Header-->
-        <Label x:Name="TitleApp" Content="EasySave 2.0" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="50,0,0,0" Height="37" Width="128" Grid.ColumnSpan="2"/>
         <!--#endregion-->
 
+        <!--#region Header-->
+        <Label x:Name="TitleApp" Content="EasySave 2.0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Grid.ColumnSpan="9"/>
+        <!--#endregion-->
+        
+        <!--#region Settings-->
+        <Button x:Name="Settings" Content="Settings" Grid.Column="0" Grid.Row="0" FontSize="14" Margin="30,10,30,5" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="Settings_Click"/>
+        <!--#endregion-->        
+        
         <!--#region i18n-->
         <ComboBox x:Name="LanguageSelection" Grid.Column="7" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left" VerticalContentAlignment="Center" FontSize="14" FontWeight="DemiBold" Width="85" Height="25" Margin="26,0,0,0">
             <ComboBoxItem IsSelected="True">English</ComboBoxItem>
@@ -70,13 +76,13 @@
         <CheckBox x:Name="ALL" IsChecked="False" IsEnabled="False" Grid.Row="6" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Every File" Height="15" Width="76" Checked="ALL_Checked" Unchecked="ALL_Unchecked"/>
         <!--#endregion-->
 
-        <!--#region Created Save Interaction-->
+        <!--#region Created Save Buttons-->
         <Button x:Name="Create" Content="Create" Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="1" FontSize="14" Margin="10,12,10,12" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="Create_Click"/>
         <Button x:Name="Confirm" Content="Confirm" Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="4" FontSize="14" Margin="10,12,10,12" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="ConfirmCreateClick" Visibility="Hidden"/>
         <Button x:Name="Back" Content="Back" Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="5" FontSize="14" Margin="10,12,10,12" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="Back_Click" Visibility="Hidden" Grid.RowSpan="2"/>
         <!--#endregion-->
 
-        <!--#region Created Save Interaction-->
+        <!--#region Option Buttons-->
         <Button x:Name="LaunchAllSave" Content="Launch All" Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="7" FontSize="14" Margin="10,13,10,12" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         <Button x:Name="LaunchSave" Content="Launch" Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="8" FontSize="14" Margin="10,12,10,12" FontWeight="DemiBold" VerticalContentAlignment="Center" IsEnabled="False" HorizontalContentAlignment="Center" Click="LaunchSave_Click"/>
         <Button x:Name="ModifySave" Content="Modify" Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="9" FontSize="14" Margin="10,12,10,13" FontWeight="DemiBold" VerticalContentAlignment="Center" IsEnabled="False" HorizontalContentAlignment="Center" Click="ModifySave_Click"/>
@@ -95,6 +101,79 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <!--#endregion-->
+
+        <!--#region Global Settings-->
+        <Grid x:Name="GlobalSettings" Panel.ZIndex="1" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="9" Grid.RowSpan="11" Visibility="Collapsed">
+
+            <!--#region Grid Background-->
+            <Grid.Background>
+                <SolidColorBrush Color="Black" Opacity=".7"/>
+            </Grid.Background>
+            <!--#endregion-->
+            
+            <!--#region Grid Definitions-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <!--#endregion-->
+
+            <!--#region Frame-->
+            <Border BorderThickness="2" Grid.Column="0" Grid.Row="0" Grid.RowSpan="12" Grid.ColumnSpan="7" BorderBrush="Black" Background="White" Margin="50" CornerRadius="15"/>
+            <!--#endregion-->
+
+            <!--#region Title-->
+            <Label x:Name="SettingsLabel" Content="Global settings" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Grid.ColumnSpan="9"/>
+            <!--#endregion-->
+
+            <!--#region Extensions-->
+            <TextBlock Text="Priority file extensions" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" FontSize="17" FontWeight="Bold" Grid.RowSpan="1"/>
+            <CheckBox x:Name="TxtSettings" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".txt" Height="15" Width="36"/>
+            <CheckBox x:Name="RarSettings" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".rar" Height="15" Width="37"/>
+            <CheckBox x:Name="ZipSettings" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".zip" Height="15" Width="38"/>
+            <CheckBox x:Name="DocxSettings" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".docx" Height="15" Width="48"/>
+            <CheckBox x:Name="Mp4Settings" Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".mp4" Height="15" Width="46"/>
+            <CheckBox x:Name="PptxSettings" Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".pptx" Height="15" Width="46"/>
+            <CheckBox x:Name="JpgSettings" Grid.Row="7" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".jpg" Height="15" Width="40"/>
+            <CheckBox x:Name="PngSettings" Grid.Row="7" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".png" Height="15" Width="43"/>
+            <CheckBox x:Name="PdfSettings" Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".pdf" Height="15" Width="40"/>
+            <CheckBox x:Name="ExeSettings" Grid.Row="8" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".exe" Height="15" Width="41"/>
+            <CheckBox x:Name="IsoSettings" Grid.Row="9" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content=".iso" Height="15" Width="38"/>
+            <!--#endregion-->
+
+            <!--#region File Size-->
+            <TextBlock Text="Maximum file size for simultaneous transfert" Grid.Row="3" Grid.RowSpan="2" Grid.Column="4" Grid.ColumnSpan="2" HorizontalAlignment="Right" FontSize="17" FontWeight="Bold" TextWrapping="Wrap"/>
+            <Label Name="MaxSizeSettingsLabel" Content="Maximum size" Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="15"/>
+            <TextBox x:Name="MaxSizeSettingsForm" Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="25" VerticalContentAlignment="Center" Margin="80,5,50,5" PreviewTextInput="NumberValidationTextBox"/>
+            <Label Name="KBLabel" Content="kB" Grid.Row="6" Grid.Column="5" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="15" Margin="0,0,20,0"/>
+            <!--#endregion-->
+
+            <!--#region Back Buttons-->
+            <Button x:Name="ConfirmSettings" Content="Confirm" Grid.Column="4" Grid.Row="9" FontSize="14" Margin="5,5,15,5" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="ConfirmSettings_Click"/>
+            <Button x:Name="BackSettings" Content="Back" Grid.Column="5" Grid.Row="9" FontSize="14" Margin="15,5,5,5" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="BackSettings_Click"/>
+            <!--#endregion-->
+            
+        </Grid>
         <!--#endregion-->
     </Grid>
 </Window>
