@@ -119,11 +119,14 @@ namespace EasySave_2._0
                 Exe,
                 Iso
             };
+
         }
 
         #endregion
 
         #region Methods
+
+
 
         #region Option Buttons
 
@@ -145,7 +148,6 @@ namespace EasySave_2._0
         private void LaunchSave_Click(object sender, RoutedEventArgs e)
         {
             ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
-            //VM.LaunchSaveProcedure(selectedItem.Index);
 
             SaveStatus.Visibility = Visibility.Visible;
             PauseSaveSatus.IsEnabled = true;
@@ -153,6 +155,10 @@ namespace EasySave_2._0
             ChangeCurrentSaveLabel(selectedItem.Name);
             ChangeSaveStatusLabel(SaveStatusEnum.running);
             ChangeSaveProgressLabel(0);
+
+            VM.LaunchSaveProcedure(selectedItem.Index);
+
+            VM.Model.WorkList[selectedItem.Index].Progress.PropertyChanged += Progress_PropertyChanged;
         }
 
         /// <summary>
@@ -467,6 +473,21 @@ namespace EasySave_2._0
         #endregion
 
         #region Save Status Panel
+
+        /// <summary>
+        /// Called when a property is changed in SaveProgress Object
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Progress_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ProgressState")
+            {
+                ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
+                int _percentage = Convert.ToInt32(Math.Floor(VM.Model.WorkList[selectedItem.Index].Progress.ProgressState));
+                ChangeSaveProgressLabel(_percentage);
+            }
+        }
 
         /// <summary>
         /// Changes the curent save label content
