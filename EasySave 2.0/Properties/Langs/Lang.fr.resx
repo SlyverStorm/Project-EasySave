@@ -117,14 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Back" xml:space="preserve">
+    <value>Retour</value>
+  </data>
   <data name="CancelSave" xml:space="preserve">
     <value>Annuler</value>
   </data>
+  <data name="Close" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
   <data name="CompleteType" xml:space="preserve">
-    <value>Sauvegarde compl&amp;#232;te</value>
+    <value>Sauvegarde complète</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirmer</value>
   </data>
   <data name="Create" xml:space="preserve">
-    <value>Cr&amp;#233;er</value>
+    <value>Création</value>
   </data>
   <data name="CurrentSave" xml:space="preserve">
     <value>Sauvegarde en cours :</value>
@@ -133,13 +142,13 @@
     <value>Supprimer</value>
   </data>
   <data name="DestinationPath" xml:space="preserve">
-    <value>Chemin Destination</value>
+    <value>Destination</value>
   </data>
   <data name="DifferencialType" xml:space="preserve">
-    <value>Sauvegarde diff&amp;#233;rentielle</value>
+    <value>Sauvegarde différentielle</value>
   </data>
   <data name="DoneStatus" xml:space="preserve">
-    <value>Termin&amp;#233;e !</value>
+    <value>Terminée !</value>
   </data>
   <data name="Encryption" xml:space="preserve">
     <value>Chiffrement</value>
@@ -148,10 +157,10 @@
     <value>English</value>
   </data>
   <data name="French" xml:space="preserve">
-    <value>Fran&amp;#231;ais</value>
+    <value>Français</value>
   </data>
   <data name="GlobalSettings" xml:space="preserve">
-    <value>Param&amp;#232;tres Globaux</value>
+    <value>Paramètres Globaux</value>
   </data>
   <data name="ID" xml:space="preserve">
     <value>ID</value>
@@ -166,7 +175,7 @@
     <value>EasySave 3.0</value>
   </data>
   <data name="MaximumFileSize" xml:space="preserve">
-    <value>Taille maximale des fichiers durant les transferts simultan&amp;#233;s :</value>
+    <value>Taille maximale des fichiers durant les transferts simultanés :</value>
   </data>
   <data name="MaximumFileSizeValue" xml:space="preserve">
     <value>Taille maximale :</value>
@@ -181,7 +190,7 @@
     <value>Pause</value>
   </data>
   <data name="PriorityFileExtension" xml:space="preserve">
-    <value>Priorit&amp;#233; des extensions</value>
+    <value>Priorité des extensions</value>
   </data>
   <data name="ResumeSave" xml:space="preserve">
     <value>Reprendre</value>
@@ -193,18 +202,18 @@
     <value>Progression :</value>
   </data>
   <data name="SaveStateStatus" xml:space="preserve">
-    <value>&amp;#201;tat de la sauvegarde</value>
+    <value>État de la sauvegarde</value>
   </data>
   <data name="SaveStatus" xml:space="preserve">
     <value>Statut :</value>
   </data>
   <data name="SaveType" xml:space="preserve">
-    <value>Type de sauvegarde</value>
+    <value>Type</value>
   </data>
   <data name="Settings" xml:space="preserve">
-    <value>Param&amp;#232;tres</value>
+    <value>Paramètres</value>
   </data>
   <data name="SourcePath" xml:space="preserve">
-    <value>Chemin Source</value>
+    <value>Source</value>
   </data>
 </root>

@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Model\language\" />
     <Folder Include="Ressources\" />
   </ItemGroup>
 
