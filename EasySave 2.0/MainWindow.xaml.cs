@@ -519,16 +519,16 @@ namespace EasySave_2._0
             switch (_currentSaveStatus)
             {
                 case SaveStatusEnum.running:
-                    SaveStatusLabel.Content = "Running...";
+                    SaveStatusLabel.Content = Properties.Langs.Lang.Running;
                     break;
                 case SaveStatusEnum.paused:
-                    SaveStatusLabel.Content = "On hold";
+                    SaveStatusLabel.Content = Properties.Langs.Lang.Paused;
                     break;
                 case SaveStatusEnum.encryption:
-                    SaveStatusLabel.Content = "Encryption";
+                    SaveStatusLabel.Content = Properties.Langs.Lang.Encryption;
                     break;
                 case SaveStatusEnum.complete:
-                    SaveStatusLabel.Content = "Complete";
+                    SaveStatusLabel.Content = Properties.Langs.Lang.Complete;
                     break;
             }
         }
@@ -574,8 +574,10 @@ namespace EasySave_2._0
             ResumeSaveStatus.IsEnabled = true;
             ChangeSaveStatusLabel(SaveStatusEnum.paused);
 
+            //if solo save
             ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
             VM.Model.WorkList[selectedItem.Index].Progress.IsPaused = true;
+            //else all
         }
 
         /// <summary> 
@@ -589,10 +591,11 @@ namespace EasySave_2._0
             ResumeSaveStatus.IsEnabled = false;
             ChangeSaveStatusLabel(SaveStatusEnum.running);
 
+            //if solo save
             ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
             VM.Model.WorkList[selectedItem.Index].Progress.IsPaused = false;
+            //else all
 
-            #endregion
         }
 
         /// <summary>
@@ -604,9 +607,11 @@ namespace EasySave_2._0
         {
             SaveStatus.Visibility = Visibility.Collapsed;
 
-
+            //if solo save
             ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
             VM.Model.WorkList[selectedItem.Index].Progress.Cancelled = false;
+            //else all
+
         }
 
         /// <summary>

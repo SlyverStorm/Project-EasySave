@@ -126,6 +126,9 @@
   <data name="Close" xml:space="preserve">
     <value>Fermer</value>
   </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Terminé</value>
+  </data>
   <data name="CompleteType" xml:space="preserve">
     <value>Sauvegarde complète</value>
   </data>
@@ -189,6 +192,9 @@
   <data name="Name" xml:space="preserve">
     <value>Nom</value>
   </data>
+  <data name="Paused" xml:space="preserve">
+    <value>En pause</value>
+  </data>
   <data name="PauseSave" xml:space="preserve">
     <value>Pause</value>
   </data>
@@ -197,6 +203,9 @@
   </data>
   <data name="ResumeSave" xml:space="preserve">
     <value>Reprendre</value>
+  </data>
+  <data name="Running" xml:space="preserve">
+    <value>En cours...</value>
   </data>
   <data name="RunningStatus" xml:space="preserve">
     <value>En cours...</value>

@@ -88,6 +88,15 @@ namespace EasySave_2._0.Properties.Langs {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Complete.
+        /// </summary>
+        public static string Complete {
+            get {
+                return ResourceManager.GetString("Complete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Complete Save.
         /// </summary>
         public static string CompleteType {
@@ -277,6 +286,15 @@ namespace EasySave_2._0.Properties.Langs {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à On hold.
+        /// </summary>
+        public static string Paused {
+            get {
+                return ResourceManager.GetString("Paused", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Pause.
         /// </summary>
         public static string PauseSave {
@@ -300,6 +318,15 @@ namespace EasySave_2._0.Properties.Langs {
         public static string ResumeSave {
             get {
                 return ResourceManager.GetString("ResumeSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Running....
+        /// </summary>
+        public static string Running {
+            get {
+                return ResourceManager.GetString("Running", resourceCulture);
             }
         }
         
