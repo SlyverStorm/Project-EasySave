@@ -603,7 +603,8 @@ namespace EasySave_2._0
         {
             running,
             paused,
-            complete
+            complete,
+            encryption
         }
 
         #endregion
