@@ -23,17 +23,17 @@ Developpers :
 
 # Release History
 <ul>
-  <li>11/25/2020 : v.3
+  <li>12/17/2020 : v.3
     <ul>
       <li>CHANGE: ToDo </li>
     </ul>
   </li>
-  <li>11/25/2020 : v.2
+  <li>12/07/2020 : v.2
     <ul>
       <li>CHANGE: ToDo </li>
     </ul>
   </li>
-    <li>11/25/2020 : v.1.1
+    <li>12/06/2020 : v.1.1
     <ul>
       <li>CHANGE: Now in English and French.</li>
     </ul>
