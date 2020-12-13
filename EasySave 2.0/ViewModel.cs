@@ -23,7 +23,7 @@ namespace EasySave_2._0
         #region Methodes
 
         /// <summary>
-        /// 
+        /// Tells the Model to create a save procedure
         /// </summary>
         public void CreateSaveProcedure(string _name, string _sourcePath, string _destinationPath, SaveWorkType _saveType, List<Extension> _extensionList)
         {
@@ -38,7 +38,7 @@ namespace EasySave_2._0
         }
 
         /// <summary>
-        /// 
+        /// Tells the Model to modify a save procedure
         /// </summary>
         public void ModifySaveProcedure(int _id, string _name, string _sourcePath, string _destinationPath, SaveWorkType _saveType, List<Extension> _encryptionList)
         {
@@ -46,7 +46,7 @@ namespace EasySave_2._0
         }
 
         /// <summary>
-        /// 
+        /// Tells the Model to delete a save procedure
         /// </summary>
         public void DeleteSaveProcedure(int _id)
         {
@@ -54,7 +54,7 @@ namespace EasySave_2._0
         }
 
         /// <summary>
-        /// 
+        /// Tells the Model to launch a save procedure
         /// </summary>
         public void LaunchSaveProcedure(int _id)
         {
@@ -62,11 +62,27 @@ namespace EasySave_2._0
         }
 
         /// <summary>
-        /// 
+        /// Tells the Model to launch all save procedures
         /// </summary>
         public void LaunchAllSaveProcedures()
         {
             //TO DO
+        }
+
+        /// <summary>
+        /// Tells the Model to pause the current save procedure(s)
+        /// </summary>
+        public void PauseSaveProcedure()
+        {
+
+        }
+
+        /// <summary>
+        /// Tells the Model to cancel the current save procedure(s)
+        /// </summary>
+        public void CancelSaveProcedure()
+        {
+
         }
 
         #endregion
