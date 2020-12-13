@@ -56,7 +56,7 @@ Windows OS :
   <pre>
     <li>Download the <a href="https://github.com/SlyverStorm/Projet-EasySave/releases/tag/1.0">latest release</a> up to date</li>
     <li>Unzip file</li>
-    <li>Launch Projet Easy Save v3.0.exe</li>
+    <li>Launch executable</li>
   </pre>
 </div>
 
