@@ -14,6 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
+using System.Globalization;
+using EasySave_2._0.Properties;
 
 namespace EasySave_2._0
 {
@@ -62,6 +64,12 @@ namespace EasySave_2._0
         /// </summary>
         public bool IsAnItemSelected { get => isAnItemSelected; set => isAnItemSelected = value; }
 
+        private bool firstTimeSelection = true;
+        /// <summary>
+        /// Keeps track of the item selection status
+        /// </summary>
+        public bool FirstTimeSelection { get => firstTimeSelection; set => firstTimeSelection = value; }
+
 
         #endregion
 
@@ -72,7 +80,6 @@ namespace EasySave_2._0
         /// </summary>
         public MainWindow()
         {
-            
             VM = new ViewModel();
             DataContext = VM;
             InitializeComponent();
@@ -120,13 +127,15 @@ namespace EasySave_2._0
                 Iso
             };
 
+            if (Settings.Default.languageCode == "en-US")
+                LanguageSelection.SelectedIndex = 0;
+            else
+                LanguageSelection.SelectedIndex = 1;
         }
 
         #endregion
 
         #region Methods
-
-
 
         #region Option Buttons
 
@@ -135,7 +144,7 @@ namespace EasySave_2._0
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Settings_Click(object sender, RoutedEventArgs e)
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             GlobalSettings.Visibility = Visibility.Visible;
         }
@@ -250,9 +259,9 @@ namespace EasySave_2._0
         /// <param name="e"></param>
         private void ConfirmCreateClick(object sender, RoutedEventArgs e)
         {
-            if (!Regex.IsMatch(SaveNameForm.Text, @"^[a-zA-Z0-9 _]{3,50}$") || !Regex.IsMatch(SaveSourcePathForm.Text, @"^[a-zA-Z]:(?:[\/\\][a-zA-Z0-9 _#]+)*$") || !Regex.IsMatch(SaveDestinationPathForm.Text, @"^[a-zA-Z]:(?:[\/\\][a-zA-Z0-9 _#]+)*$") || SaveTypeForm.SelectedItem == null)
+            if (!Regex.IsMatch(SaveNameForm.Text, @"^[a-zA-Z0-9 '_]{3,50}$") || !Regex.IsMatch(SaveSourcePathForm.Text, @"^[a-zA-Z]:(?:[\/\\][a-zA-Z0-9 _#]+)*$") || !Regex.IsMatch(SaveDestinationPathForm.Text, @"^[a-zA-Z]:(?:[\/\\][a-zA-Z0-9 _#]+)*$") || SaveTypeForm.SelectedItem == null)
             {
-                MessageBox.Show("Error: Please fill every field before confirming.", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Warning: Please fill every field before confirming.\n\n -Name should contain between 3 and 50 alphanumeric characters, space, underscore or hashtag.\n\n -Paths must follow this structure : DRIVE_LETTER:/folder1/folder2...", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             else
             {
@@ -300,9 +309,9 @@ namespace EasySave_2._0
         /// <param name="e"></param>
         private void ConfirmModifyClick(object sender, RoutedEventArgs e)
         {
-            if (!Regex.IsMatch(SaveNameForm.Text, @"^[a-zA-Z0-9 _]{3,50}$") || !Regex.IsMatch(SaveSourcePathForm.Text, @"^[a-zA-Z]:(?:[\/\\][a-zA-Z0-9 _#]+)*$") || !Regex.IsMatch(SaveDestinationPathForm.Text, @"^[a-zA-Z]:(?:[\/\\][a-zA-Z0-9 _#]+)*$") || SaveTypeForm.SelectedItem == null)
+            if (!Regex.IsMatch(SaveNameForm.Text, @"^[a-zA-Z0-9 '_]{3,50}$") || !Regex.IsMatch(SaveSourcePathForm.Text, @"^[a-zA-Z]:(?:[\/\\][a-zA-Z0-9 _#]+)*$") || !Regex.IsMatch(SaveDestinationPathForm.Text, @"^[a-zA-Z]:(?:[\/\\][a-zA-Z0-9 _#]+)*$") || SaveTypeForm.SelectedItem == null)
             {
-                MessageBox.Show("Error: Please fill every field before confirming.\n\n -Name should contain between 3 and 50 alphanumeric, space or underscore characters.\n\n -Paths must follow this structure : DRIVE_LETTER:/folder1/folder2...", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                MessageBox.Show("Warning: Please fill every field before confirming.\n\n -Name should contain between 3 and 50 alphanumeric characters, space, underscore or hashtag.\n\n -Paths must follow this structure : DRIVE_LETTER:/folder1/folder2...", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             else
             {
@@ -512,6 +521,9 @@ namespace EasySave_2._0
                 case SaveStatusEnum.paused:
                     SaveStatusLabel.Content = "On hold";
                     break;
+                case SaveStatusEnum.encryption:
+                    SaveStatusLabel.Content = "Encryption";
+                    break;
                 case SaveStatusEnum.complete:
                     SaveStatusLabel.Content = "Complete";
                     break;
@@ -609,5 +621,29 @@ namespace EasySave_2._0
 
         #endregion
 
+        #region i18n
+        private void LanguageSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!firstTimeSelection)
+            {
+                if (LanguageSelection.SelectedIndex == 0)
+                {
+                    Settings.Default.languageCode = "en-US";
+                    MessageBox.Show("The change has been taken into account and will be effective on the next application startup.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                }
+                else
+                {
+                    Settings.Default.languageCode = "fr-FR";
+                    MessageBox.Show("Le changement a bien été pris en compte et sera effectif au prochain démarrage de l'application.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                firstTimeSelection = false;
+            }
+        }
+        #endregion
     }
 }
