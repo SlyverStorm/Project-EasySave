@@ -30,7 +30,7 @@ Developpers :
   </li>
   <li>12/07/2020 : v.2
     <ul>
-      <li>CHANGE: ToDo </li>
+      <li>CHANGE: ToDo (+MVVM) </li>
     </ul>
   </li>
     <li>12/06/2020 : v.1.1
