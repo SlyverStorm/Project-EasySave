@@ -24,6 +24,7 @@ namespace EasySave_2._0
         public Model()
         {
             OnSaveWorkUpdate = UpdateSaveFile;
+            CurrentTransferSize = 0;
             WorkList = new List<ISaveWork>();
             //If the state file has not been initialized then create 5 SaveWork object from nothing
             if (!File.Exists("stateFile.json"))
@@ -75,6 +76,60 @@ namespace EasySave_2._0
                 OnPropertyChanged("WorkList");
             }
         }
+
+        private List<Extension> priorityExtension;
+
+        public List<Extension> PriorityExtension
+        {
+            get { return priorityExtension; }
+            set 
+            {
+                priorityExtension = value;
+                OnPropertyChanged("PriorityExtension");
+            }
+        }
+
+        private ILanguage language;
+
+        public ILanguage Language
+        {
+            get { return language; }
+            set 
+            {
+                language = value;
+                OnPropertyChanged("Language");
+            }
+        }
+
+        private long maxTransferSize;
+
+        public long MaxTransferSize
+        {
+            get { return maxTransferSize; }
+            set 
+            { 
+                maxTransferSize = value;
+                OnPropertyChanged("MaxTransferSize");
+            }
+        }
+
+        public static long CurrentTransferSize;
+
+        private string softwareString;
+
+        public string SoftwareString
+        {
+            get { return softwareString; }
+            set 
+            {
+                softwareString = value;
+                OnPropertyChanged("SoftwareString");
+            }
+        }
+
+
+
+
 
         /// <summary>
         /// Create a save work (with a complete save algorithm)
@@ -159,23 +214,6 @@ namespace EasySave_2._0
             {
                 li.Index = WorkList.IndexOf(li);
             }
-        }
-
-        /// <summary>
-        /// Get the index of a specified work in WorkList, matching with their name
-        /// </summary>
-        /// <param name="_name">The name of the work you want the index in the list</param>
-        /// <returns></returns>
-        public int GetWorkIndex(string _name)
-        {
-            foreach(ISaveWork work in WorkList)
-            {
-                if(work.Name == _name)
-                {
-                    return WorkList.IndexOf(work);
-                }
-            }
-            return -1;
         }
 
         /// <summary>
