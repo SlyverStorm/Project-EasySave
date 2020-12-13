@@ -66,7 +66,7 @@ namespace EasySave_2._0
 
         private bool firstTimeSelection = true;
         /// <summary>
-        /// Keeps track of the item selection status
+        /// Prevents from the message box showing up on startup
         /// </summary>
         public bool FirstTimeSelection { get => firstTimeSelection; set => firstTimeSelection = value; }
 
@@ -131,6 +131,7 @@ namespace EasySave_2._0
                 LanguageSelection.SelectedIndex = 0;
             else
                 LanguageSelection.SelectedIndex = 1;
+
         }
 
         #endregion
@@ -261,7 +262,7 @@ namespace EasySave_2._0
         {
             if (!Regex.IsMatch(SaveNameForm.Text, @"^[a-zA-Z0-9 '_]{3,50}$") || !Regex.IsMatch(SaveSourcePathForm.Text, @"^[a-zA-Z]:(?:[\/\\][a-zA-Z0-9 _#]+)*$") || !Regex.IsMatch(SaveDestinationPathForm.Text, @"^[a-zA-Z]:(?:[\/\\][a-zA-Z0-9 _#]+)*$") || SaveTypeForm.SelectedItem == null)
             {
-                MessageBox.Show("Warning: Please fill every field before confirming.\n\n -Name should contain between 3 and 50 alphanumeric characters, space, underscore or hashtag.\n\n -Paths must follow this structure : DRIVE_LETTER:/folder1/folder2...", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Properties.Langs.Lang.ConfirmBoxFormError, Properties.Langs.Lang.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             else
             {
@@ -311,7 +312,7 @@ namespace EasySave_2._0
         {
             if (!Regex.IsMatch(SaveNameForm.Text, @"^[a-zA-Z0-9 '_]{3,50}$") || !Regex.IsMatch(SaveSourcePathForm.Text, @"^[a-zA-Z]:(?:[\/\\][a-zA-Z0-9 _#]+)*$") || !Regex.IsMatch(SaveDestinationPathForm.Text, @"^[a-zA-Z]:(?:[\/\\][a-zA-Z0-9 _#]+)*$") || SaveTypeForm.SelectedItem == null)
             {
-                MessageBox.Show("Warning: Please fill every field before confirming.\n\n -Name should contain between 3 and 50 alphanumeric characters, space, underscore or hashtag.\n\n -Paths must follow this structure : DRIVE_LETTER:/folder1/folder2...", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Properties.Langs.Lang.ConfirmBoxFormError, Properties.Langs.Lang.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             else
             {
@@ -622,6 +623,12 @@ namespace EasySave_2._0
         #endregion
 
         #region i18n
+
+        /// <summary>
+        /// Informs the user of the language change on next startup
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LanguageSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!firstTimeSelection)
@@ -644,6 +651,7 @@ namespace EasySave_2._0
                 firstTimeSelection = false;
             }
         }
+
         #endregion
     }
 }

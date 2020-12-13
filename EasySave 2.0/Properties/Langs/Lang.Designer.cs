@@ -106,6 +106,15 @@ namespace EasySave_2._0.Properties.Langs {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Warning: Please fill every field before confirming.\n\n -Name should contain between 3 and 50 alphanumeric characters, space, underscore or hashtag.\n\n -Paths must follow this structure : DRIVE_LETTER:/folder1/folder2....
+        /// </summary>
+        public static string ConfirmBoxFormError {
+            get {
+                return ResourceManager.GetString("ConfirmBoxFormError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Create.
         /// </summary>
         public static string Create {
@@ -354,6 +363,15 @@ namespace EasySave_2._0.Properties.Langs {
         public static string SourcePath {
             get {
                 return ResourceManager.GetString("SourcePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Warning.
+        /// </summary>
+        public static string Warning {
+            get {
+                return ResourceManager.GetString("Warning", resourceCulture);
             }
         }
     }
