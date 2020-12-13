@@ -138,6 +138,8 @@ namespace EasySave_2._0
 
         #region Methods
 
+        #region Main
+
         #region Option Buttons
 
         /// <summary>
@@ -571,7 +573,9 @@ namespace EasySave_2._0
             PauseSaveSatus.IsEnabled = false;
             ResumeSaveStatus.IsEnabled = true;
             ChangeSaveStatusLabel(SaveStatusEnum.paused);
-            //To-do : Model information
+
+            ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
+            VM.Model.WorkList[selectedItem.Index].Progress.IsPaused = true;
         }
 
         /// <summary> 
@@ -584,16 +588,9 @@ namespace EasySave_2._0
             PauseSaveSatus.IsEnabled = true;
             ResumeSaveStatus.IsEnabled = false;
             ChangeSaveStatusLabel(SaveStatusEnum.running);
-            //To-do : Model information
 
-            //To remove on Model implementation
-            #region Testing code 
-
-            string _label = SaveProgressLabel.Content.ToString();
-
-            int _currentpercent = int.Parse(_label.Remove(_label.Length - 2)) + 10;
-
-            ChangeSaveProgressLabel(_currentpercent);
+            ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
+            VM.Model.WorkList[selectedItem.Index].Progress.IsPaused = false;
 
             #endregion
         }
@@ -606,7 +603,10 @@ namespace EasySave_2._0
         private void CancelSaveStatus_Click(object sender, RoutedEventArgs e)
         {
             SaveStatus.Visibility = Visibility.Collapsed;
-            //To-do : Model information
+
+
+            ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
+            VM.Model.WorkList[selectedItem.Index].Progress.Cancelled = false;
         }
 
         /// <summary>
@@ -651,6 +651,8 @@ namespace EasySave_2._0
                 firstTimeSelection = false;
             }
         }
+
+        #endregion
 
         #endregion
     }
