@@ -228,8 +228,8 @@
             <!--#endregion-->
 
             <!--#region Status Labels-->
-            <Label Content="{x:Static language:Lang.MainTitle}" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" FontSize="17" FontWeight="DemiBold"/>
-            <Label x:Name="CurrentSaveLabel" Content="yo mec" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" HorizontalAlignment="Left" FontSize="17" FontWeight="Normal"/>
+            <Label Content="{x:Static language:Lang.CurrentSave}" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" FontSize="17" FontWeight="DemiBold"/>
+            <Label x:Name="CurrentSaveLabel" Content="" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" HorizontalAlignment="Left" FontSize="17" FontWeight="Normal"/>
             <Label Content="{x:Static language:Lang.SaveStatus}" Grid.Row="5" Grid.Column="3" HorizontalAlignment="Right" FontSize="16" FontWeight="DemiBold"/>
             <Label x:Name="SaveStatusLabel" Content="{x:Static language:Lang.RunningStatus}" Grid.Row="5" Grid.Column="4" HorizontalAlignment="Left" FontSize="16" FontWeight="Normal"/>
             <Label Content="{x:Static language:Lang.SaveProgress}" Grid.Row="6" Grid.Column="3" HorizontalAlignment="Right" FontSize="16" FontWeight="DemiBold"/>
