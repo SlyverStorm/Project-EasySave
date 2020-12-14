@@ -137,7 +137,7 @@ namespace EasySave_2._0
 
         #endregion
 
-        #region i18n
+        #region Methods
 
         /// <summary>
         /// Informs the user of the language change on next startup
@@ -165,6 +165,16 @@ namespace EasySave_2._0
             {
                 firstTimeSelection = false;
             }
+        }
+
+        /// <summary>
+        /// Shows the settings menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalSettings.Visibility = Visibility.Visible;
         }
 
         #endregion

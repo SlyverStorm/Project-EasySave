@@ -30,34 +30,22 @@ namespace EasySave_2._0
         #region Option Buttons
 
         /// <summary>
-        /// Shows the settings menu
+        /// Creation of a new save / Visual duties
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        private void Create_Click(object sender, RoutedEventArgs e)
         {
-            GlobalSettings.Visibility = Visibility.Visible;
-        }
-
-        /// <summary>
-        /// Launch the selected save
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void LaunchSave_Click(object sender, RoutedEventArgs e)
-        {
-            ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
-
-            SaveStatus.Visibility = Visibility.Visible;
-            PauseSaveSatus.IsEnabled = true;
-            ResumeSaveStatus.IsEnabled = false;
-            ChangeCurrentSaveLabel(selectedItem.Name);
-            ChangeSaveStatusLabel(SaveStatusEnum.running);
-            ChangeSaveProgressLabel(0);
-
-            VM.LaunchSaveProcedure(selectedItem.Index);
-
-            VM.Model.WorkList[selectedItem.Index].Progress.PropertyChanged += Progress_PropertyChanged;
+            ChangeUIElementEnableState(FormElementList, true);
+            ChangeUIElementEnableState(OptionButtonList, false);
+            ChangeUIElementEnableState(SelectionButtonList, false);
+            ChangeUIElementEnableState(CheckBoxList, true);
+            ALL.IsEnabled = true;
+            ChangeUIElementVisibilityState(ConfirmButtonList, Visibility.Visible);
+            ClearForm();
+            Confirm.Click -= ConfirmModifyClick;
+            Confirm.Click -= ConfirmCreateClick;
+            Confirm.Click += ConfirmCreateClick;
         }
 
         /// <summary>
@@ -120,22 +108,24 @@ namespace EasySave_2._0
         }
 
         /// <summary>
-        /// Creation of a new save / Visual duties
+        /// Launch the selected save
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Create_Click(object sender, RoutedEventArgs e)
+        private void LaunchSave_Click(object sender, RoutedEventArgs e)
         {
-            ChangeUIElementEnableState(FormElementList, true);
-            ChangeUIElementEnableState(OptionButtonList, false);
-            ChangeUIElementEnableState(SelectionButtonList, false);
-            ChangeUIElementEnableState(CheckBoxList, true);
-            ALL.IsEnabled = true;
-            ChangeUIElementVisibilityState(ConfirmButtonList, Visibility.Visible);
-            ClearForm();
-            Confirm.Click -= ConfirmModifyClick;
-            Confirm.Click -= ConfirmCreateClick;
-            Confirm.Click += ConfirmCreateClick;
+            ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
+
+            SaveStatus.Visibility = Visibility.Visible;
+            PauseSaveSatus.IsEnabled = true;
+            ResumeSaveStatus.IsEnabled = false;
+            ChangeCurrentSaveLabel(selectedItem.Name);
+            ChangeSaveStatusLabel(SaveStatusEnum.running);
+            ChangeSaveProgressLabel(0);
+
+            VM.LaunchSaveProcedure(selectedItem.Index);
+
+            VM.Model.WorkList[selectedItem.Index].Progress.PropertyChanged += Progress_PropertyChanged;
         }
 
         private void LaunchAllSaves_Click(object sender, RoutedEventArgs e)
