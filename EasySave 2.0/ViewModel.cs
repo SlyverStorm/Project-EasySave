@@ -72,17 +72,17 @@ namespace EasySave_2._0
         /// <summary>
         /// Tells the Model to pause the current save procedure(s)
         /// </summary>
-        public void PauseSaveProcedure()
+        public void PauseSaveProcedure(int _index, bool _boolean)
         {
-
+            Model.WorkList[_index].Progress.IsPaused = _boolean;
         }
 
         /// <summary>
         /// Tells the Model to cancel the current save procedure(s)
         /// </summary>
-        public void CancelSaveProcedure()
+        public void CancelSaveProcedure(int _index)
         {
-
+            Model.WorkList[_index].Progress.Cancelled = true;
         }
 
         #endregion

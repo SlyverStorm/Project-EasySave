@@ -576,7 +576,7 @@ namespace EasySave_2._0
 
             //if solo save
             ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
-            VM.Model.WorkList[selectedItem.Index].Progress.IsPaused = true;
+            VM.PauseSaveProcedure(selectedItem.Index, true);
             //else all
         }
 
@@ -593,7 +593,7 @@ namespace EasySave_2._0
 
             //if solo save
             ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
-            VM.Model.WorkList[selectedItem.Index].Progress.IsPaused = false;
+            VM.PauseSaveProcedure(selectedItem.Index, false);
             //else all
 
         }
@@ -609,7 +609,7 @@ namespace EasySave_2._0
 
             //if solo save
             ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
-            VM.Model.WorkList[selectedItem.Index].Progress.Cancelled = false;
+            VM.CancelSaveProcedure(selectedItem.Index);
             //else all
 
         }
