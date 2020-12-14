@@ -29,7 +29,7 @@ namespace EasySave_2._0
                 Current.Shutdown();
             }
 
-            MainWindow app = new MainWindow();
+            BaseWindow app = new BaseWindow();
             app.Show();
 
         }
