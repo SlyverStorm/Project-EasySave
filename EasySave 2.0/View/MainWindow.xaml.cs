@@ -138,6 +138,21 @@ namespace EasySave_2._0
             Confirm.Click += ConfirmCreateClick;
         }
 
+        private void LaunchAllSaves_Click(object sender, RoutedEventArgs e)
+        {
+
+            SaveStatus.Visibility = Visibility.Visible;
+            PauseSaveSatus.IsEnabled = true;
+            ResumeSaveStatus.IsEnabled = false;
+            ChangeCurrentSaveLabel("All of them");
+            ChangeSaveStatusLabel(SaveStatusEnum.running);
+            ChangeSaveProgressLabel(0);
+
+            VM.LaunchAllSaveProcedures();
+
+            //Save progress event handler
+        }
+
         #endregion
 
         #region Confirm Buttons

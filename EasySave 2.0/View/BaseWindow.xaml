@@ -88,7 +88,7 @@
         <!--#endregion-->
 
         <!--#region Option Buttons-->
-        <Button x:Name="LaunchAllSave" Content="{x:Static language:Lang.LaunchAll}" Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="7" FontSize="14" Margin="10,10,10,10" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <Button x:Name="LaunchAllSave" Content="{x:Static language:Lang.LaunchAll}" Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="7" FontSize="14" Margin="10,10,10,10" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="LaunchAllSaves_Click"/>
         <Button x:Name="LaunchSave" Content="{x:Static language:Lang.Launch}" Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="8" FontSize="14" Margin="10,10,10,10" FontWeight="DemiBold" VerticalContentAlignment="Center" IsEnabled="False" HorizontalContentAlignment="Center" Click="LaunchSave_Click"/>
         <Button x:Name="ModifySave" Content="{x:Static language:Lang.Modify}" Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="9" FontSize="14" Margin="10,10,10,10" FontWeight="DemiBold" VerticalContentAlignment="Center" IsEnabled="False" HorizontalContentAlignment="Center" Click="ModifySave_Click"/>
         <Button x:Name="DeleteSave" Content="{x:Static language:Lang.Delete}" Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="10" FontSize="14" Margin="10,10,10,10" FontWeight="DemiBold" VerticalContentAlignment="Center" IsEnabled="False" HorizontalContentAlignment="Center" Click="DeleteSave_Click"/>
