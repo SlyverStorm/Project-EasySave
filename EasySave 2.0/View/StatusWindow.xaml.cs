@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using EasySave_2._0.Properties;
+using System.ComponentModel;
 
 namespace EasySave_2._0
 {
@@ -26,21 +27,6 @@ namespace EasySave_2._0
     {
         
         #region Methods
-
-        /// <summary>
-        /// Called when a property is changed in SaveProgress Object
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Progress_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "ProgressState")
-            {
-                ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
-                int _percentage = Convert.ToInt32(Math.Floor(VM.Model.WorkList[selectedItem.Index].Progress.ProgressState));
-                ChangeSaveProgressLabel(_percentage);
-            }
-        }
 
         #region Update Labels
 
@@ -164,15 +150,19 @@ namespace EasySave_2._0
         #endregion
 
         /// <summary>
-        /// Possible save procedure status
+        /// Called when a property is changed in SaveProgress Object
         /// </summary>
-        enum SaveStatusEnum
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Progress_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            running,
-            paused,
-            complete,
-            encryption
-        }       
+            if (e.PropertyName == "ProgressState")
+            {
+                ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
+                int _percentage = Convert.ToInt32(Math.Floor(VM.Model.WorkList[selectedItem.Index].Progress.ProgressState));
+                ChangeSaveProgressLabel(_percentage);
+            }
+        }  
 
         #endregion
     }
