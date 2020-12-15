@@ -12,6 +12,8 @@ namespace EasySave_2._0
 
     public delegate void SaveWorkUpdateDelegate();
 
+    public delegate void UpdateGlobalProgress();
+
     /// <summary>
     /// Program data model class
     /// </summary>
@@ -24,6 +26,7 @@ namespace EasySave_2._0
         public Model()
         {
             OnSaveWorkUpdate = UpdateSaveFile;
+            OnProgressUpdate = UpdateAllSaveProgress;
             ModelSettings = new Setting();
             if (!File.Exists("settings.json"))
             {
@@ -75,6 +78,8 @@ namespace EasySave_2._0
 
         public static SaveWorkUpdateDelegate OnSaveWorkUpdate;
 
+        public static UpdateGlobalProgress OnProgressUpdate;
+
         //Store all 5 (max) save works
         private List<ISaveWork> workList;
 
@@ -99,9 +104,17 @@ namespace EasySave_2._0
             set { modelSettings = value; }
         }
 
+        private double globalProgress;
 
-
-
+        public double GlobalProgress
+        {
+            get { return globalProgress; }
+            set 
+            { 
+                globalProgress = value;
+                OnPropertyChanged("GlobalProgress");
+            }
+        }
 
         /// <summary>
         /// Create a save work (with a complete save algorithm)
@@ -248,14 +261,14 @@ namespace EasySave_2._0
         /// Get the global save progress percentage
         /// </summary>
         /// <returns></returns>
-        public double GetAllSaveProgress()
+        public void UpdateAllSaveProgress()
         {
             double progressCount = 0;
             foreach (ISaveWork work in WorkList)
             {
                 progressCount += work.Progress.ProgressState;
             }
-            return progressCount / WorkList.Count;
+            GlobalProgress =  progressCount / WorkList.Count;
         }
 
         /// <summary>

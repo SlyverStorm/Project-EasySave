@@ -157,6 +157,7 @@ namespace EasySave_2._0
             {
                 ProgressState = sizeDifference / TotalSize * 100;
             }
+            Model.OnProgressUpdate();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
