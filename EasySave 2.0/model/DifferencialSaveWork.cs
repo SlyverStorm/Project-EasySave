@@ -180,7 +180,7 @@ namespace EasySave_2._0
 
                 lock (Model.sync)
                 {
-                    DeleteProgress();
+                    //DeleteProgress();
                     IsActive = false;
                 }
                 Model.OnSaveWorkUpdate();

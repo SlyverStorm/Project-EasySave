@@ -182,7 +182,7 @@ namespace EasySave_2._0
             //Closing the complete save protocol
             lock (Model.sync)
             {
-                DeleteProgress();
+                //DeleteProgress();
                 IsActive = false;
             }
             Model.OnSaveWorkUpdate();

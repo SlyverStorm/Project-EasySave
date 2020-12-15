@@ -24,7 +24,21 @@ namespace EasySave_2._0
         public Model()
         {
             OnSaveWorkUpdate = UpdateSaveFile;
-            CurrentTransferSize = 0;
+            ModelSettings = new Setting();
+            if (!File.Exists("settings.json"))
+            {
+                ModelSettings.MaxTransferSize = 1000000;
+                ModelSettings.PriorityExtension = new List<Extension>();
+                UpdateSettingsFile();
+            }
+            else
+            {
+                string settingsFile = File.ReadAllText("settings.json");
+                var tempWorkList = JsonConvert.DeserializeObject<Setting>(settingsFile);
+                ModelSettings = tempWorkList;
+                UpdateSettingsFile();
+            }
+
             WorkList = new List<ISaveWork>();
             //If the state file has not been initialized then create 5 SaveWork object from nothing
             if (!File.Exists("stateFile.json"))
@@ -77,54 +91,12 @@ namespace EasySave_2._0
             }
         }
 
-        private List<Extension> priorityExtension;
+        private Setting modelSettings;
 
-        public List<Extension> PriorityExtension
+        public Setting ModelSettings
         {
-            get { return priorityExtension; }
-            set 
-            {
-                priorityExtension = value;
-                OnPropertyChanged("PriorityExtension");
-            }
-        }
-
-        private ILanguage language;
-
-        public ILanguage Language
-        {
-            get { return language; }
-            set 
-            {
-                language = value;
-                OnPropertyChanged("Language");
-            }
-        }
-
-        private long maxTransferSize;
-
-        public long MaxTransferSize
-        {
-            get { return maxTransferSize; }
-            set 
-            { 
-                maxTransferSize = value;
-                OnPropertyChanged("MaxTransferSize");
-            }
-        }
-
-        public static long CurrentTransferSize;
-
-        private string softwareString;
-
-        public string SoftwareString
-        {
-            get { return softwareString; }
-            set 
-            {
-                softwareString = value;
-                OnPropertyChanged("SoftwareString");
-            }
+            get { return modelSettings; }
+            set { modelSettings = value; }
         }
 
 
@@ -226,6 +198,111 @@ namespace EasySave_2._0
         }
 
         /// <summary>
+        /// Pause a specific save
+        /// </summary>
+        /// <param name="_nb">Index of the work in the list</param>
+        public void PauseSave(int _nb)
+        {
+            lock (sync)
+            {
+                if (WorkList[_nb].Progress.IsPaused != true) WorkList[_nb].Progress.IsPaused = true;
+            }
+        }
+
+        /// <summary>
+        /// Resume a specific save
+        /// </summary>
+        /// <param name="_nb">Index of the work in the list</param>
+        public void ResumeSave(int _nb)
+        {
+            lock (sync)
+            {
+                if (WorkList[_nb].Progress.IsPaused != false) WorkList[_nb].Progress.IsPaused = false;
+            }
+        }
+
+        /// <summary>
+        /// Cancel a specific save
+        /// </summary>
+        /// <param name="_nb">Index of the work in the list</param>
+        public void CancelSave(int _nb)
+        {
+            lock (sync)
+            {
+                WorkList[_nb].Progress.Cancelled = true;
+            }
+        }
+
+        /// <summary>
+        /// Initiate all save in work list
+        /// </summary>
+        public void DoAllSave()
+        {
+            foreach (ISaveWork work in WorkList)
+            {
+                ThreadPool.QueueUserWorkItem(new WaitCallback(work.Save));
+            }
+        }
+
+        /// <summary>
+        /// Get the global save progress percentage
+        /// </summary>
+        /// <returns></returns>
+        public double GetAllSaveProgress()
+        {
+            double progressCount = 0;
+            foreach (ISaveWork work in WorkList)
+            {
+                progressCount += work.Progress.ProgressState;
+            }
+            return progressCount / WorkList.Count;
+        }
+
+        /// <summary>
+        /// Pause a specific save
+        /// </summary>
+        public void PauseAllSave()
+        {
+            lock (sync)
+            {
+                foreach (ISaveWork work in WorkList)
+                {
+                    if (work.Progress.IsPaused != true) work.Progress.IsPaused = true;
+                } 
+            }
+        }
+
+        /// <summary>
+        /// Resume a specific save
+        /// </summary>
+        public void ResumeAllSave()
+        {
+            lock (sync)
+            {
+                foreach (ISaveWork work in WorkList)
+                {
+                    if (work.Progress.IsPaused != false) work.Progress.IsPaused = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Cancel a specific save
+        /// </summary>
+        public void CancelAllSave()
+        {
+            lock (sync)
+            {
+                foreach (ISaveWork work in WorkList)
+                {
+                    work.Progress.Cancelled = true;
+                }
+            }
+        }
+
+
+
+        /// <summary>
         /// Update the state file with the work list value
         /// </summary>
         /// <param name="_nb">Index of the save work process to update</param>
@@ -236,6 +313,16 @@ namespace EasySave_2._0
                 //Convert the work list to a json string then write it in a json file
                 var convertedJson = JsonConvert.SerializeObject(WorkList, Formatting.Indented);
                 File.WriteAllText("stateFile.json", convertedJson);
+            }
+        }
+
+        public void UpdateSettingsFile()
+        {
+            lock (sync)
+            {
+                //Convert the settings to a json string then write it in a json file
+                var convertedJson = JsonConvert.SerializeObject(ModelSettings, Formatting.Indented);
+                File.WriteAllText("settings.json", convertedJson);
             }
         }
 
