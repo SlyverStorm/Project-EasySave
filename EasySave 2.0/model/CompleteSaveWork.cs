@@ -117,7 +117,7 @@ namespace EasySave_2._0
             ExtentionToEncryptList = _extension;
             CreationTime = DateTime.Now.ToString();
             IsActive = false;
-            Progress = null;
+            //Progress = null;
         }
 
         /// <summary>

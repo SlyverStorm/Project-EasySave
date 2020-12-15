@@ -205,7 +205,7 @@ namespace EasySave_2._0
         {
             lock (sync)
             {
-                if (WorkList[_nb].Progress.IsPaused != true) WorkList[_nb].Progress.IsPaused = true;
+                if (WorkList[_nb].Progress != null && WorkList[_nb].Progress.IsPaused != true) WorkList[_nb].Progress.IsPaused = true;
             }
         }
 
@@ -217,7 +217,7 @@ namespace EasySave_2._0
         {
             lock (sync)
             {
-                if (WorkList[_nb].Progress.IsPaused != false) WorkList[_nb].Progress.IsPaused = false;
+                if (WorkList[_nb].Progress != null && WorkList[_nb].Progress.IsPaused != false) WorkList[_nb].Progress.IsPaused = false;
             }
         }
 
@@ -229,7 +229,7 @@ namespace EasySave_2._0
         {
             lock (sync)
             {
-                WorkList[_nb].Progress.Cancelled = true;
+                if (WorkList[_nb].Progress != null) WorkList[_nb].Progress.Cancelled = true;
             }
         }
 
@@ -267,7 +267,7 @@ namespace EasySave_2._0
             {
                 foreach (ISaveWork work in WorkList)
                 {
-                    if (work.Progress.IsPaused != true) work.Progress.IsPaused = true;
+                    if (work.Progress != null && work.Progress.IsPaused != true) work.Progress.IsPaused = true;
                 } 
             }
         }
@@ -281,7 +281,7 @@ namespace EasySave_2._0
             {
                 foreach (ISaveWork work in WorkList)
                 {
-                    if (work.Progress.IsPaused != false) work.Progress.IsPaused = false;
+                    if (work.Progress != null && work.Progress.IsPaused != false) work.Progress.IsPaused = false;
                 }
             }
         }
@@ -295,7 +295,7 @@ namespace EasySave_2._0
             {
                 foreach (ISaveWork work in WorkList)
                 {
-                    work.Progress.Cancelled = true;
+                    if (work.Progress != null) work.Progress.Cancelled = true;
                 }
             }
         }

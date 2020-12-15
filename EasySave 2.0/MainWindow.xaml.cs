@@ -75,9 +75,13 @@ namespace EasySave_2._0
             VM = new ViewModel();
             DataContext = VM;
 
-            VM.Model.DoAllSave();
-
-            InitializeComponent();
+            VM.Model.DoSave(0);
+            bool test = true;
+            while (test)
+            {
+                VM.Model.CancelSave(0);
+                if (VM.Model.WorkList[0].Progress != null && VM.Model.WorkList[0].Progress.Cancelled == true) test = false;
+            }
             
             FormElementList = new List<UIElement>
             {
