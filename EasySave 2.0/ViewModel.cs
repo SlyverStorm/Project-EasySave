@@ -88,25 +88,6 @@ namespace EasySave_2._0
             Model.CancelSave(_index);
         }
 
-        /// <summary>
-        /// Tells the Model to pause the current save procedure(s)
-        /// </summary>
-        public void PauseAllSaveProcedures(bool _boolean)
-        {
-            if (_boolean)
-                Model.PauseAllSave();
-            else
-                Model.ResumeAllSave();
-        }
-
-        /// <summary>
-        /// Tells the Model to cancel the current save procedure(s)
-        /// </summary>
-        public void CancelAllSaveProcedures()
-        {
-            Model.CancelAllSave();
-        }
-
         #endregion
 
     }

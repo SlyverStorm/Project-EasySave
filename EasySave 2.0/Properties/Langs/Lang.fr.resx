@@ -120,9 +120,6 @@
   <data name="Back" xml:space="preserve">
     <value>Retour</value>
   </data>
-  <data name="BusinessSoftware" xml:space="preserve">
-    <value>Sauvegarde en pause si ce logiciel est en cours :</value>
-  </data>
   <data name="CancelSave" xml:space="preserve">
     <value>Annuler</value>
   </data>
@@ -164,15 +161,6 @@
   </data>
   <data name="English" xml:space="preserve">
     <value>English</value>
-  </data>
-  <data name="ErrorBoxDirectoryAll" xml:space="preserve">
-    <value>Attention: L'une des procédures a été annulée car le dossier source n'existe pas, les autres ne seront pas impactéees.</value>
-  </data>
-  <data name="ErrorBoxDirectorySingle" xml:space="preserve">
-    <value>Attention: La procédure de sauvegrade a été annulée car le dossier source n'existe pas.</value>
-  </data>
-  <data name="ErrorBoxSoftware" xml:space="preserve">
-    <value>Attention : Le logiciel métier est en cours, veuillez le fermer pour reprendre automatiquement la procédure de sauvegarde.</value>
   </data>
   <data name="French" xml:space="preserve">
     <value>Français</value>

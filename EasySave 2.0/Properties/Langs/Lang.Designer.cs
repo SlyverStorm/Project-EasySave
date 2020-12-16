@@ -70,15 +70,6 @@ namespace EasySave_2._0.Properties.Langs {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Pause save if this software is running :.
-        /// </summary>
-        public static string BusinessSoftware {
-            get {
-                return ResourceManager.GetString("BusinessSoftware", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Recherche une chaîne localisée semblable à Cancel.
         /// </summary>
         public static string CancelSave {
@@ -201,33 +192,6 @@ namespace EasySave_2._0.Properties.Langs {
         public static string English {
             get {
                 return ResourceManager.GetString("English", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une chaîne localisée semblable à Warning: One of the save processes has been canceled as the source folder does not exist, the others will not be impacted..
-        /// </summary>
-        public static string ErrorBoxDirectoryAll {
-            get {
-                return ResourceManager.GetString("ErrorBoxDirectoryAll", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une chaîne localisée semblable à Warning: The save process has been canceled as the source folder does not exist..
-        /// </summary>
-        public static string ErrorBoxDirectorySingle {
-            get {
-                return ResourceManager.GetString("ErrorBoxDirectorySingle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une chaîne localisée semblable à Warning: The business software is running, please close it in order to automatically resume the save procedure..
-        /// </summary>
-        public static string ErrorBoxSoftware {
-            get {
-                return ResourceManager.GetString("ErrorBoxSoftware", resourceCulture);
             }
         }
         

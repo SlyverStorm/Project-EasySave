@@ -14,8 +14,6 @@ namespace EasySave_2._0
 
     public delegate void UpdateGlobalProgress();
 
-    public delegate void UpdateModelError(string _errorString);
-
     /// <summary>
     /// Program data model class
     /// </summary>
@@ -29,7 +27,6 @@ namespace EasySave_2._0
         {
             OnSaveWorkUpdate = UpdateSaveFile;
             OnProgressUpdate = UpdateAllSaveProgress;
-            OnUpdateModelError = SetModelError;
             GlobalProgress = 0;
             ModelSettings = new Setting();
             if (!File.Exists("settings.json"))
@@ -50,7 +47,7 @@ namespace EasySave_2._0
             //If the state file has not been initialized then create 5 SaveWork object from nothing
             if (!File.Exists("stateFile.json"))
             {
-                WorkList.Add(new CompleteSaveWork("Default", "test", "test", null, SaveWorkType.complete));
+                WorkList.Add(new CompleteSaveWork("Default", "test", "test", null));
                 UpdateSaveFile();
             }
             //Then if the State file already exist, use the objects in it to create the WorkList
@@ -84,8 +81,6 @@ namespace EasySave_2._0
 
         public static UpdateGlobalProgress OnProgressUpdate;
 
-        public static UpdateModelError OnUpdateModelError;
-
         //Store all save works
         private List<ISaveWork> workList;
 
@@ -107,28 +102,7 @@ namespace EasySave_2._0
         public Setting ModelSettings
         {
             get { return modelSettings; }
-            set 
-            {
-                modelSettings = value;
-                OnPropertyChanged("ModelSettings");
-            }
-        }
-
-        private string modelError;
-
-        public string ModelError
-        {
-            get { return modelError; }
-            set 
-            {
-                modelError = value;
-                OnPropertyChanged("ModelError");
-            }
-        }
-
-        public void SetModelError(string _errorString)
-        {
-            ModelError = _errorString;
+            set { modelSettings = value; }
         }
 
         private double globalProgress;
@@ -151,7 +125,7 @@ namespace EasySave_2._0
         /// <param name="_destination">The Target destination to save files in</param>
         public void CreateCompleteWork(string _name, string _source, string _destination, List<Extension> _extension)
         {
-            CompleteSaveWork work = new CompleteSaveWork(_name, _source, _destination, _extension, SaveWorkType.complete);
+            CompleteSaveWork work = new CompleteSaveWork(_name, _source, _destination, _extension);
             WorkList.Add(work);
             SetWorkIndex();
             UpdateSaveFile();
@@ -166,7 +140,7 @@ namespace EasySave_2._0
         /// <param name="_destination">The Target destination to save files in</param>
         public void CreateDifferencialWork(string _name, string _source, string _destination, List<Extension> _extension)
         {
-            DifferencialSaveWork work = new DifferencialSaveWork(_name, _source, _destination, _extension, SaveWorkType.differencial);
+            DifferencialSaveWork work = new DifferencialSaveWork(_name, _source, _destination, _extension);
             WorkList.Add(work);
             SetWorkIndex();
             UpdateSaveFile();
@@ -186,11 +160,11 @@ namespace EasySave_2._0
         {
             if (_type != WorkList[_nb].Type && _type == SaveWorkType.complete)
             {
-                WorkList[_nb] = new CompleteSaveWork(_name, _sourcePath, _destinationPath, _extension, SaveWorkType.complete);
+                WorkList[_nb] = new CompleteSaveWork(_name, _sourcePath, _destinationPath, _extension);
             }
             else if (_type != WorkList[_nb].Type && _type == SaveWorkType.differencial)
             {
-                WorkList[_nb] = new DifferencialSaveWork(_name, _sourcePath, _destinationPath, _extension, SaveWorkType.differencial);
+                WorkList[_nb] = new DifferencialSaveWork(_name, _sourcePath, _destinationPath, _extension);
             }
             else
             {

@@ -40,8 +40,7 @@ namespace EasySave_2._0
         private void ConfirmSettings_Click(object sender, RoutedEventArgs e)
         {
             GlobalSettings.Visibility = Visibility.Collapsed;
-            VM.Model.ModelSettings.MaxTransferSize = Int32.Parse(MaxSizeSettingsForm.Text);
-            VM.Model.ModelSettings.SoftwareString = SoftwareForm.Text;
+            VM.Model.ModelSettings.MaxTransferSize = Int32.Parse(MaxSizeSettingsForm.Text);            
 
             List<Extension> extensionCheckedList = new List<Extension>();
             foreach (CheckBox _checkBox in SettingsCheckBoxList)
@@ -72,7 +71,6 @@ namespace EasySave_2._0
             }
 
             MaxSizeSettingsForm.Text = VM.Model.ModelSettings.MaxTransferSize.ToString();
-            SoftwareForm.Text = VM.Model.ModelSettings.SoftwareString;
         }
 
         #endregion

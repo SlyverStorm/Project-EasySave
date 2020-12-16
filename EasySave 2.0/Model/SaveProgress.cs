@@ -23,10 +23,7 @@ namespace EasySave_2._0
             CurrentSourceFilePath = null;
             IsPaused = false;
             Cancelled = false;
-            IsEncrypting = false;
         }
-
-        public static object taken = new object();
 
         private bool isPaused;
 
@@ -149,19 +146,6 @@ namespace EasySave_2._0
                 OnPropertyChanged("CurrentDestinationFilePath");
             }
         }
-
-        private bool isEncrypting;
-
-        public bool IsEncrypting
-        {
-            get { return isEncrypting; }
-            set 
-            { 
-                isEncrypting = value;
-                OnPropertyChanged("IsEncrypting");
-            }
-        }
-
 
 
         public void UpdateProgressState()

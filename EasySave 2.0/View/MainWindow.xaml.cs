@@ -16,7 +16,6 @@ using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using EasySave_2._0.Properties;
-using System.ComponentModel;
 
 namespace EasySave_2._0
 {
@@ -125,9 +124,8 @@ namespace EasySave_2._0
         {
             ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
 
-            AllSaves = false;
             SaveStatus.Visibility = Visibility.Visible;
-            PauseSaveStatus.IsEnabled = true;
+            PauseSaveSatus.IsEnabled = true;
             ResumeSaveStatus.IsEnabled = false;
             ChangeCurrentSaveLabel(selectedItem.Name);
             ChangeSaveStatusLabel(SaveStatusEnum.running);
@@ -148,15 +146,16 @@ namespace EasySave_2._0
         private void LaunchAllSaves_Click(object sender, RoutedEventArgs e)
         {
 
-            AllSaves = true;
             SaveStatus.Visibility = Visibility.Visible;
-            PauseSaveStatus.IsEnabled = true;
+            PauseSaveSatus.IsEnabled = true;
             ResumeSaveStatus.IsEnabled = false;
             ChangeCurrentSaveLabel("All of them");
             ChangeSaveStatusLabel(SaveStatusEnum.running);
             ChangeSaveProgressLabel(0);
 
             VM.LaunchAllSaveProcedures();
+
+            //Save progress event handler
         }
 
         #endregion
