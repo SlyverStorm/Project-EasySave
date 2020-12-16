@@ -72,6 +72,11 @@ namespace EasySave_2._0
         public SaveWorkType Type
         {
             get { return type; }
+            set
+            {
+                type = value;
+                OnPropertyChanged("Type");
+            }
         }
 
         private string creationTime;
@@ -108,12 +113,12 @@ namespace EasySave_2._0
             }
         }
 
-        public CompleteSaveWork(string _name, string _source, string _target, List<Extension> _extension)
+        public CompleteSaveWork(string _name, string _source, string _target, List<Extension> _extension, SaveWorkType _type)
         {
             Name = _name;
             SourcePath = _source;
             DestinationPath = _target;
-            type = SaveWorkType.complete;
+            type = _type;
             ExtentionToEncryptList = _extension;
             CreationTime = DateTime.Now.ToString();
             IsActive = false;
@@ -146,11 +151,6 @@ namespace EasySave_2._0
             EditLog.StartSaveLogLine(this);
             EditLog.LaunchingSaveLogLine(Index);
             CompleteCopy();
-            EditLog.EndSaveProgram(Index);
-
-            EditLog.StartEncryption(Index);
-            EncryptFiles();
-            EditLog.EndEncryption(Index);
         }
 
         /// <summary>
@@ -158,34 +158,49 @@ namespace EasySave_2._0
         /// </summary>
         private void CompleteCopy()
         {
-            //Search directory info from source and target path
-            var diSource = new DirectoryInfo(SourcePath);
-            var diTarget = new DirectoryInfo(DestinationPath);
-
-            //Calculate the number of file in the source directory and the total size of it
-            int nbFiles = EasySaveInfo.CompleteFilesNumber(diSource);
-            long directorySize = EasySaveInfo.CompleteSize(diSource);
-
-            EditLog.FileToSaveFound(nbFiles, diSource, directorySize);
-
-            lock (Model.sync)
+            if (Directory.Exists(SourcePath))
             {
-                CreateProgress(nbFiles, directorySize, nbFiles, 0, directorySize);
-                IsActive = true;
+                //Search directory info from source and target path
+                var diSource = new DirectoryInfo(SourcePath);
+                var diTarget = new DirectoryInfo(DestinationPath);
+
+                //Calculate the number of file in the source directory and the total size of it
+                int nbFiles = EasySaveInfo.CompleteFilesNumber(diSource);
+                long directorySize = EasySaveInfo.CompleteSize(diSource);
+
+                EditLog.FileToSaveFound(nbFiles, diSource, directorySize);
+
+                lock (Model.sync)
+                {
+                    CreateProgress(nbFiles, directorySize, nbFiles, 0, directorySize);
+                    IsActive = true;
+                }
+                Model.OnSaveWorkUpdate();
+
+                //initiate Copy from the source directory to the target directory
+                EditLog.StartCopy(this);
+                CompleteCopyAll(diSource, diTarget);
+
+
+
+                EditLog.StartEncryption(Index);
+                EncryptFiles();
+                EditLog.EndEncryption(Index);
+
+                //Closing the complete save protocol
+                lock (Model.sync)
+                {
+                    //DeleteProgress();
+                    IsActive = false;
+                }
+                Model.OnSaveWorkUpdate();
+
+                EditLog.EndSaveProgram(Index);
             }
-            Model.OnSaveWorkUpdate();
-
-            //initiate Copy from the source directory to the target directory
-            EditLog.StartCopy(this);
-            CompleteCopyAll(diSource, diTarget);
-
-            //Closing the complete save protocol
-            lock (Model.sync)
+            else
             {
-                //DeleteProgress();
-                IsActive = false;
+                //TODO : HANDLE SOURCE DIRECTORY DOESN'T EXISTS ERROR
             }
-            Model.OnSaveWorkUpdate();
         }
 
         /// <summary>
@@ -194,9 +209,13 @@ namespace EasySave_2._0
         private void CompleteCopyAll(DirectoryInfo _source, DirectoryInfo _target)
         {
             if (Progress.Cancelled) return;
-            while(Progress.IsPaused)
+            while(Progress.IsPaused || EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString))
             {
                 if (Progress.Cancelled) return;
+                if (EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString))
+                {
+                    //TODO : Logiciel métier détecter;
+                }
             }
 
             //First create the new target directory where all the files are saved later on
@@ -213,13 +232,35 @@ namespace EasySave_2._0
                 }
                 Model.OnSaveWorkUpdate();
 
-                EditLog.StartCopyFileLogLine(fi);
+                string elapsedTime = "";
 
-                //Copy the file and measure execution time
-                Stopwatch watch = new Stopwatch();
-                watch.Start();
-                fi.CopyTo(Path.Combine(_target.FullName, fi.Name), true);
-                watch.Stop();
+                if(fi.Length >= Setting.maxTransferSize)
+                {
+                    lock (SaveProgress.taken)
+                    {
+                        EditLog.StartCopyFileLogLine(fi);
+
+                        //Copy the file and measure execution time
+                        Stopwatch watch = new Stopwatch();
+                        watch.Start();
+                        fi.CopyTo(Path.Combine(_target.FullName, fi.Name), true);
+                        watch.Stop();
+                        elapsedTime = watch.Elapsed.TotalSeconds.ToString();
+                    }
+                }
+                else
+                {
+                    EditLog.StartCopyFileLogLine(fi);
+
+                    //Copy the file and measure execution time
+                    Stopwatch watch = new Stopwatch();
+                    watch.Start();
+                    fi.CopyTo(Path.Combine(_target.FullName, fi.Name), true);
+                    watch.Stop();
+                    elapsedTime = watch.Elapsed.TotalSeconds.ToString();
+                }
+
+                
 
 
                 lock (Model.sync)
@@ -230,12 +271,16 @@ namespace EasySave_2._0
                 }
                 
                 Model.OnSaveWorkUpdate();
-                EditLog.FinishCopyFileLogLine(fi, watch.Elapsed.TotalSeconds.ToString());
+                EditLog.FinishCopyFileLogLine(fi, elapsedTime);
 
                 if (Progress.Cancelled) return;
-                while (Progress.IsPaused)
+                while (Progress.IsPaused || EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString))
                 {
                     if (Progress.Cancelled) return;
+                    if (EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString))
+                    {
+                        //TODO : Logiciel métier détecter;
+                    }
                 }
             }
 

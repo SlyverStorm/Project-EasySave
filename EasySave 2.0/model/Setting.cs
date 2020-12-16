@@ -5,8 +5,6 @@ using System.Text;
 
 namespace EasySave_2._0
 {
-
-
     public class Setting : INotifyPropertyChanged
     {
 
@@ -22,7 +20,7 @@ namespace EasySave_2._0
             }
         }
 
-        private long maxTransferSize;
+        public static long maxTransferSize;
 
         public long MaxTransferSize
         {
@@ -34,7 +32,7 @@ namespace EasySave_2._0
             }
         }
 
-        private string softwareString;
+        public static string softwareString;
 
         public string SoftwareString
         {
@@ -56,9 +54,10 @@ namespace EasySave_2._0
             }
         }
 
+        
+
         public Setting()
         {
-            
         }
 
     }

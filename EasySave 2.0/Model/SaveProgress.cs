@@ -25,6 +25,8 @@ namespace EasySave_2._0
             Cancelled = false;
         }
 
+        public static object taken = new object();
+
         private bool isPaused;
 
         public bool IsPaused
