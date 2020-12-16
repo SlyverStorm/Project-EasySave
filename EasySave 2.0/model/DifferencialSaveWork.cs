@@ -70,6 +70,11 @@ namespace EasySave_2._0
         public SaveWorkType Type
         {
             get { return type; }
+            set
+            {
+                type = value;
+                OnPropertyChanged("Type");
+            }
         }
 
         private string creationTime;
@@ -106,16 +111,16 @@ namespace EasySave_2._0
             }
         }
 
-        public DifferencialSaveWork(string _name, string _source, string _target, List<Extension> _extension)
+        public DifferencialSaveWork(string _name, string _source, string _target, List<Extension> _extension, SaveWorkType _type)
         {
             Name = _name;
             SourcePath = _source;
             DestinationPath = _target;
-            type = SaveWorkType.differencial;
+            type = _type;
             CreationTime = DateTime.Now.ToString();
             ExtentionToEncryptList = _extension;
             IsActive = false;
-            Progress = null;
+            //Progress = null;
         }
 
         /// <summary>
@@ -139,50 +144,73 @@ namespace EasySave_2._0
             Progress = null;
         }
 
-        public void Save()
+        public void Save(object obj)
         {
-            //TODO: relation avec event !!!
-
-            //CreateLogLine("Launching save work from work : " + work.Name + ", type : complete save");
+            EditLog.StartSaveLogLine(this);
+            EditLog.LaunchingSaveLogLine(Index);
             DifferencialCopy();
-            //CreateLogLine(work.Name + " save DONE !");
         }
 
         private void DifferencialCopy()
         {
-            //Search directory info from source and target path
-            var diSource = new DirectoryInfo(SourcePath);
-            var diTarget = new DirectoryInfo(DestinationPath);
-
-            //Calculate the number of file in the source directory and the total size of it (of all )
-            int nbFiles = EasySaveInfo.DifferencialGetFilesNumberInSourceDirectory(diSource, diTarget);
-            long directorySize = EasySaveInfo.DifferencialGetSizeInSourceDirectory(diSource, diTarget);
-
-            //If there is at least one file to save then initiate the differencial saving protocol
-            if (nbFiles != 0)
+            if (Directory.Exists(SourcePath))
             {
-                //CreateLogLine(nbFiles + " files to save found from " + _sourceDirectory + ",Total size of the directory: " + directorySize + " Bytes");
+                //Search directory info from source and target path
+                var diSource = new DirectoryInfo(SourcePath);
+                var diTarget = new DirectoryInfo(DestinationPath);
 
-                CreateProgress(nbFiles, directorySize, nbFiles, 0, directorySize);
-                IsActive = true;
+                //Calculate the number of file in the source directory and the total size of it (of all )
+                int nbFiles = EasySaveInfo.DifferencialFilesNumber(diSource, diTarget);
+                long directorySize = EasySaveInfo.DifferencialSize(diSource, diTarget);
 
-                Model.OnSaveWorkUpdate();
+                //If there is at least one file to save then initiate the differencial saving protocol
+                if (nbFiles != 0)
+                {
+                    EditLog.FileToSaveFound(this, nbFiles, diSource, directorySize);
 
-                //initiate Copy from the source directory to the target directory (only the file / directory that has been modified or are new)
-                //CreateLogLine("Saving file from " + _sourceDirectory + " to " + _targetDirectory + " ...");
-                DifferencialCopyAll(diSource, diTarget);
+                    lock (Model.sync)
+                    {
+                        CreateProgress(nbFiles, directorySize, nbFiles, 0, directorySize);
+                        IsActive = true;
+                    }
 
-                DeleteProgress();
-                IsActive = false;
-                Model.OnSaveWorkUpdate();
+                    Model.OnSaveWorkUpdate();
+
+                    //initiate Copy from the source directory to the target directory (only the file / directory that has been modified or are new)
+                    EditLog.StartCopy(this);
+                    DifferencialCopyAll(diSource, diTarget);
+
+
+                    lock (Model.sync)
+                    {
+                        Progress.IsEncrypting = true;
+                    }
+                    Model.OnSaveWorkUpdate();
+
+                    EditLog.StartEncryption(Index);
+                    EncryptFiles();
+                    EditLog.EndEncryption(Index);
+
+                    lock (Model.sync)
+                    {
+                        //DeleteProgress();
+                        Progress.IsEncrypting = false;
+                        IsActive = false;
+                    }
+                    Model.OnSaveWorkUpdate();
+
+                    EditLog.EndSaveProgram(Index);
+                }
+                //If there is no file to save then cancel the saving protocol
+                else
+                {
+                    EditLog.NoFilesFound(Index);
+                }
             }
-            //If there is no file to save then cancel the saving protocol
             else
             {
-                //CreateLogLine("There is no file to save in the target directory");
+                Model.OnUpdateModelError("directory");
             }
-
-            //CreateLogLine("Closing differencial save work program ...");
         }
 
         /// <summary>
@@ -193,8 +221,22 @@ namespace EasySave_2._0
         /// <param name="_target">target destination directory path</param>
         private void DifferencialCopyAll(DirectoryInfo _source, DirectoryInfo _target)
         {
-            //CreateLogLine("Creating target directory ...");
+
+            if (Progress.Cancelled) return;
+            bool softwareIsLaunched = false;
+            while (Progress.IsPaused || EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString))
+            {
+                if (Progress.Cancelled) return;
+                if (EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString) && !softwareIsLaunched)
+                {
+                    Model.OnUpdateModelError("software");
+                    softwareIsLaunched = true;
+                }
+            }
+            if (softwareIsLaunched) Model.OnUpdateModelError("resume");
+
             Directory.CreateDirectory(_target.FullName);
+            EditLog.CreateDirectoryLogLine(this, _target);
 
             // Copy each file into the new directory.
             foreach (FileInfo fi in _source.GetFiles())
@@ -205,22 +247,63 @@ namespace EasySave_2._0
                 //Check if the file already exist or not (new one), and verify if it has been modified or not
                 if (!File.Exists(targetPath) || fi.LastWriteTime != File.GetLastWriteTime(targetPath))
                 {
-                    Progress.CurrentSourceFilePath = fi.FullName;
-                    Progress.CurrentDestinationFilePath = Path.Combine(_target.FullName, fi.Name);
+                    lock (Model.sync)
+                    {
+                        Progress.CurrentSourceFilePath = fi.FullName;
+                        Progress.CurrentDestinationFilePath = Path.Combine(_target.FullName, fi.Name);
+                    }
                     Model.OnSaveWorkUpdate();
-                    //CreateLogLine("Saving " + fi.FullName + " in " + WorkList[_nb - 1].SaveProgress.CurrentDestinationFilePath + ", size : " + fi.Length + " Bytes ...");
+                    EditLog.StartCopyFileLogLine(this, fi);
 
-                    //Copy the file and measure execution time
-                    Stopwatch watch = new Stopwatch();
-                    watch.Start();
-                    fi.CopyTo(targetPath, true);
-                    watch.Stop();
+                    string elapsedTime = "";
 
-                    Progress.FilesRemaining--;
-                    Progress.SizeRemaining -= fi.Length;
-                    Progress.UpdateProgressState();
+                    if (fi.Length >= Setting.maxTransferSize)
+                    {
+                        lock (SaveProgress.taken)
+                        {
+                            EditLog.StartCopyFileLogLine(this, fi);
+
+                            //Copy the file and measure execution time
+                            Stopwatch watch = new Stopwatch();
+                            watch.Start();
+                            fi.CopyTo(Path.Combine(_target.FullName, fi.Name), true);
+                            watch.Stop();
+                            elapsedTime = watch.Elapsed.TotalSeconds.ToString();
+                        }
+                    }
+                    else
+                    {
+                        EditLog.StartCopyFileLogLine(this, fi);
+
+                        //Copy the file and measure execution time
+                        Stopwatch watch = new Stopwatch();
+                        watch.Start();
+                        fi.CopyTo(Path.Combine(_target.FullName, fi.Name), true);
+                        watch.Stop();
+                        elapsedTime = watch.Elapsed.TotalSeconds.ToString();
+                    }
+
+                    lock (Model.sync)
+                    {
+                        Progress.FilesRemaining--;
+                        Progress.SizeRemaining -= fi.Length;
+                        Progress.UpdateProgressState();
+                    }
                     Model.OnSaveWorkUpdate();
-                    //CreateLogLine(fi.Name + " succesfully saved ! Time spend : " + watch.Elapsed.TotalSeconds.ToString());
+                    EditLog.FinishCopyFileLogLine(this, fi, elapsedTime);
+
+                    if (Progress.Cancelled) return;
+                    softwareIsLaunched = false;
+                    while (Progress.IsPaused || EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString))
+                    {
+                        if (Progress.Cancelled) return;
+                        if (EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString) && !softwareIsLaunched)
+                        {
+                            Model.OnUpdateModelError("software");
+                            softwareIsLaunched = true;
+                        }
+                    }
+                    if (softwareIsLaunched) Model.OnUpdateModelError("resume");
                 }
 
 
@@ -230,7 +313,7 @@ namespace EasySave_2._0
             foreach (DirectoryInfo diSourceSubDir in _source.GetDirectories())
             {
                 string targetDirectoryPath = Path.Combine(_target.FullName, diSourceSubDir.Name);
-                //CreateLogLine("Entering subdirectory : " + diSourceSubDir.Name);
+                EditLog.EnterSubdirectoryLogLine(this, diSourceSubDir);
 
                 //Check if the directory already exist to decide if it is required to create a new one or not
                 if (!Directory.Exists(targetDirectoryPath))
@@ -244,7 +327,7 @@ namespace EasySave_2._0
                     DifferencialCopyAll(diSourceSubDir, nextTargetSubDir);
                 }
 
-                //CreateLogLine("Exiting subdirectory : " + diSourceSubDir.Name);
+                EditLog.ExitSubdirectoryLogLine(this, diSourceSubDir);
 
             }
         }

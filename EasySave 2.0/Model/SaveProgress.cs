@@ -21,7 +21,30 @@ namespace EasySave_2._0
             SizeRemaining = _sizeRemaining;
             CurrentDestinationFilePath = null;
             CurrentSourceFilePath = null;
+            IsPaused = false;
+            Cancelled = false;
+            IsEncrypting = false;
         }
+
+        public static object taken = new object();
+
+        private bool isPaused;
+
+        public bool IsPaused
+        {
+            get { return isPaused; }
+            set { isPaused = value; }
+        }
+
+        private bool cancelled;
+
+        public bool Cancelled
+        {
+            get { return cancelled; }
+            set { cancelled = value; }
+        }
+
+
 
         //Time at the launch of the save protocol
         private string launchTime;
@@ -127,6 +150,19 @@ namespace EasySave_2._0
             }
         }
 
+        private bool isEncrypting;
+
+        public bool IsEncrypting
+        {
+            get { return isEncrypting; }
+            set 
+            { 
+                isEncrypting = value;
+                OnPropertyChanged("IsEncrypting");
+            }
+        }
+
+
 
         public void UpdateProgressState()
         {
@@ -137,6 +173,7 @@ namespace EasySave_2._0
             {
                 ProgressState = sizeDifference / TotalSize * 100;
             }
+            Model.OnProgressUpdate();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
