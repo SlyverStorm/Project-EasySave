@@ -210,20 +210,23 @@ namespace EasySave_2._0
         {
             lock (Model.sync)
             {
-                bool softwareIsLaunched;
+                if (_processName == "")
+                {
+                    bool softwareIsLaunched;
 
-                // Check if the Sofware (Calculator for testing purpose) is launched
-                if (Process.GetProcessesByName(_processName).Length == 0)
-                {
-                    // The software isn't launched
-                    softwareIsLaunched = false;
+                    // Check if the Sofware (Calculator for testing purpose) is launched
+                    if (Process.GetProcessesByName(_processName).Length == 0)
+                    {
+                        // The software isn't launched
+                        softwareIsLaunched = false;
+                    }
+                    else
+                    {
+                        // The software is launched
+                        softwareIsLaunched = true;
+                    }
+                    return softwareIsLaunched;
                 }
-                else
-                {
-                    // The software is launched
-                    softwareIsLaunched = true;
-                }
-                return softwareIsLaunched;
             }
         }
 

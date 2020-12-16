@@ -182,6 +182,11 @@ namespace EasySave_2._0
                 CompleteCopyAll(diSource, diTarget);
 
 
+                lock (Model.sync)
+                {
+                    Progress.IsEncrypting = true;
+                }
+                Model.OnSaveWorkUpdate();
 
                 EditLog.StartEncryption(Index);
                 EncryptFiles();
@@ -191,6 +196,7 @@ namespace EasySave_2._0
                 lock (Model.sync)
                 {
                     //DeleteProgress();
+                    Progress.IsEncrypting = false;
                     IsActive = false;
                 }
                 Model.OnSaveWorkUpdate();
@@ -199,7 +205,7 @@ namespace EasySave_2._0
             }
             else
             {
-                //TODO : HANDLE SOURCE DIRECTORY DOESN'T EXISTS ERROR
+                Model.OnUpdateModelError("directory");
             }
         }
 
@@ -209,14 +215,17 @@ namespace EasySave_2._0
         private void CompleteCopyAll(DirectoryInfo _source, DirectoryInfo _target)
         {
             if (Progress.Cancelled) return;
+            bool softwareIsLaunched = false;
             while(Progress.IsPaused || EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString))
             {
                 if (Progress.Cancelled) return;
-                if (EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString))
+                if (EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString) && !softwareIsLaunched)
                 {
-                    //TODO : Logiciel métier détecter;
+                    Model.OnUpdateModelError("software");
+                    softwareIsLaunched = true;
                 }
             }
+            if (softwareIsLaunched) Model.OnUpdateModelError("resume");
 
             //First create the new target directory where all the files are saved later on
             EditLog.CreateDirectoryLogLine(_target);
@@ -274,14 +283,17 @@ namespace EasySave_2._0
                 EditLog.FinishCopyFileLogLine(fi, elapsedTime);
 
                 if (Progress.Cancelled) return;
+                softwareIsLaunched = false;
                 while (Progress.IsPaused || EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString))
                 {
                     if (Progress.Cancelled) return;
-                    if (EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString))
+                    if (EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString) && !softwareIsLaunched)
                     {
-                        //TODO : Logiciel métier détecter;
+                        Model.OnUpdateModelError("software");
+                        softwareIsLaunched = true;
                     }
                 }
+                if (softwareIsLaunched) Model.OnUpdateModelError("resume");
             }
 
             // Copy each subdirectory using recursion.

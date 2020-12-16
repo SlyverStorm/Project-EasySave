@@ -181,6 +181,11 @@ namespace EasySave_2._0
                     DifferencialCopyAll(diSource, diTarget);
 
 
+                    lock (Model.sync)
+                    {
+                        Progress.IsEncrypting = true;
+                    }
+                    Model.OnSaveWorkUpdate();
 
                     EditLog.StartEncryption(Index);
                     EncryptFiles();
@@ -189,6 +194,7 @@ namespace EasySave_2._0
                     lock (Model.sync)
                     {
                         //DeleteProgress();
+                        Progress.IsEncrypting = false;
                         IsActive = false;
                     }
                     Model.OnSaveWorkUpdate();
@@ -203,7 +209,7 @@ namespace EasySave_2._0
             }
             else
             {
-                //TODO : HANDLE SOURCE DIRECTORY DOESN'T EXISTS ERROR
+                Model.OnUpdateModelError("directory");
             }
         }
 
@@ -217,14 +223,17 @@ namespace EasySave_2._0
         {
 
             if (Progress.Cancelled) return;
+            bool softwareIsLaunched = false;
             while (Progress.IsPaused || EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString))
             {
                 if (Progress.Cancelled) return;
-                if (EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString))
+                if (EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString) && !softwareIsLaunched)
                 {
-                    //TODO : Logiciel métier détecter;
+                    Model.OnUpdateModelError("software");
+                    softwareIsLaunched = true;
                 }
             }
+            if (softwareIsLaunched) Model.OnUpdateModelError("resume");
 
             Directory.CreateDirectory(_target.FullName);
             EditLog.CreateDirectoryLogLine(_target);
@@ -284,14 +293,17 @@ namespace EasySave_2._0
                     EditLog.FinishCopyFileLogLine(fi, elapsedTime);
 
                     if (Progress.Cancelled) return;
+                    softwareIsLaunched = false;
                     while (Progress.IsPaused || EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString))
                     {
                         if (Progress.Cancelled) return;
-                        if (EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString))
+                        if (EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString) && !softwareIsLaunched)
                         {
-                            //TODO : Logiciel métier détecter;
+                            Model.OnUpdateModelError("software");
+                            softwareIsLaunched = true;
                         }
                     }
+                    if (softwareIsLaunched) Model.OnUpdateModelError("resume");
                 }
 
 
