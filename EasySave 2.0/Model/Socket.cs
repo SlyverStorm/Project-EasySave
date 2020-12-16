@@ -244,7 +244,13 @@ namespace EasySave_2._0
             string[] collecContent = contentMessage.Split('&');
 
             // First part the id of the save
-            string idSave = collecContent[0];
+            string stringIdSave = collecContent[0];
+            // subtring to have 0 inted of sv0
+            stringIdSave = stringIdSave.Substring(2);
+            //turn into stringIdSave an int
+            int idSave = Int32.Parse(stringIdSave);
+
+
             //Second part the content of the message
             string orderContent = collecContent[1];
 
