@@ -27,16 +27,28 @@ namespace EasySave_2._0
 
         #region Methods
 
+        /// <summary>
+        /// Tells the user the source folder doesn't exist and that the save procedure has been cancelled
+        /// </summary>
+        /// <param name="o"></param>
         private void MessageBoxDirectorySingle(object o)
         {
             MessageBox.Show(Properties.Langs.Lang.ErrorBoxDirectorySingle, Properties.Langs.Lang.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
+        /// <summary>
+        /// Tells the user the source folder doesn't exist and that the save procedure has been cancelled but the others will continue as usual
+        /// </summary>
+        /// <param name="o"></param>
         private void MessageBoxDirectoryAll(object o)
         {
             MessageBox.Show(Properties.Langs.Lang.ErrorBoxDirectoryAll, Properties.Langs.Lang.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
+        /// <summary>
+        /// Tells the user the save procedure has been cancelled as the business software is running
+        /// </summary>
+        /// <param name="o"></param>
         private void MessageBoxSoftware(object o)
         {
             MessageBox.Show(Properties.Langs.Lang.ErrorBoxSoftware, Properties.Langs.Lang.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
