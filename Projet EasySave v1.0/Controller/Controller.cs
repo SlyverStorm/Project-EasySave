@@ -9,10 +9,8 @@ namespace Projet_EasySave_v1._0
 
         public Controller(Model model, View view)
         {
-
             Model = model;
             View = view;
-
         }
 
         private Model model;
@@ -46,12 +44,9 @@ namespace Projet_EasySave_v1._0
             {
                 if (View.Confirm())
                 {
-                    //To Implement (sauvegarde en cours blablabla)
-
                     View.SaveInProgressMessage(Model.WorkList[saveProcedureIndex - 1]);
                     Model.DoSave(saveProcedureIndex);
                     View.SaveIsDoneMessage(Model.WorkList[saveProcedureIndex - 1]);
-                    //fonction vue pour retour user
                     ShowMenu();
                     return;
                 }
@@ -114,7 +109,6 @@ namespace Projet_EasySave_v1._0
                 if (View.Confirm())
                 {
                     Model.DeleteWork(saveProcedureIndex);
-                    //TODO: Afficher done delete
                     View.OperationDoneMessage();
                     ShowMenu();
                     return;
