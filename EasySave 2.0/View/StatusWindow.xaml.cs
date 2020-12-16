@@ -177,9 +177,27 @@ namespace EasySave_2._0
             if (e.PropertyName == "ProgressState")
             {
                 var property = sender.GetType().GetProperty(e.PropertyName);
-                double NewValue = (double)property.GetValue(sender, null);
-                int _percentage = Convert.ToInt32(Math.Floor(NewValue));
+                double _propertyValue = (double)property.GetValue(sender, null);
+                int _percentage = Convert.ToInt32(Math.Floor(_propertyValue));
                 ChangeSaveProgressLabel(_percentage);
+            }
+            else if (e.PropertyName == "IsEncrypting")
+            {
+                var property = sender.GetType().GetProperty(e.PropertyName);
+                bool _propertyValue = (bool)property.GetValue(sender, null);
+                if (_propertyValue)
+                {
+                    ChangeSaveStatusLabel(SaveStatusEnum.encryption);
+                    PauseSaveSatus.IsEnabled = false;
+                    ResumeSaveStatus.IsEnabled = false;
+
+                }
+                else if (!_propertyValue)
+                {
+                    ChangeSaveStatusLabel(SaveStatusEnum.complete);
+                    CancelSaveSatus.Visibility = Visibility.Collapsed;
+                    CloseSaveSatus.Visibility = Visibility.Visible;
+                }
             }
         }
 
