@@ -134,7 +134,7 @@ namespace EasySave_2._0
         /// Create a Log Line about: The creation of a new directory
         /// </summary>
         /// <param name="filePath">DirectoryInfo of the file</param>
-        public static void CreateDirectoryLogLine(DirectoryInfo _filePath)
+        public static void CreateDirectoryLogLine(ISaveWork _work, DirectoryInfo _filePath)
         {
             CreateLogLine("Creating target directory in : " + _filePath.FullName);
         }
