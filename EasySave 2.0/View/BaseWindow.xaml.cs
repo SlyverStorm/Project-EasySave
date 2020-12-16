@@ -95,6 +95,7 @@ namespace EasySave_2._0
         {
             VM = new ViewModel();
             DataContext = VM;
+
             InitializeComponent();
             
             FormElementList = new List<UIElement>
