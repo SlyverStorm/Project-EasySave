@@ -190,7 +190,7 @@ namespace EasySave_2._0
         /// <param name="e"></param>
         private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "GlobalProgress")
+            if (e.PropertyName == "GlobalProgress" && AllSaves)
             {
                 var _property = sender.GetType().GetProperty(e.PropertyName);
                 double _propertyValue = (double)_property.GetValue(sender, null);
