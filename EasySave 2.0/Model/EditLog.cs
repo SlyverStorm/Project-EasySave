@@ -237,6 +237,11 @@ namespace EasySave_2._0
             CreateLogLine(_nb, "There is no file to save in the target directory, Save Index : " + _nb);
         }
 
+        public static void EncryptedFile(ISaveWork _work, string _fi, string _time)
+        {
+            CreateLogLine(_work.Index, "Index : "+ _work.Index +" ,File Enctyption of " + _fi + " Done ! elapsed time : "+ _time);
+        }
+
         /// <summary>
         /// Create a Log Line about: Pause a save
         /// </summary>

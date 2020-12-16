@@ -375,9 +375,14 @@ namespace EasySave_2._0
                     foreach (string files in filesPathToEncrypt)
                     {
                         if (Progress.Cancelled) return;
-                        Console.WriteLine(files);
+                        //Console.WriteLine(files);
                         // Encrypt File
+                        Stopwatch watch = new Stopwatch();
+                        watch.Start();
                         CryptoSoft.CryptoSoftTools.CryptoSoftEncryption(files);
+                        watch.Stop();
+
+                        EditLog.EncryptedFile(this, files, watch.Elapsed.TotalSeconds.ToString());
                     }
                 }
 
@@ -392,9 +397,14 @@ namespace EasySave_2._0
                     foreach (string files in filesPathToEncrypt)
                     {
                         if (Progress.Cancelled) return;
-                        Console.WriteLine(files);
+                        //Console.WriteLine(files);
                         // Encrypt File
+                        Stopwatch watch = new Stopwatch();
+                        watch.Start();
                         CryptoSoft.CryptoSoftTools.CryptoSoftEncryption(files);
+                        watch.Stop();
+
+                        EditLog.EncryptedFile(this, files, watch.Elapsed.TotalSeconds.ToString());
                     }
                 }
             }
