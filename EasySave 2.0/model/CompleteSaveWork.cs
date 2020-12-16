@@ -11,6 +11,7 @@ namespace EasySave_2._0
 {
     class CompleteSaveWork : ISaveWork, INotifyPropertyChanged
     {
+
         private int index;
         public int Index
         {
@@ -116,7 +117,7 @@ namespace EasySave_2._0
             ExtentionToEncryptList = _extension;
             CreationTime = DateTime.Now.ToString();
             IsActive = false;
-            Progress = null;
+            //Progress = null;
         }
 
         /// <summary>
@@ -140,18 +141,16 @@ namespace EasySave_2._0
             Progress = null;
         }
 
-        public void Save()
+        public void Save(object obj)
         {
-            //TODO: relation avec event !!!
-
-            //CreateLogLine("Launching save work from work : " + work.Name + ", type : complete save");
+            EditLog.StartSaveLogLine(this);
             EditLog.LaunchingSaveLogLine(Index);
             CompleteCopy();
-            //CreateLogLine(work.Name + " save DONE !");
+            EditLog.EndSaveProgram(Index);
 
+            EditLog.StartEncryption(Index);
             EncryptFiles();
-
-            //TODO: FONCTION ENCRYPTION FICHIER 
+            EditLog.EndEncryption(Index);
         }
 
         /// <summary>
@@ -164,23 +163,29 @@ namespace EasySave_2._0
             var diTarget = new DirectoryInfo(DestinationPath);
 
             //Calculate the number of file in the source directory and the total size of it
-            int nbFiles = EasySaveInfo.GetFilesNumberInSourceDirectory(diSource);
-            long directorySize = EasySaveInfo.GetSizeInSourceDirectory(diSource);
-            //CreateLogLine(nbFiles + " files to save found from " + _sourceDirectory + ",Total size of the directory: " + directorySize + " Bytes");
+            int nbFiles = EasySaveInfo.CompleteFilesNumber(diSource);
+            long directorySize = EasySaveInfo.CompleteSize(diSource);
 
-            CreateProgress(nbFiles, directorySize, nbFiles, 0, directorySize);
-            IsActive = true;
+            EditLog.FileToSaveFound(nbFiles, diSource, directorySize);
+
+            lock (Model.sync)
+            {
+                CreateProgress(nbFiles, directorySize, nbFiles, 0, directorySize);
+                IsActive = true;
+            }
             Model.OnSaveWorkUpdate();
 
             //initiate Copy from the source directory to the target directory
-            //CreateLogLine("Saving file from " + _sourceDirectory + " to " + _targetDirectory + " ...");
+            EditLog.StartCopy(this);
             CompleteCopyAll(diSource, diTarget);
 
             //Closing the complete save protocol
-            DeleteProgress();
-            IsActive = false;
+            lock (Model.sync)
+            {
+                //DeleteProgress();
+                IsActive = false;
+            }
             Model.OnSaveWorkUpdate();
-            //CreateLogLine("Closing complete save work program ...");
         }
 
         /// <summary>
@@ -188,19 +193,27 @@ namespace EasySave_2._0
         /// </summary>
         private void CompleteCopyAll(DirectoryInfo _source, DirectoryInfo _target)
         {
+            if (Progress.Cancelled) return;
+            while(Progress.IsPaused)
+            {
+                if (Progress.Cancelled) return;
+            }
 
             //First create the new target directory where all the files are saved later on
-            //CreateLogLine("Creating target directory ...");
+            EditLog.CreateDirectoryLogLine(_target);
             Directory.CreateDirectory(_target.FullName);
 
             // Copy each file into the new directory.
             foreach (FileInfo fi in _source.GetFiles())
             {
-                Progress.CurrentSourceFilePath = fi.FullName;
-                Progress.CurrentDestinationFilePath = Path.Combine(_target.FullName, fi.Name);
+                lock (Model.sync)
+                {
+                    Progress.CurrentSourceFilePath = fi.FullName;
+                    Progress.CurrentDestinationFilePath = Path.Combine(_target.FullName, fi.Name);
+                }
                 Model.OnSaveWorkUpdate();
 
-                //CreateLogLine("Saving " + fi.FullName + " in " + WorkList[_nb - 1].SaveProgress.CurrentDestinationFilePath + ", size : " + fi.Length + " Bytes ...");
+                EditLog.StartCopyFileLogLine(fi);
 
                 //Copy the file and measure execution time
                 Stopwatch watch = new Stopwatch();
@@ -209,11 +222,21 @@ namespace EasySave_2._0
                 watch.Stop();
 
 
-                Progress.FilesRemaining--;
-                Progress.SizeRemaining -= fi.Length;
-                Progress.UpdateProgressState();
+                lock (Model.sync)
+                {
+                    Progress.FilesRemaining--;
+                    Progress.SizeRemaining -= fi.Length;
+                    Progress.UpdateProgressState();
+                }
+                
                 Model.OnSaveWorkUpdate();
-                //CreateLogLine(fi.Name + " succesfully saved ! Time spend : " + watch.Elapsed.TotalSeconds.ToString());
+                EditLog.FinishCopyFileLogLine(fi, watch.Elapsed.TotalSeconds.ToString());
+
+                if (Progress.Cancelled) return;
+                while (Progress.IsPaused)
+                {
+                    if (Progress.Cancelled) return;
+                }
             }
 
             // Copy each subdirectory using recursion.
@@ -221,18 +244,20 @@ namespace EasySave_2._0
             {
                 DirectoryInfo nextTargetSubDir =
                     _target.CreateSubdirectory(diSourceSubDir.Name);
-                //CreateLogLine("Entering subdirectory : " + diSourceSubDir.Name);
+                EditLog.EnterSubdirectoryLogLine(diSourceSubDir);
                 CompleteCopyAll(diSourceSubDir, nextTargetSubDir);
-                //CreateLogLine("Exiting subdirectory : " + diSourceSubDir.Name);
+                EditLog.ExitSubdirectoryLogLine(diSourceSubDir);
             }
         }
+
+
 
         /// <summary>
         /// Encrypt selected files 
         /// </summary>
         public void EncryptFiles()
         {
-            if (ExtentionToEncryptList != null)
+            if (ExtentionToEncryptList != null && Directory.Exists(DestinationPath))
             {
                 // If we encrypt all files
                 if (extentionToEncryptList.Contains(Extension.ALL))

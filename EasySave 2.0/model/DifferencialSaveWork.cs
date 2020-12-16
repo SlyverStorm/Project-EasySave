@@ -115,7 +115,7 @@ namespace EasySave_2._0
             CreationTime = DateTime.Now.ToString();
             ExtentionToEncryptList = _extension;
             IsActive = false;
-            Progress = null;
+            //Progress = null;
         }
 
         /// <summary>
@@ -139,13 +139,16 @@ namespace EasySave_2._0
             Progress = null;
         }
 
-        public void Save()
+        public void Save(object obj)
         {
-            //TODO: relation avec event !!!
-
-            //CreateLogLine("Launching save work from work : " + work.Name + ", type : complete save");
+            EditLog.StartSaveLogLine(this);
+            EditLog.LaunchingSaveLogLine(Index);
             DifferencialCopy();
-            //CreateLogLine(work.Name + " save DONE !");
+            EditLog.EndSaveProgram(Index);
+
+            EditLog.StartEncryption(Index);
+            EncryptFiles();
+            EditLog.EndEncryption(Index);
         }
 
         private void DifferencialCopy()
@@ -155,34 +158,38 @@ namespace EasySave_2._0
             var diTarget = new DirectoryInfo(DestinationPath);
 
             //Calculate the number of file in the source directory and the total size of it (of all )
-            int nbFiles = EasySaveInfo.DifferencialGetFilesNumberInSourceDirectory(diSource, diTarget);
-            long directorySize = EasySaveInfo.DifferencialGetSizeInSourceDirectory(diSource, diTarget);
+            int nbFiles = EasySaveInfo.DifferencialFilesNumber(diSource, diTarget);
+            long directorySize = EasySaveInfo.DifferencialSize(diSource, diTarget);
 
             //If there is at least one file to save then initiate the differencial saving protocol
             if (nbFiles != 0)
             {
-                //CreateLogLine(nbFiles + " files to save found from " + _sourceDirectory + ",Total size of the directory: " + directorySize + " Bytes");
+                EditLog.FileToSaveFound(nbFiles, diSource, directorySize);
 
-                CreateProgress(nbFiles, directorySize, nbFiles, 0, directorySize);
-                IsActive = true;
+                lock (Model.sync)
+                {
+                    CreateProgress(nbFiles, directorySize, nbFiles, 0, directorySize);
+                    IsActive = true;
+                }
 
                 Model.OnSaveWorkUpdate();
 
                 //initiate Copy from the source directory to the target directory (only the file / directory that has been modified or are new)
-                //CreateLogLine("Saving file from " + _sourceDirectory + " to " + _targetDirectory + " ...");
+                EditLog.StartCopy(this);
                 DifferencialCopyAll(diSource, diTarget);
 
-                DeleteProgress();
-                IsActive = false;
+                lock (Model.sync)
+                {
+                    //DeleteProgress();
+                    IsActive = false;
+                }
                 Model.OnSaveWorkUpdate();
             }
             //If there is no file to save then cancel the saving protocol
             else
             {
-                //CreateLogLine("There is no file to save in the target directory");
+                EditLog.NoFilesFound(Index);
             }
-
-            //CreateLogLine("Closing differencial save work program ...");
         }
 
         /// <summary>
@@ -193,8 +200,15 @@ namespace EasySave_2._0
         /// <param name="_target">target destination directory path</param>
         private void DifferencialCopyAll(DirectoryInfo _source, DirectoryInfo _target)
         {
-            //CreateLogLine("Creating target directory ...");
+
+            if (Progress.Cancelled) return;
+            while (Progress.IsPaused)
+            {
+                if (Progress.Cancelled) return;
+            }
+
             Directory.CreateDirectory(_target.FullName);
+            EditLog.CreateDirectoryLogLine(_target);
 
             // Copy each file into the new directory.
             foreach (FileInfo fi in _source.GetFiles())
@@ -205,10 +219,13 @@ namespace EasySave_2._0
                 //Check if the file already exist or not (new one), and verify if it has been modified or not
                 if (!File.Exists(targetPath) || fi.LastWriteTime != File.GetLastWriteTime(targetPath))
                 {
-                    Progress.CurrentSourceFilePath = fi.FullName;
-                    Progress.CurrentDestinationFilePath = Path.Combine(_target.FullName, fi.Name);
+                    lock (Model.sync)
+                    {
+                        Progress.CurrentSourceFilePath = fi.FullName;
+                        Progress.CurrentDestinationFilePath = Path.Combine(_target.FullName, fi.Name);
+                    }
                     Model.OnSaveWorkUpdate();
-                    //CreateLogLine("Saving " + fi.FullName + " in " + WorkList[_nb - 1].SaveProgress.CurrentDestinationFilePath + ", size : " + fi.Length + " Bytes ...");
+                    EditLog.StartCopyFileLogLine(fi);
 
                     //Copy the file and measure execution time
                     Stopwatch watch = new Stopwatch();
@@ -216,11 +233,20 @@ namespace EasySave_2._0
                     fi.CopyTo(targetPath, true);
                     watch.Stop();
 
-                    Progress.FilesRemaining--;
-                    Progress.SizeRemaining -= fi.Length;
-                    Progress.UpdateProgressState();
+                    lock (Model.sync)
+                    {
+                        Progress.FilesRemaining--;
+                        Progress.SizeRemaining -= fi.Length;
+                        Progress.UpdateProgressState();
+                    }
                     Model.OnSaveWorkUpdate();
-                    //CreateLogLine(fi.Name + " succesfully saved ! Time spend : " + watch.Elapsed.TotalSeconds.ToString());
+                    EditLog.FinishCopyFileLogLine(fi, watch.Elapsed.TotalSeconds.ToString());
+
+                    if (Progress.Cancelled) return;
+                    while (Progress.IsPaused)
+                    {
+                        if (Progress.Cancelled) return;
+                    }
                 }
 
 
@@ -230,7 +256,7 @@ namespace EasySave_2._0
             foreach (DirectoryInfo diSourceSubDir in _source.GetDirectories())
             {
                 string targetDirectoryPath = Path.Combine(_target.FullName, diSourceSubDir.Name);
-                //CreateLogLine("Entering subdirectory : " + diSourceSubDir.Name);
+                EditLog.EnterSubdirectoryLogLine(diSourceSubDir);
 
                 //Check if the directory already exist to decide if it is required to create a new one or not
                 if (!Directory.Exists(targetDirectoryPath))
@@ -244,7 +270,7 @@ namespace EasySave_2._0
                     DifferencialCopyAll(diSourceSubDir, nextTargetSubDir);
                 }
 
-                //CreateLogLine("Exiting subdirectory : " + diSourceSubDir.Name);
+                EditLog.ExitSubdirectoryLogLine(diSourceSubDir);
 
             }
         }

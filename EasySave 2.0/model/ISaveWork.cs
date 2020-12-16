@@ -17,7 +17,7 @@ namespace EasySave_2._0
         public bool IsActive { get; set; }
         public SaveProgress Progress { get; set; }
 
-        public void Save();
+        public void Save(object obj);
         public void CreateProgress(int _totalFilesNumber, long _totalSize, int _filesRemaining, int _progressState, long _sizeRemaining);
         public void DeleteProgress();
         public void EncryptFiles();
