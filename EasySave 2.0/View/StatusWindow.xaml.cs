@@ -110,10 +110,15 @@ namespace EasySave_2._0
             ResumeSaveStatus.IsEnabled = true;
             ChangeSaveStatusLabel(SaveStatusEnum.paused);
 
-            //if solo save
-            ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
-            VM.PauseSaveProcedure(selectedItem.Index, true);
-            //else all
+            if (!AllSaves)
+            {
+                ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
+                VM.PauseSaveProcedure(selectedItem.Index, true);
+            }
+            else
+            {
+                VM.PauseAllSaveProcedures(true);
+            }
         }
 
         /// <summary> 
@@ -127,10 +132,15 @@ namespace EasySave_2._0
             ResumeSaveStatus.IsEnabled = false;
             ChangeSaveStatusLabel(SaveStatusEnum.running);
 
-            //if solo save
-            ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
-            VM.PauseSaveProcedure(selectedItem.Index, false);
-            //else all
+            if (!AllSaves)
+            {
+                ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
+                VM.PauseSaveProcedure(selectedItem.Index, false);
+            }
+            else
+            {
+                VM.PauseAllSaveProcedures(false);
+            }
 
         }
 
@@ -143,10 +153,15 @@ namespace EasySave_2._0
         {
             SaveStatus.Visibility = Visibility.Collapsed;
 
-            //if solo save
-            ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
-            VM.CancelSaveProcedure(selectedItem.Index);
-            //else all
+            if (!AllSaves)
+            {
+                ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
+                VM.CancelSaveProcedure(selectedItem.Index);
+            }
+            else
+            {
+                VM.CancelAllSaveProcedures();
+            }
 
         }
 
@@ -166,7 +181,56 @@ namespace EasySave_2._0
                 int _percentage = Convert.ToInt32(Math.Floor(NewValue));
                 ChangeSaveProgressLabel(_percentage);
             }
-        }  
+        }
+
+        /// <summary>
+        /// Called when a property is changed in the Model
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "GlobalProgress")
+            {
+                var _property = sender.GetType().GetProperty(e.PropertyName);
+                double _propertyValue = (double)_property.GetValue(sender, null);
+                int _percentage = Convert.ToInt32(Math.Floor(_propertyValue));
+                ChangeSaveProgressLabel(_percentage);
+            }
+            else if (e.PropertyName == "ModelError")
+            {
+                var _property = sender.GetType().GetProperty(e.PropertyName);
+                string _propertyValue = (string)_property.GetValue(sender, null);
+
+                switch (_propertyValue)
+                {
+                    case "software":
+                        ThreadPool.QueueUserWorkItem(new WaitCallback(MessageBoxSoftware));
+                        PauseSaveSatus.IsEnabled = false;
+                        ResumeSaveStatus.IsEnabled = false;
+                        ChangeSaveStatusLabel(SaveStatusEnum.paused);
+                        break;
+                    case "resume":
+                        PauseSaveSatus.IsEnabled = false;
+                        ResumeSaveStatus.IsEnabled = true;
+                        ChangeSaveStatusLabel(SaveStatusEnum.running);
+                        break;
+                    case "directory":
+                        if (AllSaves)
+                        {
+                            ThreadPool.QueueUserWorkItem(new WaitCallback(MessageBoxDirectoryAll));
+                        }
+                        else
+                        {
+                            SaveStatus.Visibility = Visibility.Collapsed;
+                            ThreadPool.QueueUserWorkItem(new WaitCallback(MessageBoxDirectorySingle));
+                            PauseSaveSatus.IsEnabled = false;
+                            ResumeSaveStatus.IsEnabled = false;
+                        }
+                        break;
+                }
+            }
+        }
 
         #endregion
     }

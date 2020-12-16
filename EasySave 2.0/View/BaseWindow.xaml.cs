@@ -77,6 +77,12 @@ namespace EasySave_2._0
         /// </summary>
         public bool FirstTimeSelection { get => firstTimeSelection; set => firstTimeSelection = value; }
 
+        private bool allSaves = false;
+        /// <summary>
+        /// Prevents from the message box showing up on startup
+        /// </summary>
+        public bool AllSaves { get => allSaves; set => allSaves = value; }
+
 
         #endregion
 
@@ -161,6 +167,9 @@ namespace EasySave_2._0
                 _checkBox.IsChecked = true;
             }
             MaxSizeSettingsForm.Text = VM.Model.ModelSettings.MaxTransferSize.ToString();
+            SoftwareForm.Text = VM.Model.ModelSettings.SoftwareString;
+
+            VM.Model.PropertyChanged += Model_PropertyChanged;
         }
 
         #endregion

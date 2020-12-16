@@ -169,10 +169,15 @@
             <!--#endregion-->
 
             <!--#region File Size-->
-            <TextBlock Text="{x:Static language:Lang.MaximumFileSize}" Grid.Row="3" Grid.RowSpan="2" Grid.Column="4" Grid.ColumnSpan="2" HorizontalAlignment="Right" FontSize="17" FontWeight="Bold" TextWrapping="Wrap"/>
-            <Label Name="MaxSizeSettingsLabel" Content="{x:Static language:Lang.MaximumFileSizeValue}" Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="15"/>
-            <TextBox x:Name="MaxSizeSettingsForm" Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="25" VerticalContentAlignment="Center" Margin="80,5,50,5" PreviewTextInput="NumberValidationTextBox"/>
-            <Label Name="KBLabel" Content="kB" Grid.Row="6" Grid.Column="5" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="15" Margin="0,0,20,0"/>
+            <TextBlock Text="{x:Static language:Lang.MaximumFileSize}" Grid.Row="3" Grid.RowSpan="2" Grid.Column="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="17" FontWeight="Bold" TextWrapping="Wrap"/>
+            <Label Name="MaxSizeSettingsLabel" Content="{x:Static language:Lang.MaximumFileSizeValue}" Grid.Row="5" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="15"/>
+            <TextBox x:Name="MaxSizeSettingsForm" Grid.Column="5" Grid.ColumnSpan="1" Grid.Row="5" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="25" VerticalContentAlignment="Center" Margin="5,5,30,5" PreviewTextInput="NumberValidationTextBox"/>
+            <Label Name="KBLabel" Content="KB/Ko" Grid.Row="5" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"/>
+            <!--#endregion-->
+
+            <!--#region Business Software-->
+            <TextBlock Text="{x:Static language:Lang.BusinessSoftware}" Grid.Row="6" Grid.RowSpan="2" Grid.Column="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="17" FontWeight="Bold" TextWrapping="Wrap" Margin="0,5,0,0"/>
+            <TextBox x:Name="SoftwareForm" Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="7" Grid.RowSpan="2" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="25" VerticalContentAlignment="Center" Margin="50,5,50,5"/>
             <!--#endregion-->
 
             <!--#region Back Buttons-->
