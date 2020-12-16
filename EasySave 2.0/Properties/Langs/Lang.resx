@@ -120,6 +120,9 @@
   <data name="Back" xml:space="preserve">
     <value>Back</value>
   </data>
+  <data name="BusinessSoftware" xml:space="preserve">
+    <value>Pause save if this software is running :</value>
+  </data>
   <data name="CancelSave" xml:space="preserve">
     <value>Cancel</value>
   </data>
@@ -161,6 +164,15 @@
   </data>
   <data name="English" xml:space="preserve">
     <value>English</value>
+  </data>
+  <data name="ErrorBoxDirectoryAll" xml:space="preserve">
+    <value>Warning: One of the save processes has been canceled as the source folder does not exist, the others will not be impacted.</value>
+  </data>
+  <data name="ErrorBoxDirectorySingle" xml:space="preserve">
+    <value>Warning: The save process has been canceled as the source folder does not exist.</value>
+  </data>
+  <data name="ErrorBoxSoftware" xml:space="preserve">
+    <value>Warning: The business software is running, please close it in order to automatically resume the save procedure.</value>
   </data>
   <data name="French" xml:space="preserve">
     <value>Fran&amp;#231;ais</value>
