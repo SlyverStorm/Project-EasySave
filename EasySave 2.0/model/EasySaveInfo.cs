@@ -210,7 +210,7 @@ namespace EasySave_2._0
         {
             lock (Model.sync)
             {
-                if (_processName == "")
+                if (_processName != "")
                 {
                     bool softwareIsLaunched;
 
