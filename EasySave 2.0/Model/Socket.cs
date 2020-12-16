@@ -259,18 +259,21 @@ namespace EasySave_2._0
             {
                 // Call function with id
                 Console.WriteLine(idSave + " doit " + orderContent);
+                //Model.ResumeSave(idSave);
 
             } // If the content order to pause  the save
             else if (orderContent == "Pause Button pushed")
             {
                 // Call function with id
                 Console.WriteLine(idSave + " doit " + orderContent);
+                //Model.PauseSave(idSave); 
 
             } // If the content order to stop the save
             else if (orderContent == "Stop Button pushed")
             {
                 // Call function with id
                 Console.WriteLine(idSave + " doit " + orderContent);
+                //Model.CancelSave(idSave);
 
             } // Content receive but not with a correct order
             else

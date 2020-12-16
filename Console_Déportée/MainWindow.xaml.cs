@@ -82,7 +82,7 @@ namespace Console_Déportée
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void PlaySaveButton_Click(object sender, RoutedEventArgs e)
+        private void ResumeSaveButton_Click(object sender, RoutedEventArgs e)
         {
 
             if (viewModel.SaveName != null)
@@ -114,7 +114,7 @@ namespace Console_Déportée
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void StopSaveButton_Click(object sender, RoutedEventArgs e)
+        private void CancelSaveButton_Click(object sender, RoutedEventArgs e)
         {
             if (viewModel.SaveName != null)
             {

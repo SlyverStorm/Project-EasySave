@@ -52,11 +52,11 @@
                  Text="{Binding Path=Texte, Mode=TwoWay}"
                  />
 
-        <Button Click="PlaySaveButton_Click"
+        <Button Click="ResumeSaveButton_Click"
                 Grid.Row="3"
                 Grid.Column="7"
                 FontSize="18"
-                >Play Save</Button>
+                >Resume Save</Button>
 
         <Button Click="PauseSaveButton_Click"
                 Grid.Row="3"
@@ -64,11 +64,11 @@
                 FontSize="18"
                 >Pause Save</Button>
 
-        <Button Click="StopSaveButton_Click"
+        <Button Click="CancelSaveButton_Click"
                 Grid.Row="3"
                 Grid.Column="11"
                 FontSize="18"
-                >Stop Save</Button>
+                >Cancel Save</Button>
 
 
 
