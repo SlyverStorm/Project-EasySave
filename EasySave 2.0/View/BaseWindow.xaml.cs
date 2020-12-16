@@ -63,7 +63,7 @@ namespace EasySave_2._0
         /// <summary>
         /// List of extension checkboxes in settings frame.
         /// </summary>
-        public List<UIElement> SettingsCheckBoxList { get => checkBoxList; set => checkBoxList = value; }
+        public List<UIElement> SettingsCheckBoxList { get => settingsCheckBoxList; set => settingsCheckBoxList = value; }
 
         private bool isAnItemSelected = false;
         /// <summary>

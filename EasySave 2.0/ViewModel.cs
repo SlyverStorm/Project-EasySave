@@ -74,7 +74,10 @@ namespace EasySave_2._0
         /// </summary>
         public void PauseSaveProcedure(int _index, bool _boolean)
         {
-           // Model.WorkList[_index].Progress.IsPaused = _boolean;
+            if (_boolean)
+                Model.PauseSave(_index);
+            else
+                Model.ResumeSave(_index);
         }
 
         /// <summary>
@@ -82,7 +85,7 @@ namespace EasySave_2._0
         /// </summary>
         public void CancelSaveProcedure(int _index)
         {
-           // Model.WorkList[_index].Progress.Cancelled = true;
+            Model.CancelSave(_index);
         }
 
         #endregion

@@ -266,6 +266,9 @@ namespace EasySave_2._0
                 ChangeUIElementEnableState(SelectionButtonList, false);
 
                 SaveList.Items.Refresh();
+
+                SaveList.SelectedItem = null;
+
                 IsAnItemSelected = false;
 
             }

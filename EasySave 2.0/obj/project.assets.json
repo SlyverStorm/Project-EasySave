@@ -405,19 +405,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ricar\\.nuget\\packages\\": {}
+    "C:\\Users\\Corentin\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\EasySave 2.0\\EasySave 2.0.csproj",
+      "projectUniqueName": "D:\\Desktop\\Projet-EasySave\\EasySave 2.0\\EasySave 2.0.csproj",
       "projectName": "EasySave 2.0",
-      "projectPath": "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\EasySave 2.0\\EasySave 2.0.csproj",
-      "packagesPath": "C:\\Users\\ricar\\.nuget\\packages\\",
-      "outputPath": "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\EasySave 2.0\\obj\\",
+      "projectPath": "D:\\Desktop\\Projet-EasySave\\EasySave 2.0\\EasySave 2.0.csproj",
+      "packagesPath": "C:\\Users\\Corentin\\.nuget\\packages\\",
+      "outputPath": "D:\\Desktop\\Projet-EasySave\\EasySave 2.0\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\ricar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Corentin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -470,7 +470,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }
