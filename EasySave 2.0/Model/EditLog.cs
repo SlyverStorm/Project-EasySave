@@ -13,7 +13,7 @@ namespace EasySave_2._0
         /// Create the line to record in the log file
         /// </summary>
         /// <param name="_content">Content to write in the log</param>
-        private static void CreateLogLine(int idSave, string _content)
+        private static void CreateLogLine(string _content)
         {
             lock (Model.sync)
             {
@@ -39,9 +39,6 @@ namespace EasySave_2._0
 
                 //Write the new string into the json log file
                 File.WriteAllText("log.json", convertedJson);
-
-                SocketGestion.ToSendLog(idSave, _content); 
-
             }
         }
 
@@ -51,8 +48,7 @@ namespace EasySave_2._0
         /// </summary>
         public static void InitSoftwareLogLine()
         {
-            int initSoftwareID = -1; 
-            CreateLogLine(initSoftwareID, "Initialisation of the Sofware at: " + DateTime.Now);
+            CreateLogLine("Initialisation of the Sofware at: " + DateTime.Now);
         }
 
         /// <summary>
@@ -62,7 +58,7 @@ namespace EasySave_2._0
         /// <param name="_work">WorkList of the save</param>
         public static void CreateWorkLogLine(ISaveWork _work)
         {
-            CreateLogLine(_work.Index, "Creation of a new save work, name : " + _work.Name + ", source path : " + _work.SourcePath + ", destination path : " + _work.DestinationPath + ", type : " + _work.Type);
+            CreateLogLine("Creation of a new save work, name : " + _work.Name + ", source path : " + _work.SourcePath + ", destination path : " + _work.DestinationPath + ", type : " + _work.Type);
         }
 
         /// <summary>
@@ -72,7 +68,7 @@ namespace EasySave_2._0
         /// <param name="WorkList">WorkList of the save</param>
         public static void ChangeWorkLogLine(ISaveWork _work)
         {
-            CreateLogLine(_work.Index, "Modification of a existing save work in position " + _work.Index + ", current parameters : name : " + _work.Name + ", source path : " + _work.SourcePath + ", destination path : " + _work.DestinationPath + ", type : " + _work.Type);
+            CreateLogLine("Modification of a existing save work in position " + _work.Index + ", current parameters : name : " + _work.Name + ", source path : " + _work.SourcePath + ", destination path : " + _work.DestinationPath + ", type : " + _work.Type);
         }
 
         /// <summary>
@@ -81,10 +77,9 @@ namespace EasySave_2._0
         /// <param name="_nb">ID of the save</param>
         public static void DeleteWorkLogLine(int _nb)
         {
-            CreateLogLine(_nb, "Supression of save work in position" + _nb);
+            CreateLogLine("Supression of save work in position" + _nb);
         }
 
-        /*
         /// <summary>
         /// Create a Log Line about: The research of an existing savework
         /// </summary>
@@ -93,7 +88,6 @@ namespace EasySave_2._0
         {
             CreateLogLine("The search savework named : " + _saveWorkName + " already exist");
         }
-        */
 
         /// <summary>
         /// Create a Log Line about: The launch of a savework 
@@ -101,7 +95,7 @@ namespace EasySave_2._0
         /// <param name="_nb">ID of the save</param>
         public static void LaunchingSaveLogLine(int _nb)
         {
-            CreateLogLine(_nb, "Launching of the savework " + _nb);
+            CreateLogLine("Launching of the savework " + _nb);
         }
 
         /// <summary>
@@ -112,7 +106,7 @@ namespace EasySave_2._0
         /// <param name="fi">FileInfo of the file</param>
         public static void SavingInfoLogLine(ISaveWork _work, FileInfo _fi)
         {
-            CreateLogLine(_work.Index, "Saving " + _fi.FullName + " in " + _work.Progress.CurrentDestinationFilePath + ", size : " + _fi.Length + " Bytes");
+            CreateLogLine("Saving " + _fi.FullName + " in " + _work.Progress.CurrentDestinationFilePath + ", size : " + _fi.Length + " Bytes");
         }
 
         /// <summary>
@@ -122,7 +116,7 @@ namespace EasySave_2._0
         /// <param name="WorkList">WorkList of the save</param>
         public static void StartSaveLogLine(ISaveWork _work)
         {
-            CreateLogLine(_work.Index, "Launching save work from work : " + _work.Name + ", type : " + _work.Type);
+            CreateLogLine("Launching save work from work : " + _work.Name + ", type : " + _work.Type);
         }
 
         /// <summary>
@@ -133,16 +127,16 @@ namespace EasySave_2._0
         /// <param name="timeSpend">time spend between the start and the end of the save</param>
         public static void FinishSaveLogLine(ISaveWork _work, string _timeSpend)
         {
-            CreateLogLine(_work.Index, _work.Name + " succesfully saved ! Time spend : " + _timeSpend);
+            CreateLogLine(_work.Name + " succesfully saved ! Time spend : " + _timeSpend);
         }
 
         /// <summary>
         /// Create a Log Line about: The creation of a new directory
         /// </summary>
         /// <param name="filePath">DirectoryInfo of the file</param>
-        public static void CreateDirectoryLogLine(ISaveWork _work, DirectoryInfo _filePath)
+        public static void CreateDirectoryLogLine(DirectoryInfo _filePath)
         {
-            CreateLogLine(_work.Index, "Creating target directory in : " + _filePath.FullName);
+            CreateLogLine("Creating target directory in : " + _filePath.FullName);
         }
 
         /// <summary>
@@ -151,18 +145,18 @@ namespace EasySave_2._0
         /// <param name="nbFiles">Number of files found</param>
         /// <param name="sourceDirectory">DirectoryInfo of the source directory</param>
         /// <param name="directorySize">Total size of the directory</param>
-        public static void FileToSaveFound(ISaveWork _work, int _nbFiles, DirectoryInfo _sourceDirectory, long _directorySize)
+        public static void FileToSaveFound(int _nbFiles, DirectoryInfo _sourceDirectory, long _directorySize)
         {
-            CreateLogLine(_work.Index, _nbFiles + " files to save found from " + _sourceDirectory.Name + ",Total size of the directory: " + _directorySize + " Bytes");
+            CreateLogLine(_nbFiles + " files to save found from " + _sourceDirectory.Name + ",Total size of the directory: " + _directorySize + " Bytes");
         }
 
         /// <summary>
         /// Create a Log Line about: Start copy a file
         /// </summary>
         /// <param name="fi">FileInfo of the file</param>
-        public static void StartCopyFileLogLine(ISaveWork _work, FileInfo _fi)
+        public static void StartCopyFileLogLine(FileInfo _fi)
         {
-            CreateLogLine(_work.Index, "Start copy" + _fi.Name);
+            CreateLogLine("Start copy" + _fi.Name);
 
         }
 
@@ -171,9 +165,9 @@ namespace EasySave_2._0
         /// </summary>
         /// <param name="fi">FileInfo of the file</param>
         /// <param name="timeSpend"></param>
-        public static void FinishCopyFileLogLine(ISaveWork _work, FileInfo _fi, string _timeSpend)
+        public static void FinishCopyFileLogLine(FileInfo _fi, string _timeSpend)
         {
-            CreateLogLine(_work.Index, _fi.Name + " succesfully copy ! Time spend : " + _timeSpend + " second(s)");
+            CreateLogLine(_fi.Name + " succesfully copy ! Time spend : " + _timeSpend + " second(s)");
 
         }
 
@@ -181,18 +175,18 @@ namespace EasySave_2._0
         /// Create a Log Line about: Entering in a subdirectory
         /// </summary>
         /// <param name="subDir">DirectoryInfo of the subdirectory</param>
-        public static void EnterSubdirectoryLogLine(ISaveWork _work, DirectoryInfo _subDir)
+        public static void EnterSubdirectoryLogLine(DirectoryInfo _subDir)
         {
-            CreateLogLine(_work.Index, "Entering subdirectory : " + _subDir.Name);
+            CreateLogLine("Entering subdirectory : " + _subDir.Name);
         }
 
         /// <summary>
         /// Create a Log Line about: Exiting a subdirectory
         /// </summary>
         /// <param name="subDir">DirectoryInfo of the subdirectory</param>
-        public static void ExitSubdirectoryLogLine(ISaveWork _work, DirectoryInfo _subDir)
+        public static void ExitSubdirectoryLogLine(DirectoryInfo _subDir)
         {
-            CreateLogLine(_work.Index, "Exiting subdirectory : " + _subDir.Name);
+            CreateLogLine("Exiting subdirectory : " + _subDir.Name);
         }
 
         /// <summary>
@@ -200,7 +194,7 @@ namespace EasySave_2._0
         /// </summary>
         public static void EndSaveProgram(int _nb)
         {
-            CreateLogLine(_nb, "SAVE DONE ! Ending save work program, Index : " + _nb);
+            CreateLogLine("SAVE DONE ! Ending save work program, Index : " + _nb);
         }
 
         /// <summary>
@@ -208,7 +202,7 @@ namespace EasySave_2._0
         /// </summary>
         public static void StartEncryption(int _nb)
         {
-            CreateLogLine(_nb, "Starting files encryption, Index : " + _nb);
+            CreateLogLine("Starting files encryption, Index : " + _nb);
         }
 
         /// <summary>
@@ -216,31 +210,31 @@ namespace EasySave_2._0
         /// </summary>
         public static void EndEncryption(int _nb)
         {
-            CreateLogLine(_nb, "ENCRYPTION DONE ! Ending encyption program, Index : " + _nb);
+            CreateLogLine("ENCRYPTION DONE ! Ending encyption program, Index : " + _nb);
         }
 
         public static void StartCopy(ISaveWork _work)
         {
-            CreateLogLine(_work.Index, "Saving file from " + _work.SourcePath + " to " + _work.DestinationPath + " ...");
+            CreateLogLine("Saving file from " + _work.SourcePath + " to " + _work.DestinationPath + " ...");
         }
 
         public static void NoFilesFound(int _nb)
         {
-            CreateLogLine(_nb, "There is no file to save in the target directory, Save Index : " + _nb);
+            CreateLogLine("There is no file to save in the target directory, Save Index : " + _nb);
         }
         
         public static void SavePaused(int _nb)
         {
-            CreateLogLine(_nb, "Index : " + _nb + ", save paused !");
+            CreateLogLine("Index : " + _nb + ", save paused !");
         }
         public static void SaveResumed(int _nb)
         {
-            CreateLogLine(_nb, "Index : " + _nb + ", save successfully resumed !");
+            CreateLogLine("Index : " + _nb + ", save successfully resumed !");
         }
 
         public static void SaveCancelled(int _nb)
         {
-            CreateLogLine(_nb, "Index : " + _nb + ", save cancelled");
+            CreateLogLine("Index : " + _nb + ", save cancelled");
         }
     }
 }

@@ -166,7 +166,7 @@ namespace EasySave_2._0
             int nbFiles = EasySaveInfo.CompleteFilesNumber(diSource);
             long directorySize = EasySaveInfo.CompleteSize(diSource);
 
-            EditLog.FileToSaveFound(this, nbFiles, diSource, directorySize);
+            EditLog.FileToSaveFound(nbFiles, diSource, directorySize);
 
             lock (Model.sync)
             {
@@ -200,7 +200,7 @@ namespace EasySave_2._0
             }
 
             //First create the new target directory where all the files are saved later on
-            EditLog.CreateDirectoryLogLine(this, _target);
+            EditLog.CreateDirectoryLogLine(_target);
             Directory.CreateDirectory(_target.FullName);
 
             // Copy each file into the new directory.
@@ -213,7 +213,7 @@ namespace EasySave_2._0
                 }
                 Model.OnSaveWorkUpdate();
 
-                EditLog.StartCopyFileLogLine(this, fi);
+                EditLog.StartCopyFileLogLine(fi);
 
                 //Copy the file and measure execution time
                 Stopwatch watch = new Stopwatch();
@@ -230,7 +230,7 @@ namespace EasySave_2._0
                 }
                 
                 Model.OnSaveWorkUpdate();
-                EditLog.FinishCopyFileLogLine(this, fi, watch.Elapsed.TotalSeconds.ToString());
+                EditLog.FinishCopyFileLogLine(fi, watch.Elapsed.TotalSeconds.ToString());
 
                 if (Progress.Cancelled) return;
                 while (Progress.IsPaused)
@@ -244,9 +244,9 @@ namespace EasySave_2._0
             {
                 DirectoryInfo nextTargetSubDir =
                     _target.CreateSubdirectory(diSourceSubDir.Name);
-                EditLog.EnterSubdirectoryLogLine(this, diSourceSubDir);
+                EditLog.EnterSubdirectoryLogLine(diSourceSubDir);
                 CompleteCopyAll(diSourceSubDir, nextTargetSubDir);
-                EditLog.ExitSubdirectoryLogLine(this, diSourceSubDir);
+                EditLog.ExitSubdirectoryLogLine(diSourceSubDir);
             }
         }
 

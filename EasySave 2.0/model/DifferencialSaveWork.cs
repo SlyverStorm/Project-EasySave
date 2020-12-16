@@ -164,7 +164,7 @@ namespace EasySave_2._0
             //If there is at least one file to save then initiate the differencial saving protocol
             if (nbFiles != 0)
             {
-                EditLog.FileToSaveFound(this, nbFiles, diSource, directorySize);
+                EditLog.FileToSaveFound(nbFiles, diSource, directorySize);
 
                 lock (Model.sync)
                 {
@@ -208,7 +208,7 @@ namespace EasySave_2._0
             }
 
             Directory.CreateDirectory(_target.FullName);
-            EditLog.CreateDirectoryLogLine(this, _target);
+            EditLog.CreateDirectoryLogLine(_target);
 
             // Copy each file into the new directory.
             foreach (FileInfo fi in _source.GetFiles())
@@ -225,7 +225,7 @@ namespace EasySave_2._0
                         Progress.CurrentDestinationFilePath = Path.Combine(_target.FullName, fi.Name);
                     }
                     Model.OnSaveWorkUpdate();
-                    EditLog.StartCopyFileLogLine(this, fi);
+                    EditLog.StartCopyFileLogLine(fi);
 
                     //Copy the file and measure execution time
                     Stopwatch watch = new Stopwatch();
@@ -240,7 +240,7 @@ namespace EasySave_2._0
                         Progress.UpdateProgressState();
                     }
                     Model.OnSaveWorkUpdate();
-                    EditLog.FinishCopyFileLogLine(this, fi, watch.Elapsed.TotalSeconds.ToString());
+                    EditLog.FinishCopyFileLogLine(fi, watch.Elapsed.TotalSeconds.ToString());
 
                     if (Progress.Cancelled) return;
                     while (Progress.IsPaused)
@@ -256,7 +256,7 @@ namespace EasySave_2._0
             foreach (DirectoryInfo diSourceSubDir in _source.GetDirectories())
             {
                 string targetDirectoryPath = Path.Combine(_target.FullName, diSourceSubDir.Name);
-                EditLog.EnterSubdirectoryLogLine(this, diSourceSubDir);
+                EditLog.EnterSubdirectoryLogLine(diSourceSubDir);
 
                 //Check if the directory already exist to decide if it is required to create a new one or not
                 if (!Directory.Exists(targetDirectoryPath))
@@ -270,7 +270,7 @@ namespace EasySave_2._0
                     DifferencialCopyAll(diSourceSubDir, nextTargetSubDir);
                 }
 
-                EditLog.ExitSubdirectoryLogLine(this, diSourceSubDir);
+                EditLog.ExitSubdirectoryLogLine(diSourceSubDir);
 
             }
         }
