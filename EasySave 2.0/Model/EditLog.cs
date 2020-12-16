@@ -40,7 +40,7 @@ namespace EasySave_2._0
                 //Write the new string into the json log file
                 File.WriteAllText("log.json", convertedJson);
 
-        
+                SocketGestion.ToSendLog(idSave, _content); 
 
             }
         }
