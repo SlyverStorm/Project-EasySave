@@ -227,6 +227,10 @@ namespace EasySave_2._0
                     }
                     return softwareIsLaunched;
                 }
+                else
+                {
+                    return false;
+                }
             }
         }
 
