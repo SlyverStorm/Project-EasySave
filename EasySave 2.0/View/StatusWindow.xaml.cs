@@ -45,21 +45,24 @@ namespace EasySave_2._0
         /// <param name="_currentSaveStatus">Status of the current save procedure</param>
         private void ChangeSaveStatusLabel(SaveStatusEnum _currentSaveStatus)
         {
-            switch (_currentSaveStatus)
+            this.Dispatcher.Invoke(() =>
             {
-                case SaveStatusEnum.running:
-                    SaveStatusLabel.Content = Properties.Langs.Lang.Running;
-                    break;
-                case SaveStatusEnum.paused:
-                    SaveStatusLabel.Content = Properties.Langs.Lang.Paused;
-                    break;
-                case SaveStatusEnum.encryption:
-                    SaveStatusLabel.Content = Properties.Langs.Lang.Encryption;
-                    break;
-                case SaveStatusEnum.complete:
-                    SaveStatusLabel.Content = Properties.Langs.Lang.Complete;
-                    break;
-            }
+                switch (_currentSaveStatus)
+                {
+                    case SaveStatusEnum.running:
+                        SaveStatusLabel.Content = Properties.Langs.Lang.Running;
+                        break;
+                    case SaveStatusEnum.paused:
+                        SaveStatusLabel.Content = Properties.Langs.Lang.Paused;
+                        break;
+                    case SaveStatusEnum.encryption:
+                        SaveStatusLabel.Content = Properties.Langs.Lang.Encryption;
+                        break;
+                    case SaveStatusEnum.complete:
+                        SaveStatusLabel.Content = Properties.Langs.Lang.Complete;
+                        break;
+                }
+            });
         }
 
         /// <summary>
@@ -74,10 +77,10 @@ namespace EasySave_2._0
                 if (_saveProgress == 100)
                 {
                     ChangeSaveStatusLabel(SaveStatusEnum.complete);
-                    PauseSaveSatus.IsEnabled = false;
+                    PauseSaveStatus.IsEnabled = false;
                     ResumeSaveStatus.IsEnabled = false;
-                    CancelSaveSatus.Visibility = Visibility.Collapsed;
-                    CloseSaveSatus.Visibility = Visibility.Visible;
+                    CancelSaveStatus.Visibility = Visibility.Collapsed;
+                    CloseSaveStatus.Visibility = Visibility.Visible;
                 }
             });
         }
@@ -94,8 +97,8 @@ namespace EasySave_2._0
         private void CloseSaveStatus_Click(object sender, RoutedEventArgs e)
         {
             ChangeSaveStatusLabel(SaveStatusEnum.complete);
-            CloseSaveSatus.Visibility = Visibility.Collapsed;
-            CancelSaveSatus.Visibility = Visibility.Visible;
+            CloseSaveStatus.Visibility = Visibility.Collapsed;
+            CancelSaveStatus.Visibility = Visibility.Visible;
             SaveStatus.Visibility = Visibility.Collapsed;
         }
 
@@ -106,7 +109,7 @@ namespace EasySave_2._0
         /// <param name="e"></param>
         private void PauseSaveStatus_Click(object sender, RoutedEventArgs e)
         {
-            PauseSaveSatus.IsEnabled = false;
+            PauseSaveStatus.IsEnabled = false;
             ResumeSaveStatus.IsEnabled = true;
             ChangeSaveStatusLabel(SaveStatusEnum.paused);
 
@@ -128,7 +131,7 @@ namespace EasySave_2._0
         /// <param name="e"></param>
         private void ResumeSaveStatus_Click(object sender, RoutedEventArgs e)
         {
-            PauseSaveSatus.IsEnabled = true;
+            PauseSaveStatus.IsEnabled = true;
             ResumeSaveStatus.IsEnabled = false;
             ChangeSaveStatusLabel(SaveStatusEnum.running);
 
@@ -185,19 +188,23 @@ namespace EasySave_2._0
             {
                 var property = sender.GetType().GetProperty(e.PropertyName);
                 bool _propertyValue = (bool)property.GetValue(sender, null);
-                if (_propertyValue)
-                {
-                    ChangeSaveStatusLabel(SaveStatusEnum.encryption);
-                    PauseSaveSatus.IsEnabled = false;
-                    ResumeSaveStatus.IsEnabled = false;
 
-                }
-                else if (!_propertyValue)
+                this.Dispatcher.Invoke(() =>
                 {
-                    ChangeSaveStatusLabel(SaveStatusEnum.complete);
-                    CancelSaveSatus.Visibility = Visibility.Collapsed;
-                    CloseSaveSatus.Visibility = Visibility.Visible;
-                }
+                    if (_propertyValue)
+                    {
+                        ChangeSaveStatusLabel(SaveStatusEnum.encryption);
+                        PauseSaveStatus.IsEnabled = false;
+                        ResumeSaveStatus.IsEnabled = false;
+
+                    }
+                    else if (!_propertyValue)
+                    {
+                        ChangeSaveStatusLabel(SaveStatusEnum.complete);
+                        CancelSaveStatus.Visibility = Visibility.Collapsed;
+                        CloseSaveStatus.Visibility = Visibility.Visible;
+                    }
+                });
             }
         }
 
@@ -224,14 +231,20 @@ namespace EasySave_2._0
                 {
                     case "software":
                         ThreadPool.QueueUserWorkItem(new WaitCallback(MessageBoxSoftware));
-                        PauseSaveSatus.IsEnabled = false;
-                        ResumeSaveStatus.IsEnabled = false;
-                        ChangeSaveStatusLabel(SaveStatusEnum.paused);
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            PauseSaveStatus.IsEnabled = false;
+                            ResumeSaveStatus.IsEnabled = false;
+                            ChangeSaveStatusLabel(SaveStatusEnum.paused);
+                        });
                         break;
                     case "resume":
-                        PauseSaveSatus.IsEnabled = false;
-                        ResumeSaveStatus.IsEnabled = true;
-                        ChangeSaveStatusLabel(SaveStatusEnum.running);
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            PauseSaveStatus.IsEnabled = false;
+                            ResumeSaveStatus.IsEnabled = true;
+                            ChangeSaveStatusLabel(SaveStatusEnum.running);
+                        });
                         break;
                     case "directory":
                         if (AllSaves)
@@ -240,10 +253,13 @@ namespace EasySave_2._0
                         }
                         else
                         {
-                            SaveStatus.Visibility = Visibility.Collapsed;
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                SaveStatus.Visibility = Visibility.Collapsed;
+                                PauseSaveStatus.IsEnabled = false;
+                                ResumeSaveStatus.IsEnabled = false;
+                            });
                             ThreadPool.QueueUserWorkItem(new WaitCallback(MessageBoxDirectorySingle));
-                            PauseSaveSatus.IsEnabled = false;
-                            ResumeSaveStatus.IsEnabled = false;
                         }
                         break;
                 }
