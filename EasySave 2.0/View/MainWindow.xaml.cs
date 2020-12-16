@@ -127,7 +127,7 @@ namespace EasySave_2._0
 
             AllSaves = false;
             SaveStatus.Visibility = Visibility.Visible;
-            PauseSaveStatus.IsEnabled = true;
+            PauseSaveSatus.IsEnabled = true;
             ResumeSaveStatus.IsEnabled = false;
             ChangeCurrentSaveLabel(selectedItem.Name);
             ChangeSaveStatusLabel(SaveStatusEnum.running);
@@ -150,7 +150,7 @@ namespace EasySave_2._0
 
             AllSaves = true;
             SaveStatus.Visibility = Visibility.Visible;
-            PauseSaveStatus.IsEnabled = true;
+            PauseSaveSatus.IsEnabled = true;
             ResumeSaveStatus.IsEnabled = false;
             ChangeCurrentSaveLabel("All of them");
             ChangeSaveStatusLabel(SaveStatusEnum.running);
