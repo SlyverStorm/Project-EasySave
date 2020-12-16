@@ -314,6 +314,7 @@ namespace EasySave_2._0
         /// </summary>
         public void EncryptFiles()
         {
+            if (Progress.Cancelled) return;
             if (ExtentionToEncryptList != null && Directory.Exists(DestinationPath))
             {
                 // If we encrypt all files
