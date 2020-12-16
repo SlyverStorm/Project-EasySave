@@ -55,9 +55,15 @@ namespace EasySave_2._0
 
         private List<UIElement> checkBoxList;
         /// <summary>
-        /// List of Buttons Confirm and Back.
+        /// List of extension checkboxes.
         /// </summary>
         public List<UIElement> CheckBoxList { get => checkBoxList; set => checkBoxList = value; }
+
+        private List<UIElement> settingsCheckBoxList;
+        /// <summary>
+        /// List of extension checkboxes in settings frame.
+        /// </summary>
+        public List<UIElement> SettingsCheckBoxList { get => checkBoxList; set => checkBoxList = value; }
 
         private bool isAnItemSelected = false;
         /// <summary>
@@ -128,11 +134,33 @@ namespace EasySave_2._0
                 Iso
             };
 
+            SettingsCheckBoxList = new List<UIElement>
+            {
+                TxtSettings,
+                RarSettings,
+                ZipSettings,
+                DocxSettings,
+                Mp4Settings,
+                PptxSettings,
+                JpgSettings,
+                PngSettings,
+                PdfSettings,
+                ExeSettings,
+                IsoSettings
+            };
+
             if (Settings.Default.languageCode == "en-US")
                 LanguageSelection.SelectedIndex = 0;
             else
                 LanguageSelection.SelectedIndex = 1;
 
+
+            foreach (Extension _extension in VM.Model.ModelSettings.PriorityExtension)
+            {
+                CheckBox _checkBox = FindName(_extension.ToString().First().ToString().ToUpper() + _extension.ToString().Substring(1) + "Settings") as CheckBox;
+                _checkBox.IsChecked = true;
+            }
+            MaxSizeSettingsForm.Text = VM.Model.ModelSettings.MaxTransferSize.ToString();
         }
 
         #endregion

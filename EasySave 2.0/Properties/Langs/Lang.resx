@@ -136,7 +136,7 @@
     <value>Confirm</value>
   </data>
   <data name="ConfirmBoxFormError" xml:space="preserve">
-    <value>Warning: Please fill every field before confirming.\n\n -Name should contain between 3 and 50 alphanumeric characters, space, underscore or hashtag.\n\n -Paths must follow this structure : DRIVE_LETTER:/folder1/folder2...</value>
+    <value>Warning: Please fill every field before confirming. Name should contain between 3 and 50 alphanumeric characters, space, underscore or hashtag. Paths must follow this structure : DRIVE_LETTER:/folder1/folder2...</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Create</value>

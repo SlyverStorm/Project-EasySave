@@ -136,7 +136,7 @@
     <value>Confirmer</value>
   </data>
   <data name="ConfirmBoxFormError" xml:space="preserve">
-    <value>Attention : Veuillez remplir tous les champs du formulaire avant de confirmer.\n\n -Le "Nom" doit contenir entre 3 et 50 caractères alphanumériques, espace, underscore ou hashtag. \n\n -Les chemins d'accès doivent suivrent ce patèrne : Lettre_Disque:/fichier1/fichier2...</value>
+    <value>Attention : Veuillez remplir tous les champs du formulaire avant de confirmer. Le "Nom" doit contenir entre 3 et 50 caractères alphanumériques, espace, underscore ou hashtag. Les chemins d'accès doivent suivrent ce patèrne : Lettre_Disque:/fichier1/fichier2...</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Création</value>

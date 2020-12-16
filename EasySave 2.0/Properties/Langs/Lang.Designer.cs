@@ -115,7 +115,7 @@ namespace EasySave_2._0.Properties.Langs {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Warning: Please fill every field before confirming.\n\n -Name should contain between 3 and 50 alphanumeric characters, space, underscore or hashtag.\n\n -Paths must follow this structure : DRIVE_LETTER:/folder1/folder2....
+        ///   Recherche une chaîne localisée semblable à Warning: Please fill every field before confirming. Name should contain between 3 and 50 alphanumeric characters, space, underscore or hashtag. Paths must follow this structure : DRIVE_LETTER:/folder1/folder2....
         /// </summary>
         public static string ConfirmBoxFormError {
             get {

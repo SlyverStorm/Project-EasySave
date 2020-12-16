@@ -92,12 +92,20 @@ namespace EasySave_2._0
                     CheckBox _checkBox = FindName(_extension.ToString().First().ToString().ToUpper() + _extension.ToString().Substring(1)) as CheckBox;
                     _checkBox.IsChecked = true;
                 }
+
+                if (ALL.IsChecked == true)
+                {
+                    ChangeUIElementEnableState(CheckBoxList, false);
+                }
+                else
+                {
+                    ChangeUIElementEnableState(CheckBoxList, true);
+                }
             }
 
             ChangeUIElementEnableState(FormElementList, true);
             ChangeUIElementEnableState(OptionButtonList, false);
             ChangeUIElementEnableState(SelectionButtonList, false);
-            ChangeUIElementEnableState(CheckBoxList, true);
             ALL.IsEnabled = true;
             ChangeUIElementVisibilityState(ConfirmButtonList, Visibility.Visible);
 
@@ -125,7 +133,14 @@ namespace EasySave_2._0
 
             VM.LaunchSaveProcedure(selectedItem.Index);
 
+
+            while (!VM.Model.WorkList[selectedItem.Index].IsActive)
+            {
+
+            }
+
             VM.Model.WorkList[selectedItem.Index].Progress.PropertyChanged += Progress_PropertyChanged;
+
         }
 
         private void LaunchAllSaves_Click(object sender, RoutedEventArgs e)
@@ -160,11 +175,7 @@ namespace EasySave_2._0
             }
             else
             {
-                ChangeUIElementEnableState(FormElementList, false);
-                ChangeUIElementEnableState(OptionButtonList, true);
-                ChangeUIElementEnableState(SelectionButtonList, true);
-                ChangeUIElementEnableState(CheckBoxList, false);
-                ALL.IsEnabled = false;
+                
                 ChangeUIElementVisibilityState(confirmButtonList, Visibility.Hidden);
 
                 ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
@@ -187,13 +198,21 @@ namespace EasySave_2._0
                 }
 
                 SaveWorkType saveType = SaveWorkType.complete;
-                if (((ComboBoxItem)SaveTypeForm.SelectedItem).Content.ToString() != "Complete") { saveType = SaveWorkType.differencial; }
+                if (SaveTypeForm.SelectedIndex != 0) { saveType = SaveWorkType.differencial; }
 
                 VM.CreateSaveProcedure(SaveNameForm.Text, SaveSourcePathForm.Text.Replace("\\", "/"), SaveDestinationPathForm.Text.Replace("\\", "/"), saveType, extensionList);
 
                 ClearForm();
+                ChangeUIElementEnableState(FormElementList, false);
+                ChangeUIElementEnableState(OptionButtonList, true);
+                ChangeUIElementEnableState(SelectionButtonList, true);
+                ALL.IsEnabled = false;
+                ChangeUIElementEnableState(CheckBoxList, false);
+
+                ChangeUIElementEnableState(SelectionButtonList, false);
 
                 SaveList.Items.Refresh();
+                IsAnItemSelected = false;
             }
         }
 
@@ -210,11 +229,7 @@ namespace EasySave_2._0
             }
             else
             {
-                ChangeUIElementEnableState(FormElementList, false);
-                ChangeUIElementEnableState(OptionButtonList, true);
-                ChangeUIElementEnableState(SelectionButtonList, true);
-                ChangeUIElementEnableState(CheckBoxList, false);
-                ALL.IsEnabled = false;
+
                 ChangeUIElementVisibilityState(confirmButtonList, Visibility.Hidden);
 
                 ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
@@ -237,13 +252,22 @@ namespace EasySave_2._0
                 }
 
                 SaveWorkType saveType = SaveWorkType.complete;
-                if (((ComboBoxItem)SaveTypeForm.SelectedItem).Content.ToString() != "Complete") { saveType = SaveWorkType.differencial; }
+                if (SaveTypeForm.SelectedIndex != 0) { saveType = SaveWorkType.differencial; }
 
                 VM.ModifySaveProcedure(selectedItem.Index, SaveNameForm.Text, SaveSourcePathForm.Text.Replace("\\", "/"), SaveDestinationPathForm.Text.Replace("\\", "/"), saveType, extensionList);
 
                 ClearForm();
+                ChangeUIElementEnableState(FormElementList, false);
+                ChangeUIElementEnableState(OptionButtonList, true);
+                ChangeUIElementEnableState(SelectionButtonList, true);
+                ALL.IsEnabled = false;
+                ChangeUIElementEnableState(CheckBoxList, false);
+
+                ChangeUIElementEnableState(SelectionButtonList, false);
 
                 SaveList.Items.Refresh();
+                IsAnItemSelected = false;
+
             }
         }
 
@@ -254,13 +278,13 @@ namespace EasySave_2._0
         /// <param name="e"></param>
         private void Back_Click(object sender, RoutedEventArgs e)
         {
+            ClearForm();
             ChangeUIElementEnableState(FormElementList, false);
             ChangeUIElementEnableState(optionButtonList, true);
             ChangeUIElementEnableState(selectionButtonList, true);
-            ChangeUIElementEnableState(checkBoxList, false);
             ALL.IsEnabled = false;
+            ChangeUIElementEnableState(checkBoxList, false);
             ChangeUIElementVisibilityState(confirmButtonList, Visibility.Hidden);
-            ClearForm();
         }
 
         #endregion
@@ -286,6 +310,7 @@ namespace EasySave_2._0
         /// </summary>
         private void ClearForm()
         {
+            ALL.IsChecked = false;
             SaveNameForm.Text = "";
             SaveSourcePathForm.Text = "";
             SaveDestinationPathForm.Text = "";

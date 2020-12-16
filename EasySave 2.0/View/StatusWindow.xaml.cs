@@ -68,15 +68,18 @@ namespace EasySave_2._0
         /// <param name="_saveProgress">percentage completion of the save procedure</param>
         private void ChangeSaveProgressLabel(int _saveProgress)
         {
-            SaveProgressLabel.Content = _saveProgress + " %";
-            if (_saveProgress == 100)
+            this.Dispatcher.Invoke(() =>
             {
-                ChangeSaveStatusLabel(SaveStatusEnum.complete);
-                PauseSaveSatus.IsEnabled = false;
-                ResumeSaveStatus.IsEnabled = false;
-                CancelSaveSatus.Visibility = Visibility.Collapsed;
-                CloseSaveSatus.Visibility = Visibility.Visible;
-            }
+                SaveProgressLabel.Content = _saveProgress + " %";
+                if (_saveProgress == 100)
+                {
+                    ChangeSaveStatusLabel(SaveStatusEnum.complete);
+                    PauseSaveSatus.IsEnabled = false;
+                    ResumeSaveStatus.IsEnabled = false;
+                    CancelSaveSatus.Visibility = Visibility.Collapsed;
+                    CloseSaveSatus.Visibility = Visibility.Visible;
+                }
+            });
         }
 
         #endregion
@@ -158,8 +161,9 @@ namespace EasySave_2._0
         {
             if (e.PropertyName == "ProgressState")
             {
-                ISaveWork selectedItem = (ISaveWork)SaveList.SelectedItem;
-                int _percentage = Convert.ToInt32(Math.Floor(VM.Model.WorkList[selectedItem.Index].Progress.ProgressState));
+                var property = sender.GetType().GetProperty(e.PropertyName);
+                double NewValue = (double)property.GetValue(sender, null);
+                int _percentage = Convert.ToInt32(Math.Floor(NewValue));
                 ChangeSaveProgressLabel(_percentage);
             }
         }  

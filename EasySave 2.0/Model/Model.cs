@@ -80,7 +80,7 @@ namespace EasySave_2._0
 
         public static UpdateGlobalProgress OnProgressUpdate;
 
-        //Store all 5 (max) save works
+        //Store all save works
         private List<ISaveWork> workList;
 
         /// <summary>
@@ -266,7 +266,8 @@ namespace EasySave_2._0
             double progressCount = 0;
             foreach (ISaveWork work in WorkList)
             {
-                progressCount += work.Progress.ProgressState;
+                if (work.Progress != null)
+                    progressCount += work.Progress.ProgressState;
             }
             GlobalProgress =  progressCount / WorkList.Count;
         }

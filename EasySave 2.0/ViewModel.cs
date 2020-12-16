@@ -66,7 +66,7 @@ namespace EasySave_2._0
         /// </summary>
         public void LaunchAllSaveProcedures()
         {
-            //TO DO
+            Model.DoAllSave();
         }
 
         /// <summary>

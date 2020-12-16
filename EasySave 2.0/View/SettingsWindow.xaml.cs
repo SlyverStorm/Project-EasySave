@@ -39,13 +39,38 @@ namespace EasySave_2._0
 
         private void ConfirmSettings_Click(object sender, RoutedEventArgs e)
         {
-            //To-do : implement settings saving
             GlobalSettings.Visibility = Visibility.Collapsed;
+            VM.Model.ModelSettings.MaxTransferSize = Int32.Parse(MaxSizeSettingsForm.Text);            
+
+            List<Extension> extensionCheckedList = new List<Extension>();
+            foreach (CheckBox _checkBox in SettingsCheckBoxList)
+            {
+                if (_checkBox.IsChecked == true)
+                {
+                    Enum.TryParse(_checkBox.Name.ToLower().Substring(0, _checkBox.Name.Length - 8), out Extension _extension);
+                    extensionCheckedList.Add(_extension);
+                }
+            }
+            VM.Model.ModelSettings.PriorityExtension = extensionCheckedList;
+            VM.Model.UpdateSettingsFile();
         }
 
         private void BackSettings_Click(object sender, RoutedEventArgs e)
         {
             GlobalSettings.Visibility = Visibility.Collapsed;
+            
+            foreach (CheckBox _checkbox in SettingsCheckBoxList)
+            {
+                _checkbox.IsChecked = false;
+            }
+
+            foreach (Extension _extension in VM.Model.ModelSettings.PriorityExtension)
+            {
+                CheckBox _checkBox = FindName(_extension.ToString().First().ToString().ToUpper() + _extension.ToString().Substring(1) + "Settings") as CheckBox;
+                _checkBox.IsChecked = true;
+            }
+
+            MaxSizeSettingsForm.Text = VM.Model.ModelSettings.MaxTransferSize.ToString();
         }
 
         #endregion
