@@ -324,6 +324,7 @@ namespace EasySave_2._0
                     // For each files
                     foreach (string files in filesPathToEncrypt)
                     {
+                        if (Progress.Cancelled) return;
                         Console.WriteLine(files);
                         // Encrypt File
                         CryptoSoft.CryptoSoftTools.CryptoSoftEncryption(files);
@@ -340,6 +341,7 @@ namespace EasySave_2._0
                     // For each files with aimed extensions
                     foreach (string files in filesPathToEncrypt)
                     {
+                        if (Progress.Cancelled) return;
                         Console.WriteLine(files);
                         // Encrypt File
                         CryptoSoft.CryptoSoftTools.CryptoSoftEncryption(files);
