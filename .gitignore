@@ -338,3 +338,5 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+EasySave 2.0/obj/project.assets.json
+EasySave 2.0/obj/EasySave 2.0.csproj.nuget.dgspec.json

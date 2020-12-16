@@ -27,6 +27,7 @@ namespace EasySave_2._0
         {
             OnSaveWorkUpdate = UpdateSaveFile;
             OnProgressUpdate = UpdateAllSaveProgress;
+            GlobalProgress = 0;
             ModelSettings = new Setting();
             if (!File.Exists("settings.json"))
             {
