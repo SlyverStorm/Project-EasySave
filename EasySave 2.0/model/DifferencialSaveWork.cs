@@ -8,9 +8,15 @@ using System.Text;
 
 namespace EasySave_2._0
 {
+    /// <summary>
+    /// Differencial Save Work Class (implementing ISaveWork)
+    /// </summary>
     class DifferencialSaveWork : ISaveWork, INotifyPropertyChanged
     {
         private int index;
+        /// <summary>
+        /// Index of the save work
+        /// </summary>
         public int Index
         {
             get { return index; }
@@ -22,6 +28,9 @@ namespace EasySave_2._0
         }
 
         private string name;
+        /// <summary>
+        /// Name of the save work
+        /// </summary>
         public string Name
         {
             get { return name; }
@@ -33,6 +42,9 @@ namespace EasySave_2._0
         }
 
         private string sourcePath;
+        /// <summary>
+        /// Directory Source Path to save
+        /// </summary>
         public string SourcePath
         {
             get { return sourcePath; }
@@ -44,6 +56,9 @@ namespace EasySave_2._0
         }
 
         private string destinationPath;
+        /// <summary>
+        /// Target Directory to save files in
+        /// </summary>
         public string DestinationPath
         {
             get { return destinationPath; }
@@ -55,7 +70,9 @@ namespace EasySave_2._0
         }
 
         private List<Extension> extentionToEncryptList;
-
+        /// <summary>
+        /// Extension List to encrypt after the save is done
+        /// </summary>
         public List<Extension> ExtentionToEncryptList
         {
             get { return extentionToEncryptList; }
@@ -67,6 +84,9 @@ namespace EasySave_2._0
         }
 
         private SaveWorkType type;
+        /// <summary>
+        /// Type of Save Work (complete or differential)
+        /// </summary>
         public SaveWorkType Type
         {
             get { return type; }
@@ -78,6 +98,9 @@ namespace EasySave_2._0
         }
 
         private string creationTime;
+        /// <summary>
+        /// Creation time of the save work
+        /// </summary>
         public string CreationTime
         {
             get { return creationTime; }
@@ -89,6 +112,9 @@ namespace EasySave_2._0
         }
 
         private bool isActive;
+        /// <summary>
+        /// Boolean of the saving activity (true if the save is active, false if not)
+        /// </summary>
         public bool IsActive
         {
             get { return isActive; }
@@ -100,7 +126,9 @@ namespace EasySave_2._0
         }
 
         private SaveProgress progress;
-
+        /// <summary>
+        /// Progress object of the save work
+        /// </summary>
         public SaveProgress Progress
         {
             get { return progress; }
@@ -111,6 +139,14 @@ namespace EasySave_2._0
             }
         }
 
+        /// <summary>
+        /// Differencial Save Work constructor
+        /// </summary>
+        /// <param name="_name">Save Work Name</param>
+        /// <param name="_source">Directory Source Path</param>
+        /// <param name="_target">Directory Target Destination Path</param>
+        /// <param name="_extension">Extension List to Encrypt</param>
+        /// <param name="_type">Save Work Type</param>
         public DifferencialSaveWork(string _name, string _source, string _target, List<Extension> _extension, SaveWorkType _type)
         {
             Name = _name;
@@ -144,6 +180,10 @@ namespace EasySave_2._0
             Progress = null;
         }
 
+        /// <summary>
+        /// Launch the saving process
+        /// </summary>
+        /// <param name="obj">Thread friendly object</param>
         public void Save(object obj)
         {
             EditLog.StartSaveLogLine(this);
@@ -151,6 +191,9 @@ namespace EasySave_2._0
             DifferencialCopy();
         }
 
+        /// <summary>
+        /// Do a differencial copy from a folder to another
+        /// </summary>
         private void DifferencialCopy()
         {
             if (Directory.Exists(SourcePath))

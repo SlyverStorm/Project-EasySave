@@ -9,10 +9,16 @@ using System.Linq;
 
 namespace EasySave_2._0
 {
+    /// <summary>
+    /// Complete Save Work Class (implementing ISaveWork)
+    /// </summary>
     class CompleteSaveWork : ISaveWork, INotifyPropertyChanged
     {
 
         private int index;
+        /// <summary>
+        /// Index of the save work
+        /// </summary>
         public int Index
         {
             get { return index; }
@@ -24,6 +30,9 @@ namespace EasySave_2._0
         }
 
         private string name;
+        /// <summary>
+        /// Name of the save work
+        /// </summary>
         public string Name
         {
             get { return name; }
@@ -35,6 +44,9 @@ namespace EasySave_2._0
         }
 
         private string sourcePath;
+        /// <summary>
+        /// Directory Source Path to save
+        /// </summary>
         public string SourcePath
         {
             get { return sourcePath; }
@@ -46,6 +58,9 @@ namespace EasySave_2._0
         }
 
         private string destinationPath;
+        /// <summary>
+        /// Target Directory to save files in
+        /// </summary>
         public string DestinationPath
         {
             get { return destinationPath; }
@@ -57,7 +72,9 @@ namespace EasySave_2._0
         }
 
         private List<Extension> extentionToEncryptList;
-
+        /// <summary>
+        /// Extension List to encrypt after the save is done
+        /// </summary>
         public List<Extension> ExtentionToEncryptList
         {
             get { return extentionToEncryptList; }
@@ -69,6 +86,9 @@ namespace EasySave_2._0
         }
 
         private SaveWorkType type;
+        /// <summary>
+        /// Type of Save Work (complete or differential)
+        /// </summary>
         public SaveWorkType Type
         {
             get { return type; }
@@ -80,6 +100,9 @@ namespace EasySave_2._0
         }
 
         private string creationTime;
+        /// <summary>
+        /// Creation time of the save work
+        /// </summary>
         public string CreationTime
         {
             get { return creationTime; }
@@ -91,6 +114,9 @@ namespace EasySave_2._0
         }
 
         private bool isActive;
+        /// <summary>
+        /// Boolean of the saving activity (true if the save is active, false if not)
+        /// </summary>
         public bool IsActive
         {
             get { return isActive; }
@@ -102,7 +128,9 @@ namespace EasySave_2._0
         }
 
         private SaveProgress progress;
-
+        /// <summary>
+        /// Progress object of the save work
+        /// </summary>
         public SaveProgress Progress
         {
             get { return progress; }
@@ -113,6 +141,14 @@ namespace EasySave_2._0
             }
         }
 
+        /// <summary>
+        /// Complete Save Work constructor
+        /// </summary>
+        /// <param name="_name">Save Work Name</param>
+        /// <param name="_source">Directory Source Path</param>
+        /// <param name="_target">Directory Target Destination Path</param>
+        /// <param name="_extension">Extension List to Encrypt</param>
+        /// <param name="_type">Save Work Type</param>
         public CompleteSaveWork(string _name, string _source, string _target, List<Extension> _extension, SaveWorkType _type)
         {
             Name = _name;
@@ -146,6 +182,10 @@ namespace EasySave_2._0
             Progress = null;
         }
 
+        /// <summary>
+        /// Launch the saving process
+        /// </summary>
+        /// <param name="obj">Thread friendly object</param>
         public void Save(object obj)
         {
             EditLog.StartSaveLogLine(this);
@@ -160,6 +200,8 @@ namespace EasySave_2._0
         {
             if (Directory.Exists(SourcePath))
             {
+                //The Source directory has succesfully been found
+
                 //Search directory info from source and target path
                 var diSource = new DirectoryInfo(SourcePath);
                 var diTarget = new DirectoryInfo(DestinationPath);
@@ -188,6 +230,7 @@ namespace EasySave_2._0
                 }
                 Model.OnSaveWorkUpdate();
 
+                //Start encryption file
                 EditLog.StartEncryption(Index);
                 EncryptFiles();
                 EditLog.EndEncryption(Index);
@@ -205,15 +248,20 @@ namespace EasySave_2._0
             }
             else
             {
+                //The Source Directory has not been found
                 Model.OnUpdateModelError("directory");
             }
         }
 
         /// <summary>
-        /// Copy each file from a directory, and do the same for each subdirectory using recursion
+        /// Copy each files from a directory and do the same for each subdirectory using recursion
         /// </summary>
+        /// <param name="_nb">Index of the save work</param>
+        /// <param name="_source">source directory path</param>
+        /// <param name="_target">target destination directory path</param>
         private void CompleteCopyAll(DirectoryInfo _source, DirectoryInfo _target)
         {
+            //Check of the different parameter that can stop or cancel the work (parameters stored in the Progress Update)
             if (Progress.Cancelled) return;
             bool softwareIsLaunched = false;
             while(Progress.IsPaused || EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString))
@@ -282,6 +330,7 @@ namespace EasySave_2._0
                 Model.OnSaveWorkUpdate();
                 EditLog.FinishCopyFileLogLine(this, fi, elapsedTime);
 
+                //Check of the different parameter that can stop or cancel the work (parameters stored in the Progress Update)
                 if (Progress.Cancelled) return;
                 softwareIsLaunched = false;
                 while (Progress.IsPaused || EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString))

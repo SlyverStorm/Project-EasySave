@@ -5,11 +5,15 @@ using System.Text;
 
 namespace EasySave_2._0
 {
+    /// <summary>
+    /// Setting class for Model
+    /// </summary>
     public class Setting : INotifyPropertyChanged
     {
-
         private List<Extension> priorityExtension;
-
+        /// <summary>
+        /// Priority extension to save 
+        /// </summary>
         public List<Extension> PriorityExtension
         {
             get { return priorityExtension; }
@@ -21,7 +25,9 @@ namespace EasySave_2._0
         }
 
         public static long maxTransferSize;
-
+        /// <summary>
+        /// Max multithreading transfer size
+        /// </summary>
         public long MaxTransferSize
         {
             get { return maxTransferSize; }
@@ -33,7 +39,9 @@ namespace EasySave_2._0
         }
 
         public static string softwareString;
-
+        /// <summary>
+        /// Business software name string
+        /// </summary>
         public string SoftwareString
         {
             get { return softwareString; }
@@ -53,12 +61,5 @@ namespace EasySave_2._0
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
         }
-
-        
-
-        public Setting()
-        {
-        }
-
     }
 }

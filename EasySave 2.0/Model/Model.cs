@@ -34,6 +34,7 @@ namespace EasySave_2._0
         /// </summary>
         public Model()
         {
+            //Asign all delegate
             OnSaveWorkUpdate = UpdateSaveFile;
             OnProgressUpdate = UpdateAllSaveProgress;
             OnUpdateModelError = SetModelError;
@@ -41,10 +42,13 @@ namespace EasySave_2._0
             OnSocketPauseSave = PauseSave;
             OnSocketCancelSave = CancelSave;
             GlobalProgress = 0;
+            //Init new settings
             ModelSettings = new Setting();
+            //Check if a setting file already exists, if false then create a new one, if true get the different value from it and apply it to the setting object (ModelSettings).
             if (!File.Exists("settings.json"))
             {
-                ModelSettings.MaxTransferSize = 1000000;
+                ModelSettings.MaxTransferSize = 10000;
+                ModelSettings.SoftwareString = "";
                 ModelSettings.PriorityExtension = new List<Extension>();
                 UpdateSettingsFile();
             }
@@ -87,7 +91,7 @@ namespace EasySave_2._0
             
         }
 
-
+        //Thread friendly / safe object for locking
         public static object sync = new object();
 
         public static SaveWorkUpdateDelegate OnSaveWorkUpdate;
@@ -113,7 +117,9 @@ namespace EasySave_2._0
         }
 
         private Setting modelSettings;
-
+        /// <summary>
+        /// Setting object
+        /// </summary>
         public Setting ModelSettings
         {
             get { return modelSettings; }
@@ -125,7 +131,9 @@ namespace EasySave_2._0
         }
 
         private string modelError;
-
+        /// <summary>
+        /// Model Error handle string
+        /// </summary>
         public string ModelError
         {
             get { return modelError; }
@@ -136,13 +144,19 @@ namespace EasySave_2._0
             }
         }
 
+        /// <summary>
+        /// Model Error String update method
+        /// </summary>
+        /// <param name="_errorString"></param>
         public void SetModelError(string _errorString)
         {
             ModelError = _errorString;
         }
 
         private double globalProgress;
-
+        /// <summary>
+        /// Global Progress State for a all save process
+        /// </summary>
         public double GlobalProgress
         {
             get { return globalProgress; }
@@ -257,7 +271,11 @@ namespace EasySave_2._0
         {
             lock (sync)
             {
-                if (WorkList[_nb].Progress != null && WorkList[_nb].Progress.IsPaused != true) WorkList[_nb].Progress.IsPaused = true;
+                if (WorkList[_nb].Progress != null && WorkList[_nb].Progress.IsPaused != true)
+                {
+                    WorkList[_nb].Progress.IsPaused = true;
+                    EditLog.SavePaused(_nb);
+                }
             }
         }
 
@@ -271,7 +289,11 @@ namespace EasySave_2._0
         {
             lock (sync)
             {
-                if (WorkList[_nb].Progress != null && WorkList[_nb].Progress.IsPaused != false) WorkList[_nb].Progress.IsPaused = false;
+                if (WorkList[_nb].Progress != null && WorkList[_nb].Progress.IsPaused != false)
+                {
+                    WorkList[_nb].Progress.IsPaused = false;
+                    EditLog.SaveResumed(_nb);
+                }
             }
         }
 
@@ -285,7 +307,11 @@ namespace EasySave_2._0
         {
             lock (sync)
             {
-                if (WorkList[_nb].Progress != null) WorkList[_nb].Progress.Cancelled = true;
+                if (WorkList[_nb].Progress != null)
+                {
+                    WorkList[_nb].Progress.Cancelled = true;
+                    EditLog.SaveCancelled(_nb);
+                }
             }
         }
 
@@ -357,8 +383,6 @@ namespace EasySave_2._0
             }
         }
 
-
-
         /// <summary>
         /// Update the state file with the work list value
         /// </summary>
@@ -373,6 +397,9 @@ namespace EasySave_2._0
             }
         }
 
+        /// <summary>
+        /// Update Setting file method (write the setting object in a json file)
+        /// </summary>
         public void UpdateSettingsFile()
         {
             lock (sync)

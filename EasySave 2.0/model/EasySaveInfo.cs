@@ -10,11 +10,17 @@ namespace EasySave_2._0
     static class EasySaveInfo
     {
         //Define the number of file in a specific directory
-        static long filesSize= 0;
+        private static long filesSize= 0;
 
         //Define the total size of a specific directory
-        static int nbFiles = 0;
+        private static int nbFiles = 0;
 
+
+        /// <summary>
+        /// Get Files number in a directory
+        /// </summary>
+        /// <param name="_diSource">DirectoryInfo object of the directory</param>
+        /// <returns></returns>
         public static int CompleteFilesNumber(DirectoryInfo _diSource)
         {
             lock (Model.sync)
@@ -25,7 +31,12 @@ namespace EasySave_2._0
             }
         }
 
-        //Calculate the number of file in a directory using recursion (for complete save)
+
+        /// <summary>
+        /// Calculate the number of file in a directory using recursion (for complete save)
+        /// </summary>
+        /// <param name="_diSource">DirectoryInfo object of the directory</param>
+        /// <returns></returns>
         static private int GetFilesNumberInSourceDirectory(DirectoryInfo _diSource)
         {
             lock (Model.sync)
@@ -43,6 +54,11 @@ namespace EasySave_2._0
             }
         }
 
+        /// <summary>
+        /// Get Size of all files in a directory
+        /// </summary>
+        /// <param name="_diSource">DirectoryInfo object of the directory</param>
+        /// <returns></returns>
         public static long CompleteSize(DirectoryInfo _diSource)
         {
             lock (Model.sync)
@@ -53,7 +69,11 @@ namespace EasySave_2._0
             }
         }
 
-        //Calculate the total size of a directory using recursion (for complete save)
+        /// <summary>
+        /// Calculate the total size of a directory using recursion (for complete save)
+        /// </summary>
+        /// <param name="_diSource">DirectoryInfo object of the directory</param>
+        /// <returns></returns>
         static private long GetSizeInSourceDirectory(DirectoryInfo _diSource)
         {
             lock (Model.sync)
@@ -71,6 +91,12 @@ namespace EasySave_2._0
             }
         }
 
+        /// <summary>
+        /// Get the number of all files in a directory (following differncial procedure)
+        /// </summary>
+        /// <param name="_diSource">DirectoryInfo object of the source directory</param>
+        /// <param name="_diTarget">DirectoryInfo object of the target directory</param>
+        /// <returns></returns>
         public static int DifferencialFilesNumber(DirectoryInfo _diSource, DirectoryInfo _diTarget)
         {
             lock (Model.sync)
@@ -81,7 +107,12 @@ namespace EasySave_2._0
             }
         }
 
-        //Calculate the number of file in a directory using recursion (for differencial save)
+        /// <summary>
+        /// Get number of all files in a directory (following differncial procedure)
+        /// </summary>
+        /// <param name="_diSource">DirectoryInfo object of the source directory</param>
+        /// <param name="_diTarget">DirectoryInfo object of the target directory</param>
+        /// <returns></returns>
         static private int DifferencialGetFilesNumberInSourceDirectory(DirectoryInfo _diSource, DirectoryInfo _diTarget)
         {
             lock (Model.sync)
@@ -123,6 +154,12 @@ namespace EasySave_2._0
             }
         }
 
+        /// <summary>
+        /// Get Size of all files in a directory (following differncial procedure)
+        /// </summary>
+        /// <param name="_diSource">DirectoryInfo object of the source directory</param>
+        /// <param name="_diTarget">DirectoryInfo object of the target directory<</param>
+        /// <returns></returns>
         public static long DifferencialSize(DirectoryInfo _diSource, DirectoryInfo _diTarget)
         {
             lock (Model.sync)
@@ -133,7 +170,12 @@ namespace EasySave_2._0
             }
         }
 
-        //Calculate the total size of a directory using recursion (for differencial save)
+        /// <summary>
+        /// Calculate the total size of a directory using recursion (for differencial save)
+        /// </summary>
+        /// <param name="_diSource">DirectoryInfo object of the source directory</param>
+        /// <param name="_diTarget">DirectoryInfo object of the target directory</param>
+        /// <returns></returns>
         static private long DifferencialGetSizeInSourceDirectory(DirectoryInfo _diSource, DirectoryInfo _diTarget)
         {
             lock (Model.sync)
@@ -175,8 +217,9 @@ namespace EasySave_2._0
             }
         }
 
-
-
+        /// <summary>
+        /// Reset private parameters
+        /// </summary>
         private static void Reset()
         {
             lock (Model.sync)

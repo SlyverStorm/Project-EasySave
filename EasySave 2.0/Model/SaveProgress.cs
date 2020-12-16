@@ -5,11 +5,19 @@ using System.Text;
 
 namespace EasySave_2._0
 {
-
-    //Class used to create object that store information during a save protocol (complete or differencial)
+    /// <summary>
+    /// Class used to create object that store information during a save protocol (complete or differencial)
+    /// </summary>
     class SaveProgress : INotifyPropertyChanged
     {
-        //Contructor, create the object from simple parameters
+        /// <summary>
+        /// Contructor, create the object from simple parameters
+        /// </summary>
+        /// <param name="_totalFilesNumber">Total file number to save</param>
+        /// <param name="_totalSize">Total size to save</param>
+        /// <param name="_filesRemaining">Total file remaining</param>
+        /// <param name="_progressState">Percentage of progress of the save</param>
+        /// <param name="_sizeRemaining">Total size remaining</param>
         public SaveProgress(int _totalFilesNumber, long _totalSize, int _filesRemaining, long _progressState, long _sizeRemaining)
         {
             //Enter the current time at the creation of the object
@@ -26,10 +34,15 @@ namespace EasySave_2._0
             IsEncrypting = false;
         }
 
+        /// <summary>
+        /// Thread friendly object for oversized files
+        /// </summary>
         public static object taken = new object();
 
         private bool isPaused;
-
+        /// <summary>
+        /// Pause parameter
+        /// </summary>
         public bool IsPaused
         {
             get { return isPaused; }
@@ -37,18 +50,20 @@ namespace EasySave_2._0
         }
 
         private bool cancelled;
-
+        /// <summary>
+        /// Cancel parameter (if true : exit the save asap)
+        /// </summary>
         public bool Cancelled
         {
             get { return cancelled; }
             set { cancelled = value; }
         }
 
-
-
         //Time at the launch of the save protocol
         private string launchTime;
-
+        /// <summary>
+        /// Save launch time
+        /// </summary>
         public string LaunchTime
         {
             get { return launchTime; }
@@ -61,7 +76,9 @@ namespace EasySave_2._0
 
         //Total file to save
         private int totalFilesNumber;
-
+        /// <summary>
+        /// Total file number to save
+        /// </summary>
         public int TotalFilesNumber
         {
             get { return totalFilesNumber; }
@@ -74,7 +91,9 @@ namespace EasySave_2._0
 
         //Total size to copy
         private long totalSize;
-
+        /// <summary>
+        /// Total file size to save
+        /// </summary>
         public long TotalSize
         {
             get { return totalSize; }
@@ -87,7 +106,9 @@ namespace EasySave_2._0
 
         //Total file remaining to save
         private int filesRemaining;
-
+        /// <summary>
+        /// Files remaining to save
+        /// </summary>
         public int FilesRemaining
         {
             get { return filesRemaining; }
@@ -100,7 +121,9 @@ namespace EasySave_2._0
 
         //Percent of progress in the save protocol
         private double progressState;
-
+        /// <summary>
+        /// Percentage of progress
+        /// </summary>
         public double ProgressState
         {
             get { return progressState; }
@@ -113,7 +136,9 @@ namespace EasySave_2._0
 
         //Size remaining to save
         private long sizeRemaining;
-
+        /// <summary>
+        /// Size remaining to save
+        /// </summary>
         public long SizeRemaining
         {
             get { return sizeRemaining; }
@@ -126,7 +151,9 @@ namespace EasySave_2._0
 
         //Source path of the current file we need to save
         private string currentSourceFilePath;
-
+        /// <summary>
+        /// Current file source path to saving
+        /// </summary>
         public string CurrentSourceFilePath
         {
             get { return currentSourceFilePath; }
@@ -139,7 +166,9 @@ namespace EasySave_2._0
 
         //Target path of the current file we need to save
         private string currentDestinationFilePath;
-
+        /// <summary>
+        /// Current file destination path to saving
+        /// </summary>
         public string CurrentDestinationFilePath
         {
             get { return currentDestinationFilePath; }
@@ -151,7 +180,9 @@ namespace EasySave_2._0
         }
 
         private bool isEncrypting;
-
+        /// <summary>
+        /// Encryption process parameter
+        /// </summary>
         public bool IsEncrypting
         {
             get { return isEncrypting; }
@@ -162,8 +193,9 @@ namespace EasySave_2._0
             }
         }
 
-
-
+        /// <summary>
+        /// Update the progress state
+        /// </summary>
         public void UpdateProgressState()
         {
             double sizeDifference = TotalSize - SizeRemaining;

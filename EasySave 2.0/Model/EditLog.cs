@@ -219,25 +219,46 @@ namespace EasySave_2._0
             CreateLogLine(_nb, "ENCRYPTION DONE ! Ending encyption program, Index : " + _nb);
         }
 
+        /// <summary>
+        /// Create a Log Line about: Starting the copy of a specific file
+        /// </summary>
+        /// <param name="_work">Save Work Object</param>
         public static void StartCopy(ISaveWork _work)
         {
             CreateLogLine(_work.Index, "Saving file from " + _work.SourcePath + " to " + _work.DestinationPath + " ...");
         }
 
+        /// <summary>
+        /// Create a Log Line about: When no files is found in source directory
+        /// </summary>
+        /// <param name="_nb">Index of the save</param>
         public static void NoFilesFound(int _nb)
         {
             CreateLogLine(_nb, "There is no file to save in the target directory, Save Index : " + _nb);
         }
-        
+
+        /// <summary>
+        /// Create a Log Line about: Pause a save
+        /// </summary>
+        /// <param name="_nb">Index of the work</param>
         public static void SavePaused(int _nb)
         {
             CreateLogLine(_nb, "Index : " + _nb + ", save paused !");
         }
+
+        /// <summary>
+        /// Create a Log Line about: Resuming a paused save
+        /// </summary>
+        /// <param name="_nb">Index of the save</param>
         public static void SaveResumed(int _nb)
         {
             CreateLogLine(_nb, "Index : " + _nb + ", save successfully resumed !");
         }
 
+        /// <summary>
+        /// Create a Log Line about: Cancel a running save
+        /// </summary>
+        /// <param name="_nb">Index of the save</param>
         public static void SaveCancelled(int _nb)
         {
             CreateLogLine(_nb, "Index : " + _nb + ", save cancelled");
