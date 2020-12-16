@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EasySave_2._0
 {
-    class SocketGestion
+    public static class SocketGestion
     {
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -257,22 +257,22 @@ namespace EasySave_2._0
             if (orderContent == "Play Button pushed")
             {
                 // Call function with id
-                Console.WriteLine(idSave + " doit " + orderContent);
-                //Model.ResumeSave(idSave);
+                //Console.WriteLine(idSave + " doit " + orderContent);
+                Model.OnSocketResumeSave(idSave);
 
             } // If the content order to pause  the save
             else if (orderContent == "Pause Button pushed")
             {
                 // Call function with id
-                Console.WriteLine(idSave + " doit " + orderContent);
-                //Model.PauseSave(idSave); 
+                //Console.WriteLine(idSave + " doit " + orderContent);
+                Model.OnSocketPauseSave(idSave); 
 
             } // If the content order to stop the save
             else if (orderContent == "Stop Button pushed")
             {
                 // Call function with id
-                Console.WriteLine(idSave + " doit " + orderContent);
-                //Model.CancelSave(idSave);
+                //Console.WriteLine(idSave + " doit " + orderContent);
+                Model.OnSocketCancelSave(idSave);
 
             } // Content receive but not with a correct order
             else

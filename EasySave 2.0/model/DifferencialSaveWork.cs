@@ -70,6 +70,11 @@ namespace EasySave_2._0
         public SaveWorkType Type
         {
             get { return type; }
+            set
+            {
+                type = value;
+                OnPropertyChanged("Type");
+            }
         }
 
         private string creationTime;
@@ -106,12 +111,12 @@ namespace EasySave_2._0
             }
         }
 
-        public DifferencialSaveWork(string _name, string _source, string _target, List<Extension> _extension)
+        public DifferencialSaveWork(string _name, string _source, string _target, List<Extension> _extension, SaveWorkType _type)
         {
             Name = _name;
             SourcePath = _source;
             DestinationPath = _target;
-            type = SaveWorkType.differencial;
+            type = _type;
             CreationTime = DateTime.Now.ToString();
             ExtentionToEncryptList = _extension;
             IsActive = false;
@@ -144,51 +149,67 @@ namespace EasySave_2._0
             EditLog.StartSaveLogLine(this);
             EditLog.LaunchingSaveLogLine(Index);
             DifferencialCopy();
-            EditLog.EndSaveProgram(Index);
-
-            EditLog.StartEncryption(Index);
-            EncryptFiles();
-            EditLog.EndEncryption(Index);
         }
 
         private void DifferencialCopy()
         {
-            //Search directory info from source and target path
-            var diSource = new DirectoryInfo(SourcePath);
-            var diTarget = new DirectoryInfo(DestinationPath);
-
-            //Calculate the number of file in the source directory and the total size of it (of all )
-            int nbFiles = EasySaveInfo.DifferencialFilesNumber(diSource, diTarget);
-            long directorySize = EasySaveInfo.DifferencialSize(diSource, diTarget);
-
-            //If there is at least one file to save then initiate the differencial saving protocol
-            if (nbFiles != 0)
+            if (Directory.Exists(SourcePath))
             {
-                EditLog.FileToSaveFound(this, nbFiles, diSource, directorySize);
+                //Search directory info from source and target path
+                var diSource = new DirectoryInfo(SourcePath);
+                var diTarget = new DirectoryInfo(DestinationPath);
 
-                lock (Model.sync)
+                //Calculate the number of file in the source directory and the total size of it (of all )
+                int nbFiles = EasySaveInfo.DifferencialFilesNumber(diSource, diTarget);
+                long directorySize = EasySaveInfo.DifferencialSize(diSource, diTarget);
+
+                //If there is at least one file to save then initiate the differencial saving protocol
+                if (nbFiles != 0)
                 {
-                    CreateProgress(nbFiles, directorySize, nbFiles, 0, directorySize);
-                    IsActive = true;
+                    EditLog.FileToSaveFound(this, nbFiles, diSource, directorySize);
+
+                    lock (Model.sync)
+                    {
+                        CreateProgress(nbFiles, directorySize, nbFiles, 0, directorySize);
+                        IsActive = true;
+                    }
+
+                    Model.OnSaveWorkUpdate();
+
+                    //initiate Copy from the source directory to the target directory (only the file / directory that has been modified or are new)
+                    EditLog.StartCopy(this);
+                    DifferencialCopyAll(diSource, diTarget);
+
+
+                    lock (Model.sync)
+                    {
+                        Progress.IsEncrypting = true;
+                    }
+                    Model.OnSaveWorkUpdate();
+
+                    EditLog.StartEncryption(Index);
+                    EncryptFiles();
+                    EditLog.EndEncryption(Index);
+
+                    lock (Model.sync)
+                    {
+                        //DeleteProgress();
+                        Progress.IsEncrypting = false;
+                        IsActive = false;
+                    }
+                    Model.OnSaveWorkUpdate();
+
+                    EditLog.EndSaveProgram(Index);
                 }
-
-                Model.OnSaveWorkUpdate();
-
-                //initiate Copy from the source directory to the target directory (only the file / directory that has been modified or are new)
-                EditLog.StartCopy(this);
-                DifferencialCopyAll(diSource, diTarget);
-
-                lock (Model.sync)
+                //If there is no file to save then cancel the saving protocol
+                else
                 {
-                    //DeleteProgress();
-                    IsActive = false;
+                    EditLog.NoFilesFound(Index);
                 }
-                Model.OnSaveWorkUpdate();
             }
-            //If there is no file to save then cancel the saving protocol
             else
             {
-                EditLog.NoFilesFound(Index);
+                Model.OnUpdateModelError("directory");
             }
         }
 
@@ -202,10 +223,17 @@ namespace EasySave_2._0
         {
 
             if (Progress.Cancelled) return;
-            while (Progress.IsPaused)
+            bool softwareIsLaunched = false;
+            while (Progress.IsPaused || EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString))
             {
                 if (Progress.Cancelled) return;
+                if (EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString) && !softwareIsLaunched)
+                {
+                    Model.OnUpdateModelError("software");
+                    softwareIsLaunched = true;
+                }
             }
+            if (softwareIsLaunched) Model.OnUpdateModelError("resume");
 
             Directory.CreateDirectory(_target.FullName);
             EditLog.CreateDirectoryLogLine(this, _target);
@@ -227,11 +255,33 @@ namespace EasySave_2._0
                     Model.OnSaveWorkUpdate();
                     EditLog.StartCopyFileLogLine(this, fi);
 
-                    //Copy the file and measure execution time
-                    Stopwatch watch = new Stopwatch();
-                    watch.Start();
-                    fi.CopyTo(targetPath, true);
-                    watch.Stop();
+                    string elapsedTime = "";
+
+                    if (fi.Length >= Setting.maxTransferSize)
+                    {
+                        lock (SaveProgress.taken)
+                        {
+                            EditLog.StartCopyFileLogLine(this, fi);
+
+                            //Copy the file and measure execution time
+                            Stopwatch watch = new Stopwatch();
+                            watch.Start();
+                            fi.CopyTo(Path.Combine(_target.FullName, fi.Name), true);
+                            watch.Stop();
+                            elapsedTime = watch.Elapsed.TotalSeconds.ToString();
+                        }
+                    }
+                    else
+                    {
+                        EditLog.StartCopyFileLogLine(this, fi);
+
+                        //Copy the file and measure execution time
+                        Stopwatch watch = new Stopwatch();
+                        watch.Start();
+                        fi.CopyTo(Path.Combine(_target.FullName, fi.Name), true);
+                        watch.Stop();
+                        elapsedTime = watch.Elapsed.TotalSeconds.ToString();
+                    }
 
                     lock (Model.sync)
                     {
@@ -240,13 +290,20 @@ namespace EasySave_2._0
                         Progress.UpdateProgressState();
                     }
                     Model.OnSaveWorkUpdate();
-                    EditLog.FinishCopyFileLogLine(this, fi, watch.Elapsed.TotalSeconds.ToString());
+                    EditLog.FinishCopyFileLogLine(this, fi, elapsedTime);
 
                     if (Progress.Cancelled) return;
-                    while (Progress.IsPaused)
+                    softwareIsLaunched = false;
+                    while (Progress.IsPaused || EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString))
                     {
                         if (Progress.Cancelled) return;
+                        if (EasySaveInfo.CheckIfSoftwareIsLaunched(Setting.softwareString) && !softwareIsLaunched)
+                        {
+                            Model.OnUpdateModelError("software");
+                            softwareIsLaunched = true;
+                        }
                     }
+                    if (softwareIsLaunched) Model.OnUpdateModelError("resume");
                 }
 
 

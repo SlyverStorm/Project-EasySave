@@ -7,13 +7,11 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Ressources\myIcon.ico</ApplicationIcon>
     <NoWin32Manifest>true</NoWin32Manifest>
+    <AssemblyName>EasySave 2.0</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="MainViewModel.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
   </ItemGroup>
 
   <ItemGroup>

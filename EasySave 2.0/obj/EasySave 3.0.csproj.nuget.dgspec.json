@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\EasySave 2.0\\EasySave 2.0.csproj": {}
+    "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\EasySave 2.0\\EasySave 3.0.csproj": {}
   },
   "projects": {
-    "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\EasySave 2.0\\EasySave 2.0.csproj": {
+    "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\EasySave 2.0\\EasySave 3.0.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\EasySave 2.0\\EasySave 2.0.csproj",
-        "projectName": "EasySave 2.0",
-        "projectPath": "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\EasySave 2.0\\EasySave 2.0.csproj",
+        "projectUniqueName": "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\EasySave 2.0\\EasySave 3.0.csproj",
+        "projectName": "EasySave 3.0",
+        "projectPath": "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\EasySave 2.0\\EasySave 3.0.csproj",
         "packagesPath": "C:\\Users\\ricar\\.nuget\\packages\\",
         "outputPath": "D:\\VISUAL STUDIO WORKSPACE\\Projet EasySave v1.0\\EasySave 2.0\\obj\\",
         "projectStyle": "PackageReference",

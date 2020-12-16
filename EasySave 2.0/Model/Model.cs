@@ -16,6 +16,13 @@ namespace EasySave_2._0
 
     public delegate void UpdateModelError(string _errorString);
 
+    public delegate void ResumeSaveDelegate(int _nb);
+
+    public delegate void PauseSaveDelegate(int _nb);
+
+    public delegate void CancelSaveDelegate(int _nb);
+
+
     /// <summary>
     /// Program data model class
     /// </summary>
@@ -30,6 +37,9 @@ namespace EasySave_2._0
             OnSaveWorkUpdate = UpdateSaveFile;
             OnProgressUpdate = UpdateAllSaveProgress;
             OnUpdateModelError = SetModelError;
+            OnSocketResumeSave = ResumeSave;
+            OnSocketPauseSave = PauseSave;
+            OnSocketCancelSave = CancelSave;
             GlobalProgress = 0;
             ModelSettings = new Setting();
             if (!File.Exists("settings.json"))
@@ -237,6 +247,8 @@ namespace EasySave_2._0
             ThreadPool.QueueUserWorkItem(new WaitCallback(WorkList[_nb].Save));
         }
 
+        public static PauseSaveDelegate OnSocketPauseSave;
+
         /// <summary>
         /// Pause a specific save
         /// </summary>
@@ -249,6 +261,8 @@ namespace EasySave_2._0
             }
         }
 
+        public static ResumeSaveDelegate OnSocketResumeSave;
+
         /// <summary>
         /// Resume a specific save
         /// </summary>
@@ -260,6 +274,8 @@ namespace EasySave_2._0
                 if (WorkList[_nb].Progress != null && WorkList[_nb].Progress.IsPaused != false) WorkList[_nb].Progress.IsPaused = false;
             }
         }
+
+        public static CancelSaveDelegate OnSocketCancelSave;
 
         /// <summary>
         /// Cancel a specific save
