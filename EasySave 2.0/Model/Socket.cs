@@ -33,11 +33,10 @@ namespace EasySave_2._0
         /// Will set up the log for sending purpose
         /// </summary>
         /// <param name="contentToSend">Content of the message to send</param>
-        public static void ToSendLog(string contentToSend)
+        public static void ToSendLog(int idSave, string contentLog)
         {
-            //// TO DO
-            // add id save in contentToSend sv0&contentMessage
-
+            // Create a string 
+            string contentToSend = "sv" + idSave + "&" + contentLog;  
 
             // Ad content to send list
             logToSend.Add(contentToSend);

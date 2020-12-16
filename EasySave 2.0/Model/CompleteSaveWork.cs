@@ -166,7 +166,7 @@ namespace EasySave_2._0
             int nbFiles = EasySaveInfo.CompleteFilesNumber(diSource);
             long directorySize = EasySaveInfo.CompleteSize(diSource);
 
-            EditLog.FileToSaveFound(nbFiles, diSource, directorySize);
+            EditLog.FileToSaveFound(this, nbFiles, diSource, directorySize);
 
             lock (Model.sync)
             {
@@ -213,7 +213,7 @@ namespace EasySave_2._0
                 }
                 Model.OnSaveWorkUpdate();
 
-                EditLog.StartCopyFileLogLine(fi);
+                EditLog.StartCopyFileLogLine(this, fi);
 
                 //Copy the file and measure execution time
                 Stopwatch watch = new Stopwatch();
@@ -230,7 +230,7 @@ namespace EasySave_2._0
                 }
                 
                 Model.OnSaveWorkUpdate();
-                EditLog.FinishCopyFileLogLine(fi, watch.Elapsed.TotalSeconds.ToString());
+                EditLog.FinishCopyFileLogLine(this, fi, watch.Elapsed.TotalSeconds.ToString());
 
                 if (Progress.Cancelled) return;
                 while (Progress.IsPaused)
@@ -244,9 +244,9 @@ namespace EasySave_2._0
             {
                 DirectoryInfo nextTargetSubDir =
                     _target.CreateSubdirectory(diSourceSubDir.Name);
-                EditLog.EnterSubdirectoryLogLine(diSourceSubDir);
+                EditLog.EnterSubdirectoryLogLine(this, diSourceSubDir);
                 CompleteCopyAll(diSourceSubDir, nextTargetSubDir);
-                EditLog.ExitSubdirectoryLogLine(diSourceSubDir);
+                EditLog.ExitSubdirectoryLogLine(this, diSourceSubDir);
             }
         }
 
